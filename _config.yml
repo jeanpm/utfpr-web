@@ -18,7 +18,9 @@ github_username:  jeanpm
 disqus_shortname:  # leave empty if you don't want comments
 google_analytics: false #if set to "true" modify the google_analytycs.html, set to false otherwise
 
-future: true
+
+production_url: http://jeanpm.github.io/utfpr-web
+BASE_PATH: http://jeanpm.github.io/utfpr-web
 
 # Links settings
 links:
