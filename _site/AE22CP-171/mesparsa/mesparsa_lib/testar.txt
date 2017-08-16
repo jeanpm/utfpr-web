@@ -1,0 +1,5 @@
+add_to_col 4 9
+add_to_col 1 9
+add_to_row 4 1
+print
+exit

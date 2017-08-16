@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>felipe-ritter.cpp</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>felipe-ritter.cpp</CENTER></H3><HR>
+<PRE>
+#include &lt;cmath&gt;
+#include &lt;cstdio&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;list&gt;
+#include &lt;cstring&gt;
+
+using namespace std;
+
+#define capacidade 1021
+
+typedef struct Aluno{
+    long matricula;
+}Aluno;
+
+int h(long mat){
+    return mat % capacidade;
+}
+
+void printList(list&lt;Aluno&gt; a){
+    list&lt;Aluno&gt;::iterator ia;
+    if(a.empty()){
+        return;
+    }else{
+        //int i = 0;
+        for(ia = a.begin(); ia != a.end(); ia++){
+            Aluno a;
+            a.matricula = ia-&gt;matricula;
+            cout &lt;&lt; a.matricula &lt;&lt; ' ';
+            //i++;
+            /*if(i &lt; a.size()){
+                cout &lt;&lt; &quot;, &quot;;
+            }*/
+        }
+    }
+}
+
+void inserir(list&lt;Aluno&gt;* L, long matricula){
+    int hnum = h(matricula);
+    Aluno A;
+    A.matricula = matricula;
+
+    for(list&lt;Aluno&gt;::iterator it = L[hnum].begin(); it != L[hnum].end(); it++){
+        if(it-&gt;matricula == matricula) return;
+    }
+
+    L[hnum].push_front(A);
+}
+
+bool I(list&lt;Aluno&gt; C, long item){
+    int i=0, H = h(item);
+    for(list&lt;Aluno&gt;::iterator it = C.begin(); it != C.end(); it++){
+        Aluno a;
+        a.matricula = it-&gt;matricula;
+        if(a.matricula == item){
+                return true;
+        }else return false;
+        i++;
+    }
+    return false;
+}
+
+list&lt;Aluno&gt; insercao(list&lt;Aluno&gt;* A, list&lt;Aluno&gt;* B){
+    list&lt;Aluno&gt; C, D;
+    int i=0;
+    Aluno a;
+
+    for(list&lt;Aluno&gt;::iterator it = A-&gt;begin(); it != A-&gt;end(); it++){
+        a.matricula = it-&gt;matricula;
+        C.push_front(a);
+        printList(C);
+        i++;
+    }
+    for(list&lt;Aluno&gt;::iterator it = B-&gt;begin(); it != B-&gt;end(); it++){
+        a.matricula = it-&gt;matricula;
+        bool b = I(C, a.matricula);
+        if(b == true) D.push_front(a);
+    }
+
+    return D;
+}
+
+
+/*list&lt;Aluno&gt; E(list&lt;Aluno&gt;* a, list&lt;Aluno&gt;* b){
+    list&lt;Aluno&gt;::iterator ia = a.end(), ib = b.end();
+    list&lt;Aluno&gt; c;
+
+    if(a.size() &gt; b.size()) a.swap(b);
+
+    int mult, resto=0, zero=0;
+
+    while(ia != a.begin()){
+            --ia;
+            while(ib != b.begin()){
+                --ib;
+                int a = h(ia.matricula);
+                int b = h(ib.matricula);
+
+                if(ia.matricula == ib.matricula){
+                        c.push_front(ib.matricula);
+                }
+            }
+
+    }
+
+    return c;
+}
+*/
+
+
+
+int main(){
+    int n;
+
+    list&lt;Aluno&gt; thash[capacidade], thash2[capacidade];
+
+    long matricula;
+<A NAME="0"></A>
+    cin &gt;&gt; n;
+
+<FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match28-0.html#0',2,'match28-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>    for(int i=0; i&lt;n; i++){
+        cin &gt;&gt; matricula;
+        inserir(thash, matricula);
+    }
+    //cout &lt;&lt; &quot;\n&quot;;
+    cin &gt;&gt; n;
+    for(int i=0; i&lt;n; i++){
+        cin &gt;&gt; matricula;
+        inserir(thash2, matricula);
+    }</B></FONT>
+
+    /*for(int i=0; i&lt;capacidade; i++){
+        printList(thash[i]);
+        printList(thash2[i]);
+    }*/
+
+
+    cout &lt;&lt; &quot;\n&quot;;
+    printList(insercao(thash, thash2));
+    cout &lt;&lt; &quot;\n&quot;;
+    return 0;
+}
+
+</PRE>
+</BODY>
+</HTML>

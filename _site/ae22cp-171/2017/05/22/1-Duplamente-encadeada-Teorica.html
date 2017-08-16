@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Listas duplamente encadeadas - Teórica</title>
+  <meta name="description" content="Apresentação">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-171/2017/05/22/1-Duplamente-encadeada-Teorica.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Listas duplamente encadeadas - Teórica</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> May 22, 2017
+          • <i class="fa fa-user"></i> jean
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-171/2017/05/17/Duplamente-encadeada-Teorica.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-171/2017/05/22/2-Duplamente-encadeada-Pratica.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h3 id="apresentação">Apresentação</h3>
+
+<ul>
+  <li>Jean Paulo Martins</li>
+  <li>UFG</li>
+  <li>USP</li>
+  <li>
+    <p>Otimização, Metaheurísticas</p>
+  </li>
+  <li>jeanmartins@utfpr.edu.br (sala 105)</li>
+</ul>
+
+<h2 id="visão-geral-do-conteúdo">Visão geral do conteúdo</h2>
+
+<ul>
+  <li>Estruturas de dados
+    <ul>
+      <li>Eficiência</li>
+      <li>Flexibilidade</li>
+      <li>Bibliotecas</li>
+      <li>Qual utilizar?</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="caracterÍsticas-comparÁveis-de-ed">CARACTERÍSTICAS COMPARÁVEIS DE ED</h2>
+
+<p>De agora em diante será dado enfoque às características das estruturas de dados
+relacionadas à eficiência. Assumo que até então a disciplina teve o objetivo de
+compreender as estruturas, agora seria o momento de compreender as qualidades e 
+defeitos de cada uma delas comparativamente.</p>
+
+<ul>
+  <li>Entender os Prós e contras de cada uma delas
+    <ul>
+      <li>Eficiência</li>
+      <li>Gastos de memória</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="motivaÇÃo-para-novas-estruturas-de-dados">MOTIVAÇÃO PARA NOVAS ESTRUTURAS DE DADOS</h2>
+
+<p>Deste modo, deve sempre haver um motivo para apresentar uma estrutura de dados 
+mais complexa. Por exemplo, por que usar listas duplamente encadeadas sendo que 
+as unicamente encadeadas desempenham o mesmo papel: 
+	e.g., eficiência e praticidade de implementação com baixo custo 
+	      adicional de memória.</p>
+
+<h2 id="criaÇÃo-de-bibliotecas">CRIAÇÃO DE BIBLIOTECAS</h2>
+
+<p>É dado como item de conteúdo a criação de bibliotecas para estruturas de dados,
+será adotada a estratégia de</p>
+
+<ul>
+  <li>Inserir este conteúdo ao longo do restante do curso sempre que viável for.</li>
+</ul>
+
+<p>Por exemplo, como seria uma lista genérica, como tornar 
+um método de ordenação genérico (crescente ou decrescente)</p>
+
+<h2 id="listas-duplamente-encadeadas">Listas duplamente encadeadas</h2>
+
+<h2 id="por-que-utilizÁ-las">POR QUE UTILIZÁ-LAS?</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- Eficiencia de acesso, inserção remoção.
+- Qualquer elemento da lista é alcançável a partir de qualquer outro
+- A remoção de um item independe de conhecer seu predecessor.
+ 
+- Esta parte tem como objetivo evidenciar os pontos fracos das listas 
+  encadeadas, com o fim de sugerir a necessidade do duplo encadeamento, 
+  referência ao fim da lista, etc. 
+</code></pre>
+</div>
+
+<h2 id="como-mostrar-sua-utilidade">COMO MOSTRAR SUA UTILIDADE</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>- Operações e suas complexidades, de forma informal 
+- Comparar vetor e lista unicamente encadeada
+- Mostrar as diferenças de complexidades
+- Questionar sobre as possíveis diferenças entre as listas simples e as 
+  listas duplamente encadeads. O que o duplo encadeamento ajuda?
+</code></pre>
+</div>
+
+<h2 id="entendendo-a-utilidade-do-duplo-encadeamento">ENTENDENDO A UTILIDADE DO DUPLO ENCADEAMENTO</h2>
+
+<ul>
+  <li>Inserção
+    <ul>
+      <li>Questionar qual o procedimento básicos de inserção</li>
+    </ul>
+  </li>
+  <li>Remoção
+    <ul>
+      <li>Questionar qual o procedimento básicos de remoção</li>
+    </ul>
+  </li>
+  <li>Acesso a dados
+    <ul>
+      <li>por ordem</li>
+      <li>por conteúdo, etc..</li>
+    </ul>
+  </li>
+</ul>
+
+<p>** Resposta proximo slide: percorrer a lista</p>
+
+<p>COMPARAÇÃO COM OS CUSTOS DE ACESSO EM VETORES</p>
+
+<ul>
+  <li>vetor v
+  Custo unitário, por deslocamento a partir da primeira posição 
+  e.g. v[i] ou (v + i)</li>
+  <li>lista simples
+  Percorrer até alcançar a posição</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp">	<span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">atual</span> <span class="o">=</span> <span class="n">lista</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">j</span><span class="o">++</span> <span class="o">&lt;</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+		<span class="n">atual</span> <span class="o">=</span> <span class="n">atual</span><span class="o">-&gt;</span><span class="n">prox</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">atual</span><span class="p">;</span></code></pre></figure>
+
+<p>INEFICIÊNCIA DO ACESSO EM LISTAS</p>
+
+<ul>
+  <li>Inserção e remoção, todos utilizam esse método,</li>
+  <li>E se i estiver mais próximo de lista-&gt;quantidade, do que zero?</li>
+</ul>
+
+<p>Custo de inserção em listas encadeadas simples</p>
+
+<ul>
+  <li>Custo de inserção
+    <ul>
+      <li>início</li>
+      <li>meio</li>
+      <li>fim</li>
+    </ul>
+  </li>
+  <li>Custo de remoção
+    <ul>
+      <li>inicio</li>
+      <li>meio</li>
+      <li>fim</li>
+    </ul>
+  </li>
+  <li>
+    <p>lista duplamente encadeada
+  Percorrer até alcançar a posição:
+      + Há como acelerar esse acesso?
+      + RESP: Percorrer início-&gt;fim ou fim-&gt;início?</p>
+  </li>
+  <li>Consequências do duplo encadeamento
+    <ul>
+      <li>Gasto adicional de memória é significativo?</li>
+      <li>Operações de acesso, inserção, remoção ficam mais custosas?</li>
+    </ul>
+  </li>
+  <li>Custo de alocação (vetor x lista)</li>
+</ul>
+
+<h1 id="exercícios">Exercícios</h1>
+
+<p>Obs.: para listas duplamente encadeadas!</p>
+
+<p>##ex.1</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/* [ 1 ]
+ Dada uma lista duplamente encadeada, percorrê-la e retornar o item na posição pos-1. 
+ 
+ Caso pos &lt; (l-&gt;tamanho)/2, então o percurso deve ser do início parra o fim
+ Caso contrário, o percurso deve ser feito do fim para o início.
+*/</span>
+<span class="n">Item</span><span class="o">*</span> <span class="n">ponteiroParaPosicao</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">);</span>
+
+<span class="n">Exemplo</span><span class="o">:</span>
+	<span class="n">pos</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+	<span class="n">ponteiroParaPosicao</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">pos</span><span class="p">);</span>
+	<span class="o">&gt;&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">;</span> <span class="cm">/* Ponteiro inicial aponta para o início */</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&gt;&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">;</span> <span class="cm">/* Percorre da esquerda para direita até a posição anterior */</span>
+	 
+	<span class="n">pos</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+	<span class="n">ponteiroParaPosicao</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">pos</span><span class="p">);</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span> <span class="o">&lt;&lt;</span><span class="p">;</span> <span class="cm">/* Ponteiro inicial aponta para o fim */</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">&lt;&lt;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">;</span> <span class="cm">/* Percorre da direita para a esquerda até  posição anterior */</span></code></pre></figure>
+
+<p>##ex.2</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/* [ 2 ]
+ Implementar o operador de remoção direta, o qual recebe um ponteiro para o item
+ a ser removido.
+*/</span>
+<span class="kt">void</span> <span class="n">removerItem</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">,</span> <span class="n">Item</span><span class="o">*</span> <span class="n">i</span><span class="p">);</span>
+
+<span class="n">Exemplo</span><span class="o">:</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">&gt;&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">;</span> <span class="cm">/* Neste exemplo i é um ponteiro para o item 5 */</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">;</span>       <span class="cm">/* Esta é a lista após a remoção do item i */</span></code></pre></figure>
+
+<p>##ex.3</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/* [ 3 ]
+ Dada uma lista duplamente encadeada, reverter a ordem de seus itens, sem a
+ utilização de uma nova lista.
+*/</span>
+<span class="kt">void</span> <span class="n">reverterLista</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">);</span>
+
+<span class="n">Exemplo</span><span class="o">:</span>
+	<span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">;</span>
+	<span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">;</span> </code></pre></figure>
+
+<ol>
+  <li>Reimplementar as funções considerando uma lista duplamente encadeada circular.
+    <ul>
+      <li>O último item sempre aponta para o primeiro.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+<p>AULA TEÓRICA (22/05/2017)
+				   http://paginapessoal.utfpr.edu.br/jeanmartins</p>
+
+<p>Baixar os arquivos em:  https://goo.gl/jxIq7t
+	. list.h
+	. dlist.c
+	. testaLista.c</p>
+
+<p>Implementar as funções em dlist.c que ainda não estejam implementadas .</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>. Item* removerProximo(Lista* l, Item* anterior)
+
+. Item* ponteiroParaPosicao(Lista* l, int pos)
+
+. Item* removerDaPosicao(Lista* l, int pos) --------------------------------------------------------------------------------
+</code></pre>
+</div>
+
+<ul>
+  <li>
+    <p>Relembrar o que foi feito na última aula:</p>
+
+    <ul>
+      <li>Relembrar o que é uma lista duplamente encadeada.
+        <ul>
+          <li>Ilustrar graficamente</li>
+        </ul>
+      </li>
+      <li>Por que de utilizar uma estrutura de dados mais complexa?
+        <ul>
+          <li>Eficiência
+            <ul>
+              <li>Tempo gasta nas operações</li>
+            </ul>
+          </li>
+          <li>Flexibilidade
+            <ul>
+              <li>Remoção de itens,</li>
+              <li>Travessia da lista</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>Código ilustrado em sala de aula
+        <ul>
+          <li>Lista* novaLista();</li>
+          <li>
+            <p>Item* novoItem(int value);</p>
+          </li>
+          <li>void inserirInicio(Lista* l, Item* novo);</li>
+          <li>void inserirProximo(Lista* l, Item* atual, Item* novo);</li>
+          <li>
+            <p>void inserirFim(Lista* l, Item* novo);</p>
+          </li>
+          <li>void inserirNaPosicao(Lista* l, Item* novo, int pos);</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p>EXEMPLIFICAR O CÓDIGO DE PONTEIRO PARA POSIÇÃO
+——————————————————————————–</p>
+
+<ul>
+  <li>
+    <p>Relembrar onde paramos na aula anterior.</p>
+
+    <ul>
+      <li>
+        <p>Diferença de eficiência das funções para alcançar um item</p>
+      </li>
+      <li>
+        <p>Encadeada simples:     Somente  do inicio ao fim</p>
+      </li>
+      <li>
+        <p>Duplamente encadeada:  Ambas direções</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Para acessar um item é sempre necessário percorrer a lista até o seu anterior.</p>
+
+    <p>Item* ponteiroParaPosicao(Lista* l, int pos);</p>
+  </li>
+  <li>
+    <p>Como melhorar ainda mais a eficiência desta função?</p>
+  </li>
+  <li>
+    <p>Por que isolar essa funcionalidade?</p>
+
+    <ul>
+      <li>Outras funções se beneficarão de uma possível melhoria!</li>
+    </ul>
+
+    <p>ex.: - void inserirNaPosicao(Lista* l, Item* novo, int pos);</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>   - Item* removerDaPosicao(Lista* l, int pos);
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<hr />
+<p>EXEMPLIFICAR CÓDIGO DE REMOÇÃO DE LISTA DUPLAMENTE ENCADEADA
+——————————————————————————–</p>
+
+<ul>
+  <li>
+    <p>Havia pedido para que implementassem as funções de remoção</p>
+
+    <p>-&gt; Item* removerInicio(Lista* l);</p>
+
+    <p>-&gt; Item* removerFim(Lista* l);</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code> Item* removerProximo(Lista* l, Item* i);
+   
+ Item* removerDaPosicao(Lista* l, int pos);
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Ilustrar a implementação das duas primeiras</p>
+
+    <ul>
+      <li>Serão úteis para ilustrar listas circulares</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p>LISTAS CIRCULARES DUPLAMENTE ENCADEADAS
+——————————————————————————–</p>
+
+<ul>
+  <li>
+    <p>Introduzir graficamente a ideia de lista circular duplamente encadeada</p>
+  </li>
+  <li>
+    <p>Adaptar o código das funções de remoção que estarão no quadro.</p>
+  </li>
+  <li>
+    <p>Mostrar que a atualização da circularidade deve sempre acontecer na</p>
+
+    <ul>
+      <li>
+        <p>void inserirInicio(Lista* l, Item* novo);</p>
+      </li>
+      <li>
+        <p>void inserirFim(Lista* l, Item* novo);</p>
+      </li>
+      <li>
+        <p>Item* removerInicio(Lista* l);</p>
+      </li>
+      <li>
+        <p>Item* removerFim(Lista* l);</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Questionar sobre os cuidados ao se percorrer uma lista circular</p>
+
+    <ul>
+      <li>Quais outras funções precisam ser revistas?</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+<p>EXERCÍCIOS: 22/05
+——————————————————————————–</p>
+
+<p>[ 1 ] ————————————————————————–</p>
+
+<p>Implementar a função</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>void removerItem(Lista* lista, Item* i);
+</code></pre>
+</div>
+
+<p>a qual deve remover um item de uma lista duplamente encadeada, recebendo o próprio item como argumento, e não o item anterior</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ex.:&gt; L = (1, 2, 3, 4, 5, 6, 7)
+
+    &gt; removerItem(L, 4);
+     
+    &gt; L = (1, 2, 3, 5, 6, 7)
+</code></pre>
+</div>
+
+<p>[ 2 ] ————————————————————————–</p>
+
+<p>Utilizando-se a função acima, implemente uma função</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>void reverterLista(Lista* l);
+</code></pre>
+</div>
+
+<p>que reverta a ordem dos itens da lista recebida como argumento.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ex.:&gt; L = (1, 2, 3, 4, 5, 6, 7)
+
+    &gt; reverterLista(L);
+     
+    &gt; L = (7, 6, 5, 4, 3, 2, 1)
+</code></pre>
+</div>
+
+<p>[ 3 ] ————————————————————————–</p>
+
+<p>Implemente uma função</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>bool verificaPalindromo(Lista* l);
+</code></pre>
+</div>
+
+<p>a qual recebe uma lista de inteiros e retorna true caso ela seja um palíndromo.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ex.:&gt; L = (1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1)
+
+    &gt; verificaPalindromo(L);
+     
+    &gt; true;
+</code></pre>
+</div>
+
+<p>[ 4 ] ————————————————————————–</p>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

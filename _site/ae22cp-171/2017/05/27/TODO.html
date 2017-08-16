@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>TODO</title>
+  <meta name="description" content="  Como testar as funções usando as bibliotecas c++ como referência  Como usar gdb para depurar o código  Como usar a entrada padrão argc, argvComentários sob...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-171/2017/05/27/TODO.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">TODO</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> May 27, 2017
+          • <i class="fa fa-user"></i> Jean P. Martins
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-171/2017/05/27/Listas-Duplamente-encadeada.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-171/2017/05/30/Listas-Soma-de-inteiros-grandes.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <ul>
+  <li>Como testar as funções usando as bibliotecas c++ como referência</li>
+  <li>Como usar gdb para depurar o código</li>
+  <li>Como usar a entrada padrão argc, argv</li>
+</ul>
+
+<h1 id="comentários-sobre-os-códigos-da-prova">Comentários sobre os códigos da prova</h1>
+
+<h2 id="definição-da-struct-gol">Definição da struct Gol</h2>
+
+<ul>
+  <li>
+    <p>Sobre o uso de strings no tipo de gol:</p>
+  </li>
+  <li>
+    <p>Usando-se strings:
+  	* tipo = “cabeça” || “chute” || “pênalti”</p>
+  </li>
+  <li>
+    <p>Usando-se inteiros:
+  	* const int CABECA  = 1;
+  	* const int CHUTE   = 2;
+  	* const int PENALTI = 3;
+  	* tipo = CABECA || CHUTE || PENALTI;</p>
+  </li>
+  <li>
+    <p>Comparação usando-se strings:
+  	* Verificar se o gol é do tipo cabeça.
+  	&gt; strcmp(gol-&gt;tipo, “cabeça”) == 0;
+  	&gt; gol-&gt;tipo == CABECA;
+  	&gt; gol-&gt;tipo == 1;</p>
+  </li>
+  <li>A comparação de inteiros é mais rápida que a comparação de strings.</li>
+  <li>A comparação entre inteiros polui menos o código com strcmp, strcpy, etc.</li>
+  <li>O uso de strings é mais legível, por exemplo:
+  	&gt; gol gol0 = {1, “cabeça”};
+  	&gt; gol gol0 = {1, 1};</li>
+  <li>Por esse motivo, sugere-se o uso de inteiros, mas com constantes que definam
+o que cada valor represente, ou seja:
+	&gt; gol gol0 = {1, CABECA};</li>
+</ul>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

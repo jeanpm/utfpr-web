@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Listas duplamente encadeadas - Exercícios</title>
+  <meta name="description" content="Informação">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-171/2017/05/27/Listas-Duplamente-encadeada.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Listas duplamente encadeadas - Exercícios</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> May 27, 2017
+          • <i class="fa fa-user"></i> jean
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-171/2017/05/24/Listas-Duplamente-encadeada.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-171/2017/05/27/TODO.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h1 id="informação">Informação</h1>
+
+<ol>
+  <li>As salas de aplicação das provas serão as mesmas (105, 106)</li>
+  <li>Início as 13h30, para tempo adicional</li>
+</ol>
+
+<h1 id="conteúdo-da-aula">Conteúdo da aula</h1>
+<ol>
+  <li>Revisão e resolução dos exercícios da aula anterior</li>
+  <li>Início de pilhas sobre estruturas ligadas.</li>
+</ol>
+
+<h1 id="exercícios-resolvidos">Exercícios resolvidos</h1>
+
+<p>##ex.1</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/*
+ Dara uma lista duplamente encadeada e uma posição, inserir nesta posição outra
+ lista encadeada.
+ 
+ Exemplo:
+ 	A = 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+	B = 9, 9, 9, 9
+	pos = 3
+	
+ 	inserirListaNaPosicao(Lista* A, Lista* B, int pos);
+ 	
+ 	A = 1, 1, 9, 9, 9, 9, 1, 1, 1, 1, 1, 1, 1, 1
+ 
+
+ Ao final desta função A e B apontam para os mesmos itens em uma lista. Assim,
+ somente uma dessas listas deve ser usada para liberar a memória dos itens. 
+*/</span>
+<span class="cm">/*
+ Insere a lista B no inicio da lista A. 
+*/</span>
+<span class="kt">void</span> <span class="nf">inserirListaInicio</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="n">Lista</span><span class="o">*</span> <span class="n">B</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">B</span><span class="o">-&gt;</span><span class="n">inicio</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">A</span><span class="o">-&gt;</span><span class="n">inicio</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="p">;</span>
+		<span class="n">A</span><span class="o">-&gt;</span><span class="n">fim</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">fim</span><span class="p">;</span>
+		<span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">tamanho</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>	
+		<span class="n">A</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="o">-&gt;</span><span class="n">ant</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">fim</span><span class="p">;</span>
+		<span class="n">B</span><span class="o">-&gt;</span><span class="n">fim</span><span class="o">-&gt;</span><span class="n">prox</span> <span class="o">=</span> <span class="n">A</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="p">;</span>
+
+		<span class="n">A</span><span class="o">-&gt;</span><span class="n">inicio</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="p">;</span>
+	
+		<span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">+=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">tamanho</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*
+ Insere a lista B no fim da lista A. 
+*/</span>
+<span class="kt">void</span> <span class="nf">inserirListaFim</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="n">Lista</span><span class="o">*</span> <span class="n">B</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">B</span><span class="o">-&gt;</span><span class="n">inicio</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">A</span><span class="o">-&gt;</span><span class="n">inicio</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="p">;</span>
+		<span class="n">A</span><span class="o">-&gt;</span><span class="n">fim</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">fim</span><span class="p">;</span>
+		<span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">tamanho</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+
+		<span class="n">A</span><span class="o">-&gt;</span><span class="n">fim</span><span class="o">-&gt;</span><span class="n">prox</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="p">;</span>
+		<span class="n">B</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="o">-&gt;</span><span class="n">ant</span> <span class="o">=</span> <span class="n">A</span><span class="o">-&gt;</span><span class="n">fim</span><span class="p">;</span>
+	
+		<span class="n">A</span><span class="o">-&gt;</span><span class="n">fim</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">fim</span><span class="p">;</span>
+	
+		<span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">+=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">tamanho</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*
+ Insere a lista B após o item 'atual' da lista A.
+*/</span>
+<span class="kt">void</span> <span class="nf">inserirListaAposAtual</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="n">Lista</span><span class="o">*</span> <span class="n">B</span><span class="p">,</span> <span class="n">Item</span><span class="o">*</span> <span class="n">atual</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">A</span><span class="o">-&gt;</span><span class="n">inicio</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">inicio</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	
+	<span class="n">Item</span><span class="o">*</span> <span class="n">A2</span> <span class="o">=</span> <span class="n">atual</span><span class="o">-&gt;</span><span class="n">prox</span><span class="p">;</span>
+		
+	<span class="n">atual</span><span class="o">-&gt;</span><span class="n">prox</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="p">;</span>
+	<span class="n">B</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="o">-&gt;</span><span class="n">ant</span> <span class="o">=</span> <span class="n">atual</span><span class="p">;</span>
+	
+	<span class="n">B</span><span class="o">-&gt;</span><span class="n">fim</span><span class="o">-&gt;</span><span class="n">prox</span> <span class="o">=</span> <span class="n">A2</span><span class="p">;</span>
+	<span class="n">A2</span><span class="o">-&gt;</span><span class="n">ant</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">fim</span><span class="p">;</span>
+		
+	<span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">+=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">tamanho</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+
+<span class="cm">/*
+ Insere a lista B em A, na posição especificada. Ao final desta função A e B
+ apontam para os mesmos itens em uma lista. Assim, somente uma dessas listas
+ deve ser usada para liberar a memória dos itens. 
+*/</span>
+<span class="kt">void</span> <span class="nf">inserirListaNaPosicao</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="n">Lista</span><span class="o">*</span> <span class="n">B</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">pos</span> <span class="o">&gt;=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">pos</span> <span class="o">&lt;=</span> <span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span><span class="p">);</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">B</span><span class="o">-&gt;</span><span class="n">inicio</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// Insere a lista B no inicio de A.
+</span>		<span class="n">inserirListaInicio</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">==</span> <span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// Insere a lista B no fim de A.
+</span>		<span class="n">inserirListaFim</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="c1">// Insere a lista B na posição 'pos' de A.
+</span>		<span class="n">Item</span><span class="o">*</span> <span class="n">atual</span> <span class="o">=</span> <span class="n">ponteiroParaPosicao</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">pos</span><span class="p">);</span>
+		<span class="n">inserirListaAposAtual</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">atual</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>#ex.8</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/*
+ Dadas duas listas duplamente encadeadas e uma posição, implementar o crossin-over.
+ 
+ Exemplo:
+ 	A = 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+	B = 9, 9, 9, 9, 9, 9, 9, 9, 9, 9
+	pos = 3
+	
+ 	crossover(Lista* A, Lista* B, int pos);
+ 	
+ 	A = 1, 1, 1, 9, 9, 9, 9, 9, 9, 9
+ 	B = 9, 9, 9, 1, 1, 1, 1, 1, 1, 1
+ 	
+ [!] Por simplicidade, esta implementação desconsidera o fato de pontos iguais
+ poderem ser gerados por rand().
+ 
+*/</span>
+<span class="kt">void</span> <span class="nf">crossover</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="n">Lista</span><span class="o">*</span> <span class="n">B</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">pos</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+
+	<span class="c1">// primeiro ponto de crossover
+</span>	<span class="n">Item</span><span class="o">*</span> <span class="n">pontoA</span> <span class="o">=</span> <span class="n">ponteiroParaPosicao</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">pos</span><span class="p">);</span>
+	<span class="n">Item</span><span class="o">*</span> <span class="n">pontoB</span> <span class="o">=</span> <span class="n">ponteiroParaPosicao</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">pos</span><span class="p">);</span>
+
+	<span class="n">Item</span><span class="o">*</span> <span class="n">pontoAprox</span> <span class="o">=</span> <span class="n">pontoA</span><span class="o">-&gt;</span><span class="n">prox</span><span class="p">;</span>
+	<span class="n">Item</span><span class="o">*</span> <span class="n">pontoBprox</span> <span class="o">=</span> <span class="n">pontoB</span><span class="o">-&gt;</span><span class="n">prox</span><span class="p">;</span>
+	
+	<span class="n">pontoA</span><span class="o">-&gt;</span><span class="n">prox</span> <span class="o">=</span> <span class="n">pontoBprox</span><span class="p">;</span>
+	<span class="n">pontoB</span><span class="o">-&gt;</span><span class="n">prox</span> <span class="o">=</span> <span class="n">pontoAprox</span><span class="p">;</span>
+	
+	<span class="n">pontoBprox</span><span class="o">-&gt;</span><span class="n">ant</span> <span class="o">=</span> <span class="n">pontoA</span><span class="p">;</span>
+	<span class="n">pontoAprox</span><span class="o">-&gt;</span><span class="n">ant</span> <span class="o">=</span> <span class="n">pontoB</span><span class="p">;</span>
+	
+	<span class="n">Item</span><span class="o">*</span> <span class="n">aFim</span> <span class="o">=</span> <span class="n">A</span><span class="o">-&gt;</span><span class="n">fim</span><span class="p">;</span>
+	<span class="n">A</span><span class="o">-&gt;</span><span class="n">fim</span> <span class="o">=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">fim</span><span class="p">;</span>
+	<span class="n">B</span><span class="o">-&gt;</span><span class="n">fim</span> <span class="o">=</span> <span class="n">aFim</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">crossoverNpontos</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="n">Lista</span><span class="o">*</span> <span class="n">B</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="c1">// posição aleatória de 1 a tamanho -1 - i
+</span>		<span class="kt">int</span> <span class="n">randompos</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="p">(</span><span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">-</span> <span class="mi">2</span><span class="p">);</span>
+		<span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">randompos</span><span class="p">);</span>
+			
+		<span class="n">crossover</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">randompos</span><span class="p">);</span>
+		
+		<span class="n">printLista</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>
+		<span class="n">printLista</span><span class="p">(</span><span class="n">B</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

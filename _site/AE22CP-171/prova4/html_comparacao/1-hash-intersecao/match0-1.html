@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>2-victor-barros.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>2-victor-barros.c</CENTER></H3><HR>
+<PRE>
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+#include&lt;math.h&gt;
+<A NAME="0"></A>
+#define tamanho 1021
+
+<FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match0-0.html#0',2,'match0-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>typedef struct item{
+	int conteudo;
+	struct item*prox;
+	struct item*ant;
+}item;
+
+typedef struct listaDENC{
+	item*inicio;
+	int cont;
+}listaDENC;
+
+listaDENC *inicializa()
+{
+	listaDENC* l = (listaDENC*) malloc(sizeof(listaDENC));
+
+	l-&gt;inicio = NULL;
+	l-&gt;cont = 0;
+
+	return l;
+}
+
+item *cria(int conteudo)
+{
+	item *p = malloc(sizeof(item));
+	p-&gt;conteudo = conteudo;
+	p-&gt;prox = NULL;
+	p-&gt;ant = NULL;
+	return p;
+}
+
+int HASH(int conteudo)
+{
+	return(conteudo % tamanho);
+}
+
+int insere_inicio(listaDENC *l, int conteudo)
+{
+	if(l == NULL)
+	{
+		return 0;
+	}
+	item *novo = cria(conteudo);
+	if(novo == NULL)
+	{
+		return 0;
+	}
+
+	novo-&gt;prox = l-&gt;inicio;
+	novo-&gt;ant = NULL;
+	l-&gt;inicio = novo;
+	if(novo-&gt;prox != NULL)
+	{
+		novo-&gt;prox-&gt;ant = novo;
+	}
+
+	l-&gt;cont++;
+	return 1;
+}
+int inserefim(listaDENC *l, int conteudo)
+{
+	if(l-&gt;inicio==NULL)
+	{
+		return(insere_inicio(l,conteudo));
+	}
+
+	item *novo = cria(conteudo);
+
+	if(novo==NULL)
+	{
+		return (0);
+	}
+
+	item *ultimo = l-&gt;inicio;
+
+	while(ultimo-&gt;prox !=NULL)
+	{
+		ultimo = ultimo-&gt;prox;
+
+	}
+
+	ultimo-&gt;prox=novo;
+	l-&gt;cont++;
+	return 1;
+}
+
+void imprimelista (listaDENC *l)
+{
+	item *p;
+
+	for(p = l-&gt;inicio;p != NULL;p = p-&gt;prox)
+	{
+      		printf(&quot;%d &quot;, p-&gt;conteudo);
+	}
+}
+
+void imprime_lista (listaDENC *l)
+{
+	item *p =l-&gt;inicio;
+
+	while(p-&gt;prox != NULL)
+	{
+		printf(&quot;%d &quot;, p-&gt;conteudo);
+		p = p-&gt;prox;
+
+	}
+	printf(&quot;%d &quot;, p-&gt;conteudo);
+}
+
+void UNIAO (listaDENC **s1, listaDENC **s2, listaDENC **tabC)
+{
+	int i,j;
+	//int flagrepetida=0;
+	i=j=0;
+
+	for (i = 0; i &lt; tamanho; i++)
+	{
+		for(j = 0;j &lt; tamanho; j++)
+		{
+			if(s1[i]-&gt;inicio != NULL &amp;&amp; s2[j]-&gt;inicio != NULL)
+			{
+				if(s1[i]-&gt;inicio-&gt;conteudo == s2[j]-&gt;inicio-&gt;conteudo)
+				{
+					inserefim(tabC[HASH(s1[i]-&gt;inicio-&gt;conteudo)],s1[i]-&gt;inicio-&gt;conteudo);
+				}
+
+
+			}
+		}
+	}
+
+}
+
+int main(void)
+<A NAME="1"></A>{
+	int i=0,j=0,A=0,B=0,C=0;</B></FONT>
+	int conteudo;
+<FONT color="#f63526"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match0-0.html#1',2,'match0-top.html#1',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>	int flagrepetida=0;
+
+    	scanf(&quot;%d&quot;,&amp;A);
+	listaDENC** s1 = (listaDENC**)malloc(tamanho*sizeof(listaDENC*));
+
+	for (i = 0; i &lt; tamanho; i++)
+	{
+		s1[i] = inicializa();
+	}
+   	for(i = 0;i &lt; A; i++)
+    	{
+		scanf(&quot;%d&quot;,&amp;conteudo);
+		for(j = 0;j &lt; tamanho; j++)
+        	{
+			if(s1[j]-&gt;inicio != NULL)
+			{
+				if(s1[j]-&gt;inicio-&gt;conteudo == conteudo)
+				{
+					flagrepetida = 1;
+				}
+			}
+       		 }
+
+        	if(flagrepetida == 0)
+        	{
+        		inserefim(s1[HASH(conteudo)],conteudo);
+       	 	}
+		else
+		{
+			flagrepetida = 0;
+		}
+		 }
+
+
+
+
+
+	i=j=flagrepetida=0;
+   	scanf(&quot;%d&quot;,&amp;B);
+   	listaDENC** s2 = (listaDENC**)malloc(tamanho*sizeof(listaDENC*));
+
+   	 for (i = 0; i &lt; tamanho; i++)
+    	{
+        	s2[i] = inicializa();
+    	}
+   	 for(i = 0;i &lt; B; i++)
+    	{
+		scanf(&quot;%d&quot;,&amp;conteudo);
+		for(j = 0;j &lt; tamanho; j++)
+        	{
+			if(s2[j]-&gt;inicio != NULL)
+			{
+				if(s2[j]-&gt;inicio-&gt;conteudo == conteudo)
+				{
+					flagrepetida = 1;
+				}
+			}
+       		 }
+
+        	if(flagrepetida == 0)
+        	{
+        		inserefim(s2[HASH(conteudo)],conteudo);
+       	 	}
+		else
+		{
+			flagrepetida = 0;
+		}
+  	 }
+
+
+
+
+ 	C = A+B;
+ 	listaDENC** s3 = (listaDENC**) malloc(tamanho*sizeof(listaDENC*));
+
+   	for (i = 0; i &lt; tamanho; i++)
+    	{
+       		 s3[i] = inicializa();
+    	}
+
+
+	UNIAO(s1, s2, s3);
+
+
+    for(i = 0;i &lt; tamanho; i++)
+    {
+        if(s3[i]-&gt;inicio != NULL)
+	{
+            imprime_lista(s3[i]);
+	}
+  }
+
+	return(0);
+}</B></FONT>
+
+</PRE>
+</BODY>
+</HTML>

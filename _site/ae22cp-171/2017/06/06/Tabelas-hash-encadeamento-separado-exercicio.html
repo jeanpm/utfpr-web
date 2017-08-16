@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Tabelas Hash,encadeamento separado</title>
+  <meta name="description" content="Conteúdo  Conteúdo">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-171/2017/06/06/Tabelas-hash-encadeamento-separado-exercicio.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Tabelas Hash,encadeamento separado</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Jun 6, 2017
+          • <i class="fa fa-user"></i> Jean P. Martins
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-171/2017/06/06/Tabelas-Hash-Introdu%C3%A7%C3%A3o.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-171/2017/06/18/Matriz-Esparsa-redes-complexas.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a></li>
+  <li><a href="#contextualização" id="markdown-toc-contextualização">Contextualização</a>    <ul>
+      <li><a href="#a-matrícula-como-índice-do-vetor-turma" id="markdown-toc-a-matrícula-como-índice-do-vetor-turma">A matrícula como índice do vetor turma</a></li>
+      <li><a href="#a-matrícula-não-pode-ser-usada-como-índice-do-vetor-turma" id="markdown-toc-a-matrícula-não-pode-ser-usada-como-índice-do-vetor-turma">A matrícula não pode ser usada como índice do vetor turma</a>        <ul>
+          <li><a href="#procurar-o-aluno-de-matrícula-m-em-uma-list" id="markdown-toc-procurar-o-aluno-de-matrícula-m-em-uma-list">Procurar o aluno de matrícula M em uma list</a></li>
+          <li><a href="#procurar-o-aluno-de-matrícula-m-em-uma-tabela-hash" id="markdown-toc-procurar-o-aluno-de-matrícula-m-em-uma-tabela-hash">Procurar o aluno de matrícula M em uma tabela hash</a></li>
+          <li><a href="#conflitos-de-espalhamento" id="markdown-toc-conflitos-de-espalhamento">Conflitos de espalhamento</a></li>
+          <li><a href="#estrutura-da-tabela" id="markdown-toc-estrutura-da-tabela">Estrutura da tabela</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#objetivos" id="markdown-toc-objetivos">Objetivos</a></li>
+  <li><a href="#entrada-de-dados" id="markdown-toc-entrada-de-dados">Entrada de dados</a>    <ul>
+      <li><a href="#exemplo-de-entrada-com-3-alunos-e-capacidade-3" id="markdown-toc-exemplo-de-entrada-com-3-alunos-e-capacidade-3">Exemplo de entrada com 3 alunos e capacidade 3</a></li>
+      <li><a href="#exemplo-de-saída" id="markdown-toc-exemplo-de-saída">Exemplo de saída</a></li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p><a href="http://www.san.uri.br/~ober/arquivos/disciplinas/estruturaII_SI/(ebook)Estruturas%20de%20Dados%20Usando%20C%20(Tenenbaum).pdf">Estruturas de dados usando C (Tenenbaum, Sec.7.4, pg. 595 - 603; 620 - 628)</a></p>
+</blockquote>
+
+<h1 id="contextualização">Contextualização</h1>
+<p>Uma tabela hash armazena informações que possam ser identificadas por uma chave única. Suponhamos, por exemplo, uma estrutura que armazene informações de um aluno, e o identifique por um número de matrícula.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+	<span class="kt">long</span> <span class="n">matricula</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">nome</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+	<span class="k">struct</span> <span class="n">_item</span><span class="o">*</span> <span class="n">prox</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">_item</span><span class="o">*</span> <span class="n">ant</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">Aluno</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>Caso tivéssemos um número fixo de alunos <code class="highlighter-rouge">N</code>, as respectivas estruturas podem ser armazenadas em um vetor de tamanho <code class="highlighter-rouge">N</code>.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">const</span> <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="n">Aluno</span> <span class="n">turma</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>   <span class="c1">// Uma turma tem, neste exemplo, um máximo de 100 alunos
+</span></code></pre>
+</div>
+
+<p>Nestas condições, considere a seguinte problema:</p>
+
+<ul>
+  <li>Dada o vetor <code class="highlighter-rouge">turma</code> contendo <code class="highlighter-rouge">N</code> alunos, retorne o aluno de matrícula <code class="highlighter-rouge">M</code>!</li>
+</ul>
+
+<h2 id="a-matrícula-como-índice-do-vetor-turma">A matrícula como índice do vetor turma</h2>
+
+<p>Se assumirmos que o campo <code class="highlighter-rouge">matricula</code> da estrutura <code class="highlighter-rouge">Aluno</code> é um número $0\dots N-1$; o vetor turma pode ser criado de forma que o <code class="highlighter-rouge">Aluno</code> de matrícula $i$ ($0 \leq i &lt; N$), esteja na posição $i$ do vetor <code class="highlighter-rouge">turma</code>.</p>
+
+<p>Neste caso, para retornar o aluno de matrícula $0 \leq M &lt; N$, bastaria retornar o aluno armazenado na respectiva posição.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// Caso o índice do vetor equivalha ao número de matrícula.
+</span><span class="k">return</span> <span class="n">turma</span><span class="p">[</span><span class="n">M</span><span class="p">];</span>
+</code></pre>
+</div>
+
+<h2 id="a-matrícula-não-pode-ser-usada-como-índice-do-vetor-turma">A matrícula não pode ser usada como índice do vetor turma</h2>
+
+<p>Considere agora, que o campo <code class="highlighter-rouge">matricula</code> é um número muito maior, no intervalo $0 \leq m &lt; 10^7$. Devido ao valor máximo ser muito grande, não é viável criar um vetor <code class="highlighter-rouge">turma[10 000 000]</code>, para armazenar apenas $N$ alunos.</p>
+
+<h3 id="procurar-o-aluno-de-matrícula-m-em-uma-list">Procurar o aluno de matrícula M em uma list</h3>
+
+<p>Caso utilizássemos uma lista para armazenar todos os $N$ alunos, a procura pelo aluno de matrícula <code class="highlighter-rouge">M</code> envolveria o percurso dessa lista do início ao fim, comparando-se a matrícula dos alunos encontrados com <code class="highlighter-rouge">M</code> até que o aluno de matrícula <code class="highlighter-rouge">M</code> seja encontrado. Existiria outra estrutura de dados em que a busca pelo aluno de matrícula <code class="highlighter-rouge">M</code> possa ser feita de forma mais eficiente?</p>
+
+<h3 id="procurar-o-aluno-de-matrícula-m-em-uma-tabela-hash">Procurar o aluno de matrícula M em uma tabela hash</h3>
+
+<p>Uma alternativa para o armazenamento dos <code class="highlighter-rouge">N</code> alunos é a utilização de uma tabela hash, em que o número de <code class="highlighter-rouge">matrícula</code> seria utilizado como chave de acesso ao respectivo aluno.</p>
+
+<p>Veja <a href="http://www.san.uri.br/~ober/arquivos/disciplinas/estruturaII_SI/(ebook)Estruturas%20de%20Dados%20Usando%20C%20(Tenenbaum).pdf">Seção 7.4 pgs. (595-598)</a>) para uma leitura introdutória à tabelas hash.</p>
+
+<p>Considere que a capacidade ($n$) do vetor utilizado como tabela hash será sempre menor que o número total de alunos, ou seja, $n &lt; N$.</p>
+
+<h3 id="conflitos-de-espalhamento">Conflitos de espalhamento</h3>
+
+<p>Conflitos de espalhamento deverão ser tratados por meio da técnica de <em>encadeamento separado</em><a href="http://www.san.uri.br/~ober/arquivos/disciplinas/estruturaII_SI/(ebook)Estruturas%20de%20Dados%20Usando%20C%20(Tenenbaum).pdf">Seção 7.4 pgs. (624-628)</a> , a qual consiste em armazenar em uma lista, todos alunos cujos indices caírem sobre o mesmo valor de hash.</p>
+
+<h3 id="estrutura-da-tabela">Estrutura da tabela</h3>
+
+<p>A tabela hash será, neste caso, um vetor de listas de alunos, isto é, em cada uma de suas <code class="highlighter-rouge">n</code> posições, o vetor conterá uma <code class="highlighter-rouge">Lista*</code> cujos itens armazenarão uma estrutura <code class="highlighter-rouge">Aluno*</code> cada. Uma tabela hash de capacidade 3, inicialmente, assume a configuração a seguir:</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code>	<span class="mi">0</span> <span class="o">-&gt;</span> <span class="nb">NULL</span>
+	<span class="mi">1</span> <span class="o">-&gt;</span> <span class="nb">NULL</span>
+	<span class="mi">2</span> <span class="o">-&gt;</span> <span class="nb">NULL</span>
+</code></pre>
+</div>
+
+<p>Após a inserção dos valores a seguir</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1923123123	Jean-Paulo-Martins 
+1231231249 	Maria-Josefina
+1449989959 	Joaquim-Felix 
+</code></pre>
+</div>
+
+<p>E uma função de espalhamento, definida para uma tabela de tamanho $n=3$;</p>
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">h</span><span class="p">(</span><span class="kt">long</span> <span class="n">mat</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">mat</span> <span class="o">%</span> <span class="n">n</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>A tabela hash correspondente teria a seguinte estrutura:</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">Posi</span><span class="err">çã</span><span class="n">o</span> <span class="o">|</span> <span class="n">Itens</span> <span class="n">da</span> <span class="n">lista</span>
+<span class="mi">0</span>       <span class="o">|-&gt;</span> <span class="p">{</span><span class="mi">1923123123</span><span class="p">,</span> <span class="s">"Jean-Paulo-Martins"</span><span class="p">}</span> <span class="o">-&gt;</span> <span class="nb">NULL</span>
+<span class="mi">1</span>       <span class="o">|-&gt;</span> <span class="p">{</span><span class="mi">1231231249</span><span class="p">,</span> <span class="s">"Maria-Josefina"</span><span class="p">}</span> <span class="o">&lt;-&gt;</span> <span class="p">{</span><span class="mi">1449989959</span><span class="p">,</span> <span class="s">"Joaquim-Felix"</span><span class="p">}</span><span class="o">-&gt;</span> <span class="nb">NULL</span>
+<span class="mi">2</span>       <span class="o">|-&gt;</span> <span class="nb">NULL</span>
+</code></pre>
+</div>
+
+<p>Observe que o conflito de espalhamento foi solucionado armazenando-se todos os alunos com o mesmo hash <code class="highlighter-rouge">h(matricula)</code> na mesma lista, na posição <code class="highlighter-rouge">h(matricula)</code> da tabela.</p>
+
+<h1 id="objetivos">Objetivos</h1>
+
+<p>Implementar uma função que permita a inserção de $N$ alunos em uma tabela hash de capacidade $n$, com $n &lt; N$. Com tratamento de conflitos de espalhamento por <em>encadeamento separado</em>.</p>
+
+<h1 id="entrada-de-dados">Entrada de dados</h1>
+
+<p>O primeiro item de entrada é o tamanho máximo, ou capacidade, da tabela hash a ser criada. A leitura desse valor é efetuada da seguinte forma em C++:</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">capacidade</span><span class="p">;</span>
+<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">capacidade</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>O próximo número de entrada, indicará a quantidade de elementos a serem inseridos na tabela hash.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span><span class="p">;</span> <span class="c1">// Número de alunos a serem inseridos
+</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>Definidas a capacidade e a quantidade de alunos, os próximos itens a serem lidos descreverão os alunos, que deverão ser amazenados em <code class="highlighter-rouge">struct Aluno</code>. Portanto, para lermos um aluno.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">long</span> <span class="n">matricula</span><span class="p">;</span>
+<span class="kt">char</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span> <span class="n">nome</span><span class="p">;</span>
+<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">matricula</span> <span class="o">&gt;&gt;</span> <span class="n">nome</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>Assumindo-se que a função que insere um aluno na tabela hash já esteja implementada, e obedeça o seguinte protótipo de função:</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">inserir</span><span class="p">(</span><span class="n">Lista</span><span class="o">**</span> <span class="n">thash</span><span class="p">,</span> <span class="kt">long</span> <span class="n">matricula</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">nome</span><span class="p">);</span>
+</code></pre>
+</div>
+<p>A entrada de dados completa pode ser implementada da seguinte forma:</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">capacidade</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">capacidade</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+
+<span class="n">Lista</span><span class="o">**</span> <span class="n">thash</span> <span class="o">=</span> <span class="p">(</span><span class="n">Lista</span><span class="o">**</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">capacidade</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span><span class="p">));</span>
+
+<span class="kt">long</span> <span class="n">matricula</span><span class="p">;</span>
+<span class="kt">char</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span> <span class="n">nome</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">matricula</span> <span class="o">&gt;&gt;</span> <span class="n">nome</span><span class="p">;</span>
+	<span class="n">inserir</span><span class="p">(</span><span class="n">thash</span><span class="p">,</span> <span class="n">matricula</span><span class="p">,</span> <span class="n">nome</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="exemplo-de-entrada-com-3-alunos-e-capacidade-3">Exemplo de entrada com 3 alunos e capacidade 3</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>3 3 
+1923123123	Jean-Paulo-Martins 
+1231231249 	Maria-Josefina 
+1449989959 	Joaquim-Felix 
+</code></pre>
+</div>
+
+<h2 id="exemplo-de-saída">Exemplo de saída</h2>
+
+<p>Imprimir a tabela hash, cada linha a lista correspondente. No exemplo a seguir:</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">Posi</span><span class="err">çã</span><span class="n">o</span> <span class="o">|</span> <span class="n">Itens</span> <span class="n">da</span> <span class="n">lista</span>
+<span class="mi">0</span>       <span class="o">|-&gt;</span> <span class="p">{</span><span class="mi">1923123123</span><span class="p">,</span> <span class="s">"Jean-Paulo-Martins"</span><span class="p">}</span> <span class="o">-&gt;</span> <span class="nb">NULL</span>
+<span class="mi">1</span>       <span class="o">|-&gt;</span> <span class="p">{</span><span class="mi">1231231249</span><span class="p">,</span> <span class="s">"Maria-Josefina"</span><span class="p">}</span> <span class="o">&lt;-&gt;</span> <span class="p">{</span><span class="mi">1449989959</span><span class="p">,</span> <span class="s">"Joaquim-Felix"</span><span class="p">}</span><span class="o">-&gt;</span> <span class="nb">NULL</span>
+<span class="mi">2</span>       <span class="o">|-&gt;</span> <span class="nb">NULL</span>
+</code></pre>
+</div>
+
+<p>Deve-se imprimir (a terceira linha está vazia):</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>0:1923123123
+1:1231231249, 1449989959
+2:
+</code></pre>
+</div>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>gabriel-pendiuk.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>gabriel-pendiuk.c</CENTER></H3><HR>
+<PRE>
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+
+typedef struct notag{
+	int chave;
+	struct notag *prox;
+}no;
+
+<A NAME="0"></A>typedef struct{
+	no* inicio;
+	int quant;
+<FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match5-0.html#0',2,'match5-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>}LD;
+typedef struct{
+	no* inicio;
+	int quant;
+	no* fim;
+}LDD;
+
+
+void DefineS(LD *L){
+	L-&gt;quant=0;
+	L-&gt;inicio=NULL;
+}
+
+void DefineD(LDD *L){</B></FONT>
+	L-&gt;quant=0;
+	L-&gt;inicio=NULL;
+	L-&gt;fim=NULL;
+}
+
+no* BuscaValor(LD *L, int ch){
+	no *p;
+	if(L-&gt;quant==0) return NULL;
+	else{
+		p=L-&gt;inicio;
+		while(p!=NULL){
+			if(p-&gt;chave==ch) return p;
+			else p=p-&gt;prox;
+		}
+	}
+	return NULL;
+}
+
+no* BuscaPosicao(LD *L, int pos){
+	no *p;
+	p=L-&gt;inicio;
+	int cont;
+	if(pos &gt; L-&gt;quant){
+		printf(&quot;posicao invalida\n&quot;);
+		return NULL;
+	}
+	while(p!=NULL){
+		if(pos==cont) return p;
+
+		cont++;
+		p=p-&gt;prox;
+	}
+	return NULL;
+}
+
+void RemoverDepois(LD *L, no **q){
+	no *p;
+	p=(*q)-&gt;prox;
+	(*q)-&gt;prox=p-&gt;prox;
+	free(p);
+	L-&gt;quant--;
+}
+
+int insere(LD *L, int ch, int pos){
+	int cont=0;
+	no *q, *p;
+	p=L-&gt;inicio;
+	if(L-&gt;quant==0){
+	q=malloc(sizeof(no));
+	q-&gt;chave=ch;
+	q-&gt;prox=NULL;
+	L-&gt;inicio=q;
+	L-&gt;quant++;
+	return 1;
+	}
+	while(p!=NULL){
+		if(pos-1==cont){
+			q=malloc(sizeof(no));
+			q-&gt;chave=ch;
+			q-&gt;prox=p-&gt;prox;
+			p-&gt;prox=q;
+			L-&gt;quant++;
+			return 1;
+		}
+		cont++;
+		p=p-&gt;prox;
+	}
+	return 0;
+}
+
+LD merge(LD *L, LD *L2){
+	no *p, *q, *maior;
+	LD L3;
+	if(L-&gt;quant&gt;=L2-&gt;quant){
+		maior=L-&gt;inicio;
+		p=L2-&gt;inicio;
+	}
+	else{
+		maior=L2-&gt;inicio;
+		p=L-&gt;inicio;
+	}
+	q=malloc(sizeof(no));
+	L3.inicio=q;
+	L3.quant=0;
+	while(maior!=NULL){
+		q-&gt;chave=maior-&gt;chave;
+		q-&gt;prox=malloc(sizeof(no));
+		q=q-&gt;prox;
+		maior=maior-&gt;prox;
+		if(p!=NULL){
+			q-&gt;chave=p-&gt;chave;
+			p=p-&gt;prox;
+			q-&gt;prox=malloc(sizeof(no));
+			q=q-&gt;prox;
+		}
+	}
+	q=NULL;
+	return L3;
+}
+
+void transformacircular(LD *L){
+	no *q;
+	q=L-&gt;inicio;
+	while(q-&gt;prox!=NULL)
+		q=q-&gt;prox;
+
+	q-&gt;prox=L-&gt;inicio;
+}
+
+void imprime(no *x)
+{
+  if(x!=NULL)
+  {
+      printf(&quot;%d &quot;,x-&gt;chave);
+      imprime(x-&gt;prox);
+  }
+}
+
+void SelectionSort(lista *L)
+{
+    int i, j;
+    elemento aux;
+    for(i = 1; i &lt;= L-&gt;numElem - 1; i++)
+    {
+        for(j = i + 1; j &lt;= L-&gt;numElem; j++)
+        {
+            if(L-&gt;A[i].chave &gt; L-&gt;A[j].chave)
+            {
+                aux = L-&gt;A[i];
+                L-&gt;A[i] = L-&gt;A[j];
+                L-&gt;A[j] = aux;
+            }
+        }
+    }
+}
+
+int main(void)
+{
+    int cont;
+    int insercoes;
+    int i;
+    int valor;
+    int *aux;
+
+    LD lista1, lista2, lista3;
+    no *x;
+
+    DefineS(&amp;lista1);
+    DefineS(&amp;lista2);
+    DefineS(&amp;lista3);
+
+    scanf(&quot;%d&quot;,&amp;insercoes);
+    for(i=0;i&lt;insercoes;i++)
+    {
+      scanf(&quot;%d&quot;,&amp;valor);
+      cont=insere(&amp;lista1,valor,i);
+    }
+    scanf(&quot;%d&quot;,&amp;insercoes);
+    for(i=0;i&lt;insercoes;i++)
+    {
+      scanf(&quot;%d&quot;,&amp;valor);
+      cont=insere(&amp;lista2,valor,i);
+    }
+    lista3=merge(&amp;lista2,&amp;lista1);
+    SelectionSort(&amp;lista3);
+    x=lista3.inicio;
+    do{
+      if(x-&gt;chave!=0)
+			   printf(&quot;%d &quot;,x-&gt;chave);
+			x=x-&gt;prox;
+		}while(x!=NULL);
+    printf(&quot;\n&quot;);
+}
+
+</PRE>
+</BODY>
+</HTML>

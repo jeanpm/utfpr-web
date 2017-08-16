@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Organização de memória, stack, heap III</title>
+  <meta name="description" content="Contato  Jean Paulo Martins  Sala 105  e-mail jeanmartins@utfpr.edu.br">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-172/2017/08/15/Aloca%C3%A7%C3%A3o-de-mem%C3%B3ria-3.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Organização de memória, stack, heap III</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Aug 15, 2017
+          • <i class="fa fa-user"></i> jean
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-172/2017/08/14/Aloca%C3%A7%C3%A3o-de-mem%C3%B3ria-2.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-172/2017/08/15/Aloca%C3%A7%C3%A3o-de-mem%C3%B3ria-exercicios.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h2 id="contato">Contato</h2>
+<ul>
+  <li>Jean Paulo Martins</li>
+  <li>Sala 105</li>
+  <li>e-mail jeanmartins@utfpr.edu.br</li>
+</ul>
+
+<h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#contato" id="markdown-toc-contato">Contato</a></li>
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a>    <ul>
+      <li><a href="#referências" id="markdown-toc-referências">Referências</a></li>
+    </ul>
+  </li>
+  <li><a href="#revisão" id="markdown-toc-revisão">Revisão</a></li>
+  <li><a href="#memória-dinâmica-heap-memory" id="markdown-toc-memória-dinâmica-heap-memory">Memória dinâmica (Heap memory)</a>    <ul>
+      <li><a href="#memória-local-e-dinâmica" id="markdown-toc-memória-local-e-dinâmica">Memória local e dinâmica</a></li>
+      <li><a href="#estrutura-do-heap" id="markdown-toc-estrutura-do-heap">Estrutura do heap</a></li>
+      <li><a href="#gerenciador-de-memória-em-c" id="markdown-toc-gerenciador-de-memória-em-c">Gerenciador de memória em C</a></li>
+      <li><a href="#exemplos-de-uso-malloc-e-free" id="markdown-toc-exemplos-de-uso-malloc-e-free">Exemplos de uso: malloc e free</a></li>
+      <li><a href="#ponteiros-para-vetores" id="markdown-toc-ponteiros-para-vetores">Ponteiros para vetores</a></li>
+      <li><a href="#eficiência-de-alocação-stack-vs-heap" id="markdown-toc-eficiência-de-alocação-stack-vs-heap">Eficiência de alocação: stack vs heap</a></li>
+      <li><a href="#exercício" id="markdown-toc-exercício">Exercício</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="referências">Referências</h2>
+<ul>
+  <li>
+    <p>Material sobre linguagem C (<a href="https://www.ime.usp.br/~slago/slago-C.pdf">IME-USP</a>)</p>
+
+    <ul>
+      <li><em>https://www.ime.usp.br/~slago/slago-C.pdf</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>Material sobre memória e ponteiros (<a href="http://cslibrary.stanford.edu/102/PointersAndMemory.pdf">cap2::stanford</a>)</p>
+
+    <ul>
+      <li><em>http://cslibrary.stanford.edu/102/PointersAndMemory.pdf</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>Notas sobre estruturas de dados e programação (<a href="http://cs-www.cs.yale.edu/homes/aspnes/classes/223/notes.pdf">cap4:yale</a>)</p>
+
+    <ul>
+      <li><em>http://cs-www.cs.yale.edu/homes/aspnes/classes/223/notes.pdf</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>Livro (<a href="http://pdf.th7.cn/down/files/1312/write_great_code_volume_1.pdf">cap11.9:Write greate code</a>)</p>
+
+    <ul>
+      <li><em>http://pdf.th7.cn/down/files/1312/write_great_code_volume_1.pdf</em></li>
+    </ul>
+  </li>
+  <li>
+    <p><a href="https://pt.stackoverflow.com/questions/3797/o-que-s%C3%A3o-e-onde-est%C3%A3o-o-stack-e-heap">stackoverflow:O que são e onde estão o stack e heap?</a></p>
+
+    <ul>
+      <li><em>https://pt.stackoverflow.com/questions/3797/o-que-s%C3%A3o-e-onde-est%C3%A3o-o-stack-e-heap</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>LEIA LIVROS SOBRE PROGRAMAÇÃO!</p>
+  </li>
+</ul>
+
+<h1 id="revisão">Revisão</h1>
+
+<ul>
+  <li>
+    <p>Compreensão de termos: <em>Declaração vs. Definição</em></p>
+
+    <ul>
+      <li>
+        <p>Declare uma variável de nome <code class="highlighter-rouge">aluno</code> do tipo <code class="highlighter-rouge">Pessoa</code></p>
+      </li>
+      <li>
+        <p>Declare uma variável de nome <code class="highlighter-rouge">ra</code> do tipo <code class="highlighter-rouge">long</code></p>
+      </li>
+      <li>
+        <p>Defina uma <code class="highlighter-rouge">struct</code> de nome <code class="highlighter-rouge">Fracao</code>, contendo campos <code class="highlighter-rouge">numerador</code> e <code class="highlighter-rouge">denominador</code>.</p>
+      </li>
+      <li>
+        <p>Defina uma função de nome <code class="highlighter-rouge">multiplicar</code> que receba duas <code class="highlighter-rouge">struct</code> do tipo <code class="highlighter-rouge">Fracao</code>.</p>
+      </li>
+      <li>
+        <p>Chame a função <code class="highlighter-rouge">multiplicar</code> passando duas <code class="highlighter-rouge">struct Fracao</code> como parâmetro.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Referências vs ponteiros</p>
+
+    <ul>
+      <li>
+        <p>Referência é o termo genérico, independente de linguagem</p>
+      </li>
+      <li>
+        <p>Ponteiro é usualmente utilizado no contexto de C/C++</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Pilha de chamadas</p>
+
+    <ul>
+      <li>
+        <p>Recebe por valor</p>
+
+        <div class="language-cpp highlighter-rouge"><pre class="highlight"><code>  <span class="c1">// Não altera o conteúdo da variável passada como argumento
+</span>  <span class="kt">void</span> <span class="nf">inicializa_pessoa</span><span class="p">(</span><span class="n">Pessoa</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">p</span><span class="p">.</span><span class="n">idade</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="n">p</span><span class="p">.</span><span class="n">cpf</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>		
+  <span class="p">}</span>
+</code></pre>
+        </div>
+      </li>
+      <li>
+        <p>Recebe por referência</p>
+
+        <div class="language-cpp highlighter-rouge"><pre class="highlight"><code>  <span class="c1">// Altera o conteúdo da variável externa
+</span>  <span class="kt">void</span> <span class="nf">inicializa_pessoa</span><span class="p">(</span><span class="n">Pessoa</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">p</span><span class="o">-&gt;</span><span class="n">dade</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="n">p</span><span class="o">-&gt;</span><span class="n">cpf</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>		
+  <span class="p">}</span>
+</code></pre>
+        </div>
+      </li>
+      <li>Passagem por valor
+        <div class="language-cpp highlighter-rouge"><pre class="highlight"><code>  <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+      <span class="n">Pessoa</span> <span class="n">w</span><span class="p">;</span>
+      <span class="n">inicializa_pessoa</span><span class="p">(</span><span class="n">w</span><span class="p">);</span>
+  <span class="p">}</span>
+</code></pre>
+        </div>
+      </li>
+      <li>Passagem por referência
+        <div class="language-cpp highlighter-rouge"><pre class="highlight"><code>  <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+      <span class="n">Pessoa</span> <span class="n">w</span><span class="p">;</span>
+      <span class="n">inicializa_pessoa</span><span class="p">(</span><span class="o">&amp;</span><span class="n">w</span><span class="p">);</span>
+  <span class="p">}</span>
+</code></pre>
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Ponteiros</p>
+
+    <ul>
+      <li>
+        <p>Qual o conteúdo da variável?</p>
+
+        <div class="language-cpp highlighter-rouge"><pre class="highlight"><code>  <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+      <span class="kt">int</span><span class="o">*</span> <span class="n">d</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">;</span>	
+      <span class="o">*</span><span class="n">d</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>		
+      <span class="n">printf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+  <span class="p">}</span>
+</code></pre>
+        </div>
+      </li>
+      <li>
+        <p>Qual o conteúdo da variável?</p>
+
+        <div class="language-cpp highlighter-rouge"><pre class="highlight"><code>  <span class="kt">void</span> <span class="nf">soma</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">,</span> <span class="kt">int</span><span class="o">*</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+      <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+  <span class="p">}</span>		
+  <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>	
+      <span class="n">soma</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">);</span>
+      <span class="n">printf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+  <span class="p">}</span>
+</code></pre>
+        </div>
+      </li>
+      <li>
+        <p>Qual o conteúdo da variável?</p>
+
+        <div class="language-cpp highlighter-rouge"><pre class="highlight"><code>  <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+      <span class="kt">int</span><span class="o">*</span> <span class="n">d</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">;</span>	
+      <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+  <span class="p">}</span>
+</code></pre>
+        </div>
+      </li>
+      <li>
+        <p>Qual o conteúdo da variável?</p>
+
+        <div class="language-cpp highlighter-rouge"><pre class="highlight"><code>  <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+      <span class="kt">int</span><span class="o">*</span> <span class="n">d</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">;</span>	
+      <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>		
+      <span class="n">printf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+  <span class="p">}</span>
+</code></pre>
+        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="memória-dinâmica-heap-memory">Memória dinâmica (Heap memory)</h1>
+
+<p>Memória alocada na pilha de chamadas é automática,</p>
+
+<ul>
+  <li>
+    <p>O compilador reserva memória quando necessário</p>
+  </li>
+  <li>
+    <p>A memória é liberada ao sairmos do escopo.</p>
+  </li>
+</ul>
+
+<p>Memória dinâmica é diferente</p>
+
+<ul>
+  <li>
+    <p>O programador requisita alocação</p>
+  </li>
+  <li>
+    <p>O programador precisa liberar a memória quando não mais útil.</p>
+  </li>
+</ul>
+
+<p>Benefícios da memória dinâmica</p>
+
+<ul>
+  <li>
+    <p>a memória pode ser alocada por qualquer função e retornada para uso posterior</p>
+  </li>
+  <li>
+    <p>O programador tem controle de quando àquela memória deixará ser sua responsabilidade</p>
+  </li>
+</ul>
+
+<p>Pontos negativos</p>
+
+<ul>
+  <li>
+    <p>Memória dinâmica é manipulada através de ponteiros</p>
+
+    <ul>
+      <li>o ponteiro em si é armazenado na pilha de chamadas, já a memória alocada está no heap</li>
+    </ul>
+  </li>
+  <li>
+    <p>Aumenta-se a responsabilidade do programador quanto à memória alocada/desalocada</p>
+  </li>
+</ul>
+
+<h2 id="memória-local-e-dinâmica">Memória local e dinâmica</h2>
+
+<p>Como a memória no heap é sempre acessada por meio de ponteiros e esses ponteiros são armazenados na pilha de chamadas, estas duas formas de memória trabalham juntas. (Figura extraída de <a href="http://cslibrary.stanford.edu/102/PointersAndMemory.pdf">cslibrary-stanford-pg.25</a>)</p>
+
+<p><img src="http://localhost:4000/assets/local-heap.png" alt="Ponteiros para o heap são armazenados na call stack" /></p>
+
+<h2 id="estrutura-do-heap">Estrutura do heap</h2>
+
+<p>O Heap é um grande bloco de memória gerenciado por algum mecanismo. Esse mecanismo é responsável por armazenar informações sobre quais partes desse bloco estão em uso e quais estão disponíveis.</p>
+
+<p>Assuma o exemplo da figura anterior,</p>
+<ul>
+  <li>
+    <p>Existe um ponteiro <code class="highlighter-rouge">int* Gif2</code> por meio do qual a memória <code class="highlighter-rouge">GIF2</code> é manipulada.</p>
+  </li>
+  <li>
+    <p>Caso a memória <code class="highlighter-rouge">GIF2</code> não seja mais necessária, ela pode ser desalocada, deixando espaço útil no Heap</p>
+  </li>
+</ul>
+
+<p><img src="http://localhost:4000/assets/local-heap-frag.png" alt="Fragmentação memória" /></p>
+
+<ul>
+  <li>
+    <p>A partir desse momento, uma nova requisição de memória pode utilizar a região desalocada novamente</p>
+  </li>
+  <li>
+    <p>É responsabilidade do gerenciador de memória manter os espaços disponíveis e tentar evitar que a memória fique fragmentada demais.</p>
+  </li>
+  <li>
+    <p>É responsabilidade do programador avisar ao gerenciador de memória quando um espaço de memória previamente alocado se torna disponível.</p>
+  </li>
+  <li>
+    <p>O gerenciador só é capaz (em C) de manter organizada a memória disponível se o programador se compromete a avisá-lo.</p>
+
+    <ul>
+      <li>
+        <p>Algumas linguagens possuem mecanismos para monitorar memórias não utilizadas e liberá-las automaticamente, estes mecanismos se chamam <em>garbage collector</em> (coletor de lixo).</p>
+      </li>
+      <li>
+        <p>Monitorar, no entanto, é dispendioso e linguagens de mais baixo nível não implementam tais mecanismos</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="gerenciador-de-memória-em-c">Gerenciador de memória em C</h2>
+
+<p>Em C, memória no Heap é gerenciada pelas funções (<a href="http://man7.org/linux/man-pages/man3/malloc.3.html">manpage:malloc</a>)</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdlib.h&gt;
+</span><span class="kt">void</span> <span class="o">*</span><span class="n">malloc</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">free</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">);</span>
+<span class="kt">void</span> <span class="o">*</span><span class="n">calloc</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">nmemb</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+<span class="kt">void</span> <span class="o">*</span><span class="n">realloc</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+<span class="kt">void</span> <span class="o">*</span><span class="n">reallocarray</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">ptr</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">nmemb</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<h2 id="exemplos-de-uso-malloc-e-free">Exemplos de uso: malloc e free</h2>
+
+<p>Qualquer tipo de variável pode ser alocada no heap. Embora nem sempre seja uma boa opção, veja os exemplos:</p>
+
+<ul>
+  <li>Alocação de memória para um inteiro
+    <div class="language-cpp highlighter-rouge"><pre class="highlight"><code>  <span class="kt">int</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">);</span>
+  <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+  <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>  
+</code></pre>
+    </div>
+  </li>
+  <li>Observe que um inteiro armazenado no heap utiliza a mesma notação que o um vetor.
+    <div class="language-cpp highlighter-rouge"><pre class="highlight"><code>  <span class="c1">// int c[10];
+</span>  <span class="kt">int</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span> <span class="p">);</span>
+  <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+  <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>  
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="ponteiros-para-vetores">Ponteiros para vetores</h2>
+
+<p>Desta forma, apesar da sintaxe, um vetor é sempre um ponteiro para sua posição inicial. Isto é verdade para vetores de qualquer tipo, strings inclusas <code class="highlighter-rouge">char*</code>;</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code>  <span class="cp">#define STR_SIZE 10
+</span>  <span class="c1">// alocação na pilha de chamadas
+</span>  <span class="kt">char</span> <span class="n">nome</span><span class="p">[</span><span class="n">STR_SIZE</span><span class="p">];</span> 
+  <span class="c1">// alocação no heap
+</span>  <span class="kt">char</span><span class="o">*</span> <span class="n">nome</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="o">*</span> <span class="n">STR_SIZE</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>
+    <p>Em ambos os casos, a dereferenciação do ponteiro permite acesso ao primeiro elemento do vetor:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">*nome</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="eficiência-de-alocação-stack-vs-heap">Eficiência de alocação: stack vs heap</h2>
+
+<p>A pilha de chamadas é uma estrutura mais simples, memória é sempre alocada em uma direção e desalocada em outra, na mesma ordem. Portanto,</p>
+
+<ul>
+  <li>Alocação de memória na call stack é rápida.</li>
+</ul>
+
+<p>O heap, é uma estrutura mais complexa, e memória pode ser alocada não sequencialmente, o que torna a procurar por memória disponível mais honerosa, mais demorada.</p>
+
+<h2 id="exercício">Exercício</h2>
+
+<p>Alterar o código da aula anterior para que a memória da estrutura <code class="highlighter-rouge">Pessoa</code> seja alocada no heap.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define MAX_SIZE_NOME 20
+</span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">idade</span><span class="p">;</span>
+	<span class="kt">long</span> <span class="n">cpf</span><span class="p">;</span>
+	<span class="kt">char</span> <span class="n">nome</span><span class="p">[</span><span class="n">MAX_SIZE_NOME</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">Pessoa</span><span class="p">;</span>
+
+<span class="c1">// Passagem de referência usando ponteiros `Pessoa* p`
+</span><span class="kt">void</span> <span class="nf">ler_pessoa</span><span class="p">(</span><span class="n">Pessoa</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%s%d%ld"</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">nome</span><span class="p">,</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">idade</span><span class="p">),</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">cpf</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">Pessoa</span> <span class="n">w</span><span class="p">;</span>	
+	<span class="n">ler_pessoa</span><span class="p">(</span><span class="o">&amp;</span><span class="n">w</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

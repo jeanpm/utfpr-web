@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Tabelas Hash, ou tabelas de espalhamento</title>
+  <meta name="description" content="Conteúdo  Conteúdo">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-171/2017/06/06/Tabelas-Hash-Introdu%C3%A7%C3%A3o.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Tabelas Hash, ou tabelas de espalhamento</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Jun 6, 2017
+          • <i class="fa fa-user"></i> Jean P. Martins
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-171/2017/06/06/Tabelas-Hash-Eficiencia-problema-pair-sum.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-171/2017/06/06/Tabelas-hash-encadeamento-separado-exercicio.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a></li>
+  <li><a href="#motivação" id="markdown-toc-motivação">Motivação</a></li>
+  <li><a href="#exemplo-alunos-e-matrículas-como-chaves" id="markdown-toc-exemplo-alunos-e-matrículas-como-chaves">Exemplo: Alunos e matrículas como chaves</a></li>
+  <li><a href="#função-de-espalhamento" id="markdown-toc-função-de-espalhamento">Função de espalhamento</a></li>
+  <li><a href="#conflito-de-espalhamento" id="markdown-toc-conflito-de-espalhamento">Conflito de espalhamento</a>    <ul>
+      <li><a href="#reespalhamento-por-endereçamento-aberto" id="markdown-toc-reespalhamento-por-endereçamento-aberto">Reespalhamento por endereçamento aberto</a></li>
+      <li><a href="#grupamento-primário" id="markdown-toc-grupamento-primário">Grupamento primário</a></li>
+      <li><a href="#encadeamento-combinado" id="markdown-toc-encadeamento-combinado">Encadeamento combinado</a></li>
+    </ul>
+  </li>
+  <li><a href="#encadeamento-separado" id="markdown-toc-encadeamento-separado">Encadeamento separado</a></li>
+  <li><a href="#organização-dos-elementos-na-tabela" id="markdown-toc-organização-dos-elementos-na-tabela">Organização dos elementos na tabela</a></li>
+</ul>
+
+<blockquote>
+  <p><a href="http://www.san.uri.br/~ober/arquivos/disciplinas/estruturaII_SI/(ebook)Estruturas%20de%20Dados%20Usando%20C%20(Tenenbaum).pdf">Estruturas de dados usando C (Tenenbaum, Sec.7.4, pg. 595 - 603; 620 - 628)</a></p>
+</blockquote>
+
+<h1 id="motivação">Motivação</h1>
+
+<p><strong>Utilizar como exemplo a lista de alunos e os respectivos números de matrícula</strong></p>
+
+<p>Descrever de forma intuitiva o tempo de manipulação das estruturas de dados conhecidas até então. A partir daí demonstrar os pontos fracos da armazenagem de informação em listas:</p>
+<ul>
+  <li>Tempo de acesso a elemento internos da lista</li>
+</ul>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Operação</td>
+      <td>Lista</td>
+      <td>Vetor</td>
+    </tr>
+    <tr>
+      <td>Acesso a nós externos</td>
+      <td>O(1)</td>
+      <td>O(1)</td>
+    </tr>
+    <tr>
+      <td>Acesso a nós internos</td>
+      <td>O(n/2)</td>
+      <td>O(1)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Comparação com estrutura de vetor (array), em que o índice da informação permite acesso direto à mesma <code class="highlighter-rouge">a[i]</code> acessa o elemento indicado por <code class="highlighter-rouge">i</code>.</p>
+<ul>
+  <li><code class="highlighter-rouge">i</code> funciona como um índice de acesso à informação</li>
+  <li>Em listas este acesso direto não é fácil de ser implementado.</li>
+</ul>
+
+<h1 id="exemplo-alunos-e-matrículas-como-chaves">Exemplo: Alunos e matrículas como chaves</h1>
+
+<p><img src="http://localhost:4000/assets/examplo-matriculas.png" alt="Exemplo matriculas" /></p>
+
+<h1 id="função-de-espalhamento">Função de espalhamento</h1>
+
+<p>Uma função que transforma uma chave em um índice de acesso é chamada <em>função de espalhamento</em> (função hash) <script type="math/tex">h</script>. Portanto, se <script type="math/tex">h</script> é uma função de espalhamento e <em>key</em> é uma chave de acesso à informação armazenada, <script type="math/tex">h(key)</script> representa o índice no qual um registro com a chave <em>key</em> deve ser colocado, ou está armazenado.</p>
+
+<h1 id="conflito-de-espalhamento">Conflito de espalhamento</h1>
+
+<p>Suponha que duas chaves <script type="math/tex">k_1, k_2</script> sejam tais que <script type="math/tex">h(k_1) = h(k_2)</script>. Nesta situação, a tentativa de inserção ou acesso aos registros com chaves <script type="math/tex">k_1</script> e <script type="math/tex">k_2</script> será feita na mesma posição da tabela, ou seja, dado que a função de espalhamento retornou o mesmo índice de acesso a amobos registros, houve <em>conflito de espalhamento</em>.</p>
+
+<p><strong>Exemplo</strong></p>
+
+<p>Suponha que quiséssemos inserir um novo número k=0596397 na tabela, usando a função hash</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>h(k) = k mod 1000,
+</code></pre>
+</div>
+
+<p>Portanto, h(0596397) = 397, no entanto, a posição 397 já está ocupada por outro registro de chave k=4957397, h(4957397) = 397.</p>
+
+<p>Nestas situações, diz-se que houve <strong>conflito de espalhamento</strong>. Ainda sim, o novo número precisa ser adicionado à tabela, onde será inserido? Existem basicamente duas formas de se tratar <em>conflitos de espalhamento</em>.</p>
+
+<h2 id="reespalhamento-por-endereçamento-aberto">Reespalhamento por endereçamento aberto</h2>
+
+<ul>
+  <li>Utiliza-se uma <strong>função de espalhamento secundária</strong> sobre a chave de espalhamento do item.</li>
+  <li>Essa função é aplicada até que uma posição disponível seja obtida.</li>
+  <li>O método mais simples para a solução de colisões por reespalhamento é chamado <strong>teste linear</strong> ou <strong>endereçamento aberto</strong>, o qual adiciona o registro que gerou o conflito na próxima  posição livre da tabela.</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Registro</span> <span class="p">{</span>
+	<span class="n">k</span><span class="p">;</span>     <span class="c1">// Chave que identifica este registro, igual a nullkey se vazio
+</span>	<span class="n">info</span><span class="p">;</span>  <span class="c1">// Informação armazenada
+</span><span class="p">}</span> <span class="n">tabela</span><span class="p">[</span><span class="n">MAXSIZE</span><span class="p">];</span>
+
+<span class="kt">int</span> <span class="nf">h</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">key</span> <span class="o">%</span> <span class="n">MAXSIZE</span><span class="p">;</span> 
+<span class="p">}</span>
+
+<span class="c1">// pos = h(key)
+</span><span class="kt">int</span> <span class="nf">rh</span><span class="p">(</span><span class="kt">int</span> <span class="n">pos</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAXSIZE</span><span class="p">;</span> 
+<span class="p">}</span>
+
+<span class="c1">// Procura um elemento de chave 'key' na tabela, se não encontrado o insere.
+</span><span class="kt">int</span> <span class="nf">inserir</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>	
+	<span class="c1">// Se a chave na posição i é diferente de key, então i está ocupada	
+</span>	<span class="k">while</span> <span class="p">(</span><span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">k</span> <span class="o">!=</span> <span class="n">key</span> <span class="o">&amp;&amp;</span> <span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">k</span> <span class="o">!=</span> <span class="n">nullkey</span><span class="p">)</span>
+		<span class="n">i</span> <span class="o">=</span> <span class="n">rh</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>  <span class="c1">// Reespalhamento
+</span>	
+	<span class="k">if</span> <span class="p">(</span><span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">k</span> <span class="o">==</span> <span class="n">nullkey</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">k</span> <span class="o">=</span> <span class="n">key</span><span class="p">;</span>
+		<span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span><span class="p">;</span>
+	<span class="p">}</span>	
+	<span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Em outras palavras, se a posição <script type="math/tex">h(key)</script> da tabela já estiver ocupada por um registro com chave diferente, a função de espalhamento secundária <script type="math/tex">rh</script> será aplicada sobre o valor de <script type="math/tex">h(key)</script>, para encontrar outra posição onde o registro possa ser inserido. Caso a posição <script type="math/tex">rh(h(key))</script> também esteja ocupada, um novo reespalhamento é efetuado e avalia-se a posição <script type="math/tex">rh(rh(h(key)))</script>.</p>
+
+<ul>
+  <li>
+    <p><strong>Quanto mais próximo da posição do conflito o novo registro for adicionado, melhor, pois diminui-se o retardo quando o registro for acessado!</strong></p>
+  </li>
+  <li>
+    <p><strong>Em que situação tem-se um loop infinito no primeior <code class="highlighter-rouge">while</code>?</strong></p>
+  </li>
+  <li>
+    <p><strong>O que pode acontecer se a função se respalhamento fosse rh(i) = (i+2) % MAXSIZE ?</strong></p>
+  </li>
+</ul>
+
+<h2 id="grupamento-primário">Grupamento primário</h2>
+
+<p>A probabilidade de certas posições (reespalhadas) serem ocupadas aumenta, à medida que conflitos são tratados.1</p>
+
+<h2 id="encadeamento-combinado">Encadeamento combinado</h2>
+
+<ul>
+  <li>No encadeamento combinado, um <strong>campo adicional</strong> é inserido na tabela</li>
+  <li>Este novo campo guarda a posição do pŕoximo elemento</li>
+  <li>Assume-se também, <strong>uma função pos_livre()</strong>, a qual retorna uma posição não
+ocupada da tabela.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="n">Registro</span> <span class="p">{</span>
+	<span class="n">k</span><span class="p">;</span>     <span class="c1">// Chave que identifica este registro, igual a nullkey se vazio
+</span>	<span class="n">info</span><span class="p">;</span>  <span class="c1">// Informação armazenada
+</span>    <span class="kt">int</span> <span class="n">prox</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">tabela</span><span class="p">[</span><span class="n">MAXSIZE</span><span class="p">];</span></code></pre></figure>
+
+<p><strong>Exemplo</strong></p>
+
+<p>Considere os elementos 14, 29, 34, 28, 42, 39, 84, 38, a função de espalhamento, e a função pos_livre(), descritas a seguir:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="c1">// Assuma que esta função retorne a primeira posição livre a partir do fim da tabela.
+</span><span class="kt">int</span> <span class="n">pos_livre</span><span class="p">();</span>
+
+<span class="kt">int</span> <span class="nf">h</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">key</span> <span class="o">%</span> <span class="n">MAXSIZE</span><span class="p">;</span> 
+<span class="p">}</span></code></pre></figure>
+
+<p><img src="http://localhost:4000/assets/encadeamento-combinado.png" alt="My helpful screenshot" /></p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">inserir</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">valor</span><span class="p">);</span> <span class="c1">// hash = 14 % 10 = 4;
+</span>	<span class="k">while</span> <span class="p">(</span><span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">k</span> <span class="o">!=</span> <span class="n">key</span> <span class="o">&amp;&amp;</span> <span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">prox</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">i</span> <span class="o">=</span> <span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">prox</span><span class="p">;</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">key</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// Posição a ser inserida
+</span>	<span class="k">if</span> <span class="p">(</span><span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">k</span> <span class="o">==</span> <span class="n">nullkey</span><span class="p">)</span>
+		<span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+	<span class="k">else</span> <span class="p">{</span>
+		<span class="n">j</span>  <span class="o">=</span> <span class="n">pos_livre</span><span class="p">();</span>      <span class="c1">// Obtém a próxima posição livre
+</span>		<span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">prox</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>	   <span class="c1">// Define t[4].next = 8
+</span>	<span class="p">}</span>
+	<span class="n">t</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">k</span>    <span class="o">=</span> <span class="n">key</span><span class="p">;</span>
+	<span class="n">t</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">j</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h1 id="encadeamento-separado">Encadeamento separado</h1>
+
+<p>Tanto o reespalhamento quanto o espalhamento combinado assumem tamanhos fixos de tabela. Portanto, se o número de registros ultrapassar o número de posições da tabela, será impossível inseri-los.</p>
+
+<ul>
+  <li><strong>Encadeamento separado</strong> é outro método de tratar colisões</li>
+  <li>Requer a manutenção de uma lista ligada para cada conjunto de chaves que se espalham no mesmo valor.</li>
+</ul>
+
+<p><img src="http://localhost:4000/assets/encadeamento-separado.png" alt="Encadeamento separado" /></p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="n">Item</span><span class="o">*</span> <span class="nf">inserir</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">valor</span><span class="p">);</span> <span class="c1">// hash = 14 % 10 = 4;
+</span>	
+	<span class="n">Item</span><span class="o">*</span> <span class="n">ikey</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">key</span><span class="p">);</span>
+	
+	<span class="c1">// Se não encontrou, insere no fim da lista em tabela[i].
+</span>	<span class="k">if</span> <span class="p">(</span><span class="n">ikey</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span> 
+		<span class="n">ikey</span> <span class="o">=</span> <span class="n">novoItem</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">info</span><span class="p">);</span>
+		<span class="n">inserirFim</span><span class="p">(</span><span class="n">tabela</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ikey</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">ikey</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h1 id="organização-dos-elementos-na-tabela">Organização dos elementos na tabela</h1>
+
+<p>Embora o espalhamento permita o quase <em>acesso direto</em> aos elementos armazenados (similarmente ao vetor, porém sem desperdício exagerado de memória), os itens numa tablea de espalhamento não são armazenado sequenciamente por chave, o que impede o percurso dos itens nesta ordem.</p>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

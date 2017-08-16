@@ -1,0 +1,41 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: Jean P. Martins
+email: jeanmartins@utfpr.edu.br
+description: > # this means to ignore newlines until "baseurl:"
+  Combinatorial optimization, evolutionary optimization, estimation of distribution algorithms, linkage learning, learning and optimization.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://localhost:4000" # the base hostname & protocol for your site
+twitter_username:
+github_username:  jeanpm
+
+disqus_shortname:  # leave empty if you don't want comments
+google_analytics: false #if set to "true" modify the google_analytycs.html, set to false otherwise
+
+future: true
+
+# Links settings
+links:
+  - name:         Home
+    url:          /
+  - name:         About
+    url:          /about
+    external:     false
+
+# Build settings
+markdown: kramdown
+markdown_ext:  markdown,mkdown,mkdn,mkd,md
+highlighter: rouge
+gems:
+  - jemoji
+ 
+
+redcarpet:
+  extensions: ["tables", "autolink", "strikethrough", "space_after_headers", "fenced_code_blocks"]
+  

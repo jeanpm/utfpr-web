@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>2-kath-kemer.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>2-kath-kemer.c</CENTER></H3><HR>
+<PRE>
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+<A NAME="0"></A>#include&lt;math.h&gt;
+#define TAM 1021
+
+<FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match4-0.html#0',2,'match4-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>typedef struct celula
+{	
+	int conteudo;                
+	struct celula*prox;
+	struct celula*ant;
+}celula;
+
+typedef struct lista
+{				
+	celula*inicio;
+	int cont;
+}lista;
+
+lista *inicializa()
+{
+	lista* l = (lista*) malloc(sizeof(lista));
+
+	l-&gt;inicio = NULL;
+	l-&gt;cont = 0;
+	
+	return l;
+}
+
+celula *cria(int conteudo)			
+{
+	celula *p = malloc(sizeof(celula));
+	p-&gt;conteudo = conteudo;
+	p-&gt;prox = NULL;
+	p-&gt;ant = NULL;
+	return p;
+}
+
+int HASH(int conteudo)
+{
+	return(conteudo % TAM);
+}
+
+int insere_inicio(lista *l, int conteudo)
+{
+	if(l == NULL)
+	{
+		return 0;
+	}
+	celula *novo = cria(conteudo);
+	if(novo == NULL)
+	{
+		return 0;
+	}
+
+	novo-&gt;prox = l-&gt;inicio;
+	novo-&gt;ant = NULL;
+	l-&gt;inicio = novo;
+	if(novo-&gt;prox != NULL)
+	{
+		novo-&gt;prox-&gt;ant = novo;
+	}
+
+	l-&gt;cont++;
+	return 1;
+}
+int insere_fim(lista *l, int conteudo)	
+{
+	if(l-&gt;inicio==NULL)
+	{
+		return(insere_inicio(l,conteudo));
+	}
+	
+	celula *novo = cria(conteudo);
+
+	if(novo==NULL)
+	{
+		return (0);
+	}
+	
+	celula *ultimo = l-&gt;inicio;
+
+	while(ultimo-&gt;prox !=NULL)
+	{
+		ultimo = ultimo-&gt;prox;
+		
+	}
+
+	ultimo-&gt;prox=novo;
+	l-&gt;cont++;
+	return 1; 
+}
+<A NAME="1"></A>
+void printLista(lista *l)  		
+{</B></FONT>
+<FONT color="#f63526"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match4-0.html#1',2,'match4-top.html#1',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>	celula *p =l-&gt;inicio;
+	
+	while(p-&gt;prox != NULL)
+	{ 
+		printf(&quot;%d &quot;, p-&gt;conteudo);
+		p = p-&gt;prox;
+		      		
+	}
+	printf(&quot;%d &quot;, p-&gt;conteudo);
+}
+
+void conjunto(lista **tabA, lista **tabB, lista **tabC)
+{
+	int i,j;
+	i=j=0;
+
+	for (i = 0; i &lt; TAM; i++)
+	{
+		for(j = 0;j &lt; TAM; j++)
+		{
+			if(tabA[i]-&gt;inicio != NULL &amp;&amp; tabB[j]-&gt;inicio != NULL)
+			{			
+				if(tabA[i]-&gt;inicio-&gt;conteudo == tabB[j]-&gt;inicio-&gt;conteudo)
+				{
+					insere_fim(tabC[HASH(tabA[i]-&gt;inicio-&gt;conteudo)],tabA[i]-&gt;inicio-&gt;conteudo);
+				}
+
+			
+			}
+		}
+	}
+	
+}
+
+int main(void)
+{
+	int i=0,j=0;</B></FONT>
+	int A=0,B=0,C=0;
+<A NAME="2"></A>	int repete=0;
+	int valor=0; 
+	lista** tabA = (lista**)malloc(TAM*sizeof(lista*));
+<FONT color="#77bfc7"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match4-0.html#2',2,'match4-top.html#2',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>	lista** tabB = (lista**)malloc(TAM*sizeof(lista*));
+    	
+	scanf(&quot;%d&quot;,&amp;A);  	
+
+	for (i = 0; i &lt; TAM; i++) 
+	{
+		tabA[i] = inicializa();  
+	}
+   	for(i = 0;i &lt; A; i++)               
+    	{ 
+		scanf(&quot;%d&quot;,&amp;valor); 
+		for(j = 0;j &lt; TAM; j++)
+        	{
+			if(tabA[j]-&gt;inicio != NULL)
+			{		
+				if(tabA[j]-&gt;inicio-&gt;conteudo == valor)
+				{
+					repete = 1;
+				}
+			}
+       		 }
+
+        	if(repete == 0)
+        	{
+        		insere_fim(tabA[HASH(valor)], valor);
+       	 	}
+		else
+		{
+			repete = 0;
+		}   
+		
+  	 }
+
+	i=0;
+	j=0;
+	repete=0;</B></FONT>
+<A NAME="3"></A>   	
+	scanf(&quot;%d&quot;,&amp;B); 
+   	
+<FONT color="#6cc417"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match4-0.html#3',2,'match4-top.html#3',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>   	 for (i = 0; i &lt; TAM; i++) 
+	{
+        	tabB[i] = inicializa();  
+    	}
+   	 for(i = 0;i &lt; B; i++)               
+    	{ 
+		scanf(&quot;%d&quot;,&amp;valor); 
+		for(j = 0;j &lt; TAM; j++)
+        	{
+			if(tabB[j]-&gt;inicio != NULL)
+			{		
+				if(tabB[j]-&gt;inicio-&gt;conteudo == valor)
+				{
+					repete = 1;
+				}
+			}
+       		 }
+
+        	if(repete == 0)
+        	{
+        		insere_fim(tabB[HASH(valor)],valor);
+       	 	}
+		else
+		{
+			repete = 0;
+		}   		
+
+  	 }
+ 
+ 	C = A+B;
+ 	lista** tabC = (lista**) malloc(TAM*sizeof(lista*));
+
+   	for (i = 0; i &lt; TAM; i++) 
+    	{
+       		 tabC[i] = inicializa();  
+    	}
+
+	
+	conjunto(tabA, tabB, tabC);
+
+
+    	for(i = 0;i &lt; TAM; i++)
+    	{ 
+       		 if(tabC[i]-&gt;inicio != NULL)
+		{
+          		  printLista(tabC[i]);
+		}
+	} 
+	printf(&quot;\n&quot;);
+	return 0;
+}</B></FONT>
+</PRE>
+</BODY>
+</HTML>

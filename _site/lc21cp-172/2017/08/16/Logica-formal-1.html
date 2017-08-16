@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lógica Proposicional formal I</title>
+  <meta name="description" content="Contato  Jean Paulo Martins  Sala 105  e-mail jeanmartins@utfpr.edu.br">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/lc21cp-172/2017/08/16/Logica-formal-1.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Lógica Proposicional formal I</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Aug 16, 2017
+          • <i class="fa fa-user"></i> jean
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-172/2017/08/15/Aloca%C3%A7%C3%A3o-de-mem%C3%B3ria-exercicios.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/lc21cp-172/2017/08/16/Logica-formal-2.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h2 id="contato">Contato</h2>
+<ul>
+  <li>Jean Paulo Martins</li>
+  <li>Sala 105</li>
+  <li>e-mail jeanmartins@utfpr.edu.br</li>
+</ul>
+
+<h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#contato" id="markdown-toc-contato">Contato</a></li>
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a></li>
+  <li><a href="#lógica-simbólica" id="markdown-toc-lógica-simbólica">Lógica Simbólica</a>    <ul>
+      <li><a href="#disjunção" id="markdown-toc-disjunção">Disjunção</a></li>
+      <li><a href="#conjunção" id="markdown-toc-conjunção">Conjunção</a></li>
+      <li><a href="#condicionais" id="markdown-toc-condicionais">Condicionais</a></li>
+      <li><a href="#bicondicionais" id="markdown-toc-bicondicionais">Bicondicionais</a></li>
+      <li><a href="#operadores-ou-conectivos-lógicos" id="markdown-toc-operadores-ou-conectivos-lógicos">Operadores ou conectivos lógicos</a></li>
+      <li><a href="#sintaxe-compacta" id="markdown-toc-sintaxe-compacta">Sintaxe compacta</a></li>
+      <li><a href="#exercícios-john-nolt-pg-93319933" id="markdown-toc-exercícios-john-nolt-pg-93319933">Exercícios (John Nolt, pg. 93[3.1],99[3.3])</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="lógica-simbólica">Lógica Simbólica</h1>
+
+<p>A <em>lógica informal</em>, como vista até então, é o estudo de argumentos particulares em linguagem natural. Enquanto a lógica formal, por sua vez, realça generalidade e teoria, a lógica informal se concentra numa análise prática de argumentos.</p>
+
+<p>A <em>lógica formal</em> é o estudo das formas de argumento</p>
+
+<ul>
+  <li>Modelos abstratos comuns a muitos argumentos distintos</li>
+</ul>
+
+<h2 id="disjunção">Disjunção</h2>
+
+<p>Considere os seguintes exemplos:</p>
+
+<ul>
+  <li>
+    <p>“Hoje é segunda-feira ou terça-feira. Hoje não é segunda-feira. Hoje é terça-feira”</p>
+  </li>
+  <li>
+    <p>“Rembrandt pintou a Mona Lisa ou Michelangelo a pintou. Não foi Rembrandt. Michelangelo a pintou.”</p>
+  </li>
+  <li>
+    <p>“Ele é menor de 18 anos ou ele é jovem. Ele não é menor de 18 anos. Ele é jovem.”</p>
+  </li>
+</ul>
+
+<p>No que concerne a forma dos três argumentos acima, todos eles compartilham a mesma estrutura:</p>
+
+<ol>
+  <li>
+    <p>P ou Q	(<em>premissa</em>)</p>
+  </li>
+  <li>
+    <p>Não P		(<em>premissa</em>)</p>
+  </li>
+  <li>
+    <p>Então, Q 	(<em>conclusão</em>)</p>
+  </li>
+</ol>
+
+<p>Segunda alternativa:</p>
+
+<ol>
+  <li>
+    <p>P ou Q	(<em>premissa</em>)</p>
+  </li>
+  <li>
+    <p>Não Q		(<em>premissa</em>)</p>
+  </li>
+  <li>
+    <p>Então, P 	(<em>conclusão</em>)</p>
+  </li>
+</ol>
+
+<p>Esta regra é a forma de argumento conhecida como <em>silogismo disjuntivo</em> (disjunção). Cada um dos exemplos anteriores é chamado uma <em>instância</em> da forma.</p>
+
+<h2 id="conjunção">Conjunção</h2>
+
+<ul>
+  <li>
+    <p>“Hoje é quarta-feira e há aula de lógica.”</p>
+  </li>
+  <li>
+    <p>“Todo animal é mamífero e todo mamífero é humano.”</p>
+  </li>
+</ul>
+
+<p>A forma da conjunção nos diz que se a proposição acima é verdadeira então cada um dos conjuctos também é.</p>
+
+<ol>
+  <li>P e Q  (<em>premissa</em>)</li>
+  <li>Então, P (<em>conclusão</em>)</li>
+</ol>
+
+<p>Segunda alternativa:</p>
+
+<ol>
+  <li>P e Q  (<em>premissa</em>)</li>
+  <li>Então, Q (<em>conclusão</em>)</li>
+</ol>
+
+<p>Se a premissa é falsa, a conclusão é falsa, mas não se sabe se ambos conjuctos são falsos ou apenas um deles.</p>
+
+<h2 id="condicionais">Condicionais</h2>
+
+<ul>
+  <li>
+    <p>“Se terminar de estudar então irei à festa”</p>
+  </li>
+  <li>
+    <p>“Se T é um triângulo então T é um polígono”</p>
+  </li>
+</ul>
+
+<p>A forma dos condicionais nos diz que o consequente somente será verdadeiro dada a verdade do antecedente</p>
+
+<ol>
+  <li>Se P, então Q  (<em>premissa</em>)</li>
+  <li>P,            (<em>premissa</em>)</li>
+  <li>Então Q       (<em>conclusão</em>)</li>
+</ol>
+
+<h2 id="bicondicionais">Bicondicionais</h2>
+
+<ul>
+  <li>“T é um triângulo se e somente se T é um polígono de três lados.”</li>
+</ul>
+
+<p>A forma dos bicondicionais consiste em dois condicionais:</p>
+
+<ul>
+  <li>
+    <p>“Se T é um triângulo então T é um polígono de três lados”</p>
+  </li>
+  <li>
+    <p>“Se T é um polígono de três lados então T é um triângulo”</p>
+  </li>
+</ul>
+
+<p>Portanto, um bicondicional expressa uma ideia verdadeira se esses dois condicionais também sejam verdadeiros</p>
+
+<ol>
+  <li>P, se e somente se Q</li>
+</ol>
+
+<h2 id="operadores-ou-conectivos-lógicos">Operadores ou conectivos lógicos</h2>
+
+<p>Nesta etapa da disciplina estaremos preocupados apenas com formas contendo:</p>
+
+<ul>
+  <li>
+    <p>símbolos,</p>
+  </li>
+  <li>
+    <p>operadores lógicos.</p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><script type="math/tex">\neg p</script></td>
+          <td>negação</td>
+          <td>não</td>
+          <td>unário</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td><script type="math/tex">p \land q</script></td>
+          <td>conjunção</td>
+          <td>e</td>
+          <td>binário</td>
+          <td><script type="math/tex">p,q</script>: conjuctos</td>
+        </tr>
+        <tr>
+          <td><script type="math/tex">p \lor q</script></td>
+          <td>disjunção</td>
+          <td>ou</td>
+          <td>binário</td>
+          <td><script type="math/tex">p,q</script>: disjunctos</td>
+        </tr>
+        <tr>
+          <td><script type="math/tex">p \to q</script></td>
+          <td>condicional</td>
+          <td>se … então</td>
+          <td>binário</td>
+          <td><script type="math/tex">p,q</script>: antecedente,consequente</td>
+        </tr>
+        <tr>
+          <td><script type="math/tex">p \leftrightarrow q</script></td>
+          <td>bicondicional</td>
+          <td>se e somente se …</td>
+          <td>binário</td>
+          <td> </td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<p>Reescrevendo-se a forma da disjunção por meio de operadores/conectivos lógicos, temos:</p>
+
+<ol>
+  <li>
+    <p><script type="math/tex">p \lor q</script>	(<em>premissa</em>)</p>
+  </li>
+  <li>
+    <p><script type="math/tex">\neg p</script>		(<em>premissa</em>)</p>
+  </li>
+  <li>
+    <p><script type="math/tex">q</script> 	(<em>conclusão</em>)</p>
+  </li>
+</ol>
+
+<h2 id="sintaxe-compacta">Sintaxe compacta</h2>
+
+<p>Uma forma mais comum de se escrever um argumento simbólico, utiliza o símbolo <script type="math/tex">\vdash</script> para indicar que uma fórmula pode ser obtida (deduzida) utilizando como premissa outras fórmulas.</p>
+
+<ul>
+  <li>Para o caso da disjunção ilustrado acima, tem-se a seguinte sintaxe:
+    <ul>
+      <li><script type="math/tex">p\lor q, \neg p \vdash q</script>.</li>
+      <li>as premissas à esquerda de <script type="math/tex">\vdash</script> são separadas por vírgulas.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="exercícios-john-nolt-pg-93319933">Exercícios (John Nolt, pg. 93[3.1],99[3.3])</h2>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

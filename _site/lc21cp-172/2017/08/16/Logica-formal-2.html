@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lógica Proposicional formal II</title>
+  <meta name="description" content="Contato  Jean Paulo Martins  Sala 105  e-mail jeanmartins@utfpr.edu.br">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/lc21cp-172/2017/08/16/Logica-formal-2.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Lógica Proposicional formal II</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Aug 16, 2017
+          • <i class="fa fa-user"></i> jean
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/lc21cp-172/2017/08/16/Logica-formal-1.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+</div>
+
+
+  <article class="post-content">
+    <h2 id="contato">Contato</h2>
+<ul>
+  <li>Jean Paulo Martins</li>
+  <li>Sala 105</li>
+  <li>e-mail jeanmartins@utfpr.edu.br</li>
+</ul>
+
+<h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#contato" id="markdown-toc-contato">Contato</a></li>
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a></li>
+  <li><a href="#validade-de-uma-forma-de-argumento" id="markdown-toc-validade-de-uma-forma-de-argumento">Validade de uma forma de argumento</a>    <ul>
+      <li><a href="#exemplo-de-forma-de-argumento-válida" id="markdown-toc-exemplo-de-forma-de-argumento-válida">Exemplo de forma de argumento válida</a></li>
+      <li><a href="#exemplo-de-forma-de-argumento-inválida" id="markdown-toc-exemplo-de-forma-de-argumento-inválida">Exemplo de forma de argumento inválida</a></li>
+      <li><a href="#automatização-por-manipulação-simbólica" id="markdown-toc-automatização-por-manipulação-simbólica">Automatização por manipulação simbólica</a></li>
+    </ul>
+  </li>
+  <li><a href="#cálculo-proposicional" id="markdown-toc-cálculo-proposicional">Cálculo proposicional</a></li>
+</ul>
+
+<h1 id="validade-de-uma-forma-de-argumento">Validade de uma forma de argumento</h1>
+
+<ul>
+  <li>
+    <p>Uma forma de argumento é <em>válida</em> se todas as suas <em>instâncias</em> são válidas.</p>
+  </li>
+  <li>
+    <p>Uma forma de argumento é <em>inválida</em> se alguma de suas instâncias é inválida.</p>
+  </li>
+  <li>
+    <p>Uma instância é válida se é impossível que sua conclusão seja falsa, dado que suas premissas são verdadeiras.</p>
+  </li>
+</ul>
+
+<h3 id="exemplo-de-forma-de-argumento-válida">Exemplo de forma de argumento válida</h3>
+
+<p><em>disjunção</em> (<script type="math/tex">p\lor q, \neg p \vdash q</script>)</p>
+
+<ul>
+  <li>Sempre que <script type="math/tex">p\lor q</script> e <script type="math/tex">\neg p</script> forem verdadeiras, <script type="math/tex">q</script> será verdadeira, independentemente do significado representado por <script type="math/tex">p</script> e <script type="math/tex">q</script>.</li>
+</ul>
+
+<h3 id="exemplo-de-forma-de-argumento-inválida">Exemplo de forma de argumento inválida</h3>
+
+<p><em>afirmação do consequente</em> (<script type="math/tex">p\to q, q \vdash p</script>)</p>
+
+<p>Embora algumas instâncias desta forma sejam válidas, algumas não são. Portanto ela é uma forma inválida, veja os exemplos:</p>
+
+<ul>
+  <li><script type="math/tex">p:</script> Se abril precede maio, então abril precede maio e maio segue abril,</li>
+  <li><script type="math/tex">q:</script> Abril precede maio e maio segue abril,</li>
+  <li>
+    <p>Abril precede maio.</p>
+  </li>
+  <li><script type="math/tex">p:</script> Se você está dançando na lua, então você está vivo,</li>
+  <li><script type="math/tex">q:</script> Você está vivo,</li>
+  <li>Você está dançando na lua.</li>
+</ul>
+
+<p>Portanto, para demonstrar que uma forma é inválida, basta encontrar uma instância para a qual ela seja inválida.</p>
+
+<h2 id="automatização-por-manipulação-simbólica">Automatização por manipulação simbólica</h2>
+
+<p>Assumindo-se formas de argumento válidas, é possível tirar conclusões sobre argumentos definidos abstratamente. Essa possibilidade nos permite também implementar métodos automáticos de inferência.</p>
+
+<h1 id="cálculo-proposicional">Cálculo proposicional</h1>
+
+<p>Os cálculos que executaremos com esses sistemas são sequências de inferências com o objetivo de demonstrar a validade de certas <em>formas de argumento</em>.</p>
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

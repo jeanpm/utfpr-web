@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>3-victor-barros.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<HR>
+<H3><CENTER>3-victor-barros.c</CENTER></H3><HR>
+<PRE>
+#include &lt;math.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;assert.h&gt;
+<A NAME="0"></A>#include &lt;limits.h&gt;
+#include &lt;stdbool.h&gt;
+
+<FONT color="#0000ff"><A HREF="javascript:ZweiFrames('match4-1.html#0',3,'match4-top.html#0',1)"><IMG SRC="forward.gif" ALT="other" BORDER="0" ALIGN="right"></A><B>typedef struct item{
+    char string;
+    struct item* prox;
+    struct item* anterior;
+}item;
+
+typedef struct pilha{
+    int quant;
+    struct item* bgn;
+    struct item* end;
+}pilha;
+
+pilha* criapilha()
+{
+	pilha* l = (pilha*) malloc(sizeof(pilha));
+	l-&gt;bgn = NULL;
+	l-&gt;end = NULL;
+	l-&gt;quant = 0;
+
+	return l;
+}
+
+item* criaitem(const char c)
+{
+	item *i = (item*) malloc(sizeof(item));
+	i-&gt;string=c;
+	i-&gt;prox  = NULL;
+	i-&gt;anterior  = NULL;
+	return i;
+}
+
+void push(pilha *l, item* novo)
+{
+	if (l-&gt;end == NULL)
+	{
+		l-&gt;bgn = novo;
+		l-&gt;end = l-&gt;bgn;
+		l-&gt;quant++;
+    }
+	else
+	{
+		l-&gt;end-&gt;prox = novo;
+		novo-&gt;anterior = l-&gt;end;
+		l-&gt;end = novo;
+		l-&gt;end-&gt;prox = NULL;
+		l-&gt;quant++;
+	}
+}
+
+item* pop(pilha* l)
+{
+	assert(l-&gt;quant &gt; 0);
+	item* removed = NULL;
+	if (l-&gt;quant == 1)
+	{
+		removed = l-&gt;end;
+		l-&gt;end = NULL;
+		l-&gt;end = NULL;
+	} else {
+		removed = l-&gt;end;
+		l-&gt;end = removed-&gt;anterior;
+		l-&gt;end-&gt;prox = NULL;
+	}
+	l-&gt;quant--;
+    removed-&gt;prox=NULL;
+	removed-&gt;anterior=NULL;
+	return removed;
+}
+
+char top (pilha* p){
+    char a=p-&gt;end-&gt;string;
+    return a;
+}
+
+void palindrome(char* str) {
+    int i=0;
+    pilha* p=criapilha();
+    item* a;
+    while(str[i]!='C'){
+        a=criaitem(str[i]);
+        push(p,a);
+        i++;
+    }
+    int f=i+1;
+    while(str[f]!='\0'){
+        if(top(p)==str[f]){
+            pop(p);
+        }
+        f++;
+    }
+    if(p-&gt;end==NULL){
+        printf(&quot;SIM\n&quot;);
+    }
+    else{
+        printf(&quot;NÃO\n&quot;);
+    }
+}
+
+int main() {
+    char* palavra = (char *)malloc(100 * sizeof(char));
+    scanf(&quot;%s&quot;, palavra);
+    palindrome(palavra);
+    return 0;
+}</B></FONT>
+
+</PRE>
+</BODY>
+</HTML>

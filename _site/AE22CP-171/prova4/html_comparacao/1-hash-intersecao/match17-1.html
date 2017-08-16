@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>1-anderson-tenorio.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>1-anderson-tenorio.c</CENTER></H3><HR>
+<PRE>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#define CAPACIDADE 1021
+
+typedef struct Z
+{
+	long elemento;
+	struct Z *prox;
+<A NAME="0"></A>	struct Z *ant;
+}Az;
+
+<FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match17-0.html#0',2,'match17-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>typedef struct ListaDin
+{
+    Az* inicio;
+    Az *fim;
+    int quant;
+}LD;
+
+typedef struct{
+	LD *tabela_hash[CAPACIDADE];
+}set;
+
+LD* NovaLista()
+{
+	LD* L = (LD*) malloc(sizeof(LD));
+	L-&gt;inicio = NULL;
+	L-&gt;fim    = NULL;
+	L-&gt;quant = 0;
+
+	return L;
+}
+int vazia(LD *L)
+{</B></FONT>
+	if(L-&gt;inicio==NULL)
+		return 1;
+	else
+		return 0;
+}
+void inicia(LD *L)
+{
+	L-&gt;inicio=NULL;
+	L-&gt;fim=NULL;
+	L-&gt;quant=0;
+}
+Az *Novono(long elemento)
+{
+	Az*Novo =(Az*)malloc(sizeof(Az));
+	Novo-&gt;prox=NULL;
+	Novo-&gt;ant=NULL;
+	Novo-&gt;elemento=elemento;
+	return Novo;
+}
+<A NAME="1"></A>void InserirInicio(LD *L, Az *Novo)
+{
+	if(vazia(L))
+<FONT color="#f63526"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match17-0.html#1',2,'match17-top.html#1',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>	{
+		L-&gt;inicio=Novo;
+		L-&gt;fim=Novo;
+	}
+	else
+	{
+		Novo-&gt;prox= L-&gt;inicio;
+		L-&gt;inicio-&gt;ant=Novo;
+		L-&gt;inicio = Novo;
+	}
+	L-&gt;quant++;
+}
+void inserirFim(LD *L,Az *Novo)
+{</B></FONT>
+	if(vazia(L))
+    {
+		InserirInicio(L,Novo);
+    }
+	else
+	{
+		L-&gt;fim-&gt;prox=Novo;
+		Novo-&gt;ant = L-&gt;fim;
+		L-&gt;fim = Novo;
+		L-&gt;quant++;
+	}
+}
+int Y(long key)
+{
+	return key % CAPACIDADE;
+}
+int colisao(set *s, long ra,int hash_ra)
+{
+	Az *aux = s-&gt;tabela_hash[hash_ra]-&gt;inicio;
+
+	while(aux-&gt;prox!=NULL)
+	{
+		if(aux-&gt;elemento==ra)
+        {
+		  return 1;
+        }
+	}
+	return 0;
+}
+int inserir(set *s,long int ra)
+{
+	int hash_ra = Y(ra);
+
+	Az* i = Novono(ra);
+
+	if(vazia(s-&gt;tabela_hash[hash_ra]))
+    {
+		InserirInicio(s-&gt;tabela_hash[hash_ra],i);
+    }
+    else
+    {
+		if(colisao(s,ra,hash_ra))
+        {
+			InserirInicio(s-&gt;tabela_hash[hash_ra],i);
+        }
+    }
+	return -1;
+}
+void exibe(LD *L)
+{
+	Az *e = L-&gt;inicio;
+
+	while(e != NULL)
+    {
+		printf(&quot;%ld&quot;,e-&gt;elemento);
+		e =e-&gt;prox;
+	}
+}
+
+set* intersecao(set* A, set* B)
+<A NAME="2"></A>{
+    int i;
+    set* s = (set*)malloc(sizeof(set));
+<FONT color="#77bfc7"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match17-0.html#2',2,'match17-top.html#2',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>    for (i=0; i&lt;CAPACIDADE; i++)
+    {
+        if(A-&gt;tabela_hash[i]==B-&gt;tabela_hash[i])
+        {
+            inserir(s, A-&gt;tabela_hash[i]);
+        }
+    }
+    return(s);
+}
+int main(void)
+{
+	int N;
+	set* A = (set*) malloc(sizeof(set));</B></FONT>
+
+	for (int i = 0; i &lt; CAPACIDADE; i++)
+	{
+		A-&gt;tabela_hash[i] = NovaLista();
+	}
+	scanf(&quot;%d&quot;,&amp;N);
+	for(int i=0;i&lt;N;i++)
+	{
+		long x;
+		scanf(&quot;%ld&quot;,&amp;x);
+		inserir(A, x);
+	}
+	set* B = (set*) malloc(sizeof(set));
+
+	for (int i = 0; i &lt; CAPACIDADE; i++)
+	{
+		B-&gt;tabela_hash[i] = NovaLista();
+	}
+	scanf(&quot;%d&quot;,&amp;N);
+	for(int i=0;i&lt;N;i++)
+	{
+		long x;
+		scanf(&quot;%ld&quot;,&amp;x);
+		inserir(B, x);
+	}
+	set* AB = (set*) malloc(sizeof(set));
+
+	for (int i = 0; i &lt; CAPACIDADE; i++)
+	{
+		AB-&gt;tabela_hash[i] = NovaLista();
+	}
+	intersecao(A,B);
+
+	for (int i = 0; i &lt; CAPACIDADE; i++)
+	{
+		exibe(AB-&gt;tabela_hash[i]);
+	}
+	return(0);
+}
+</PRE>
+</BODY>
+</HTML>

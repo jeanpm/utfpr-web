@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Listas duplamente encadeadas - Teórica</title>
+  <meta name="description" content="InstruçõesBaixar os arquivos em https://goo.gl/jxIq7t">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-171/2017/05/24/Listas-Duplamente-encadeada.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Listas duplamente encadeadas - Teórica</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> May 24, 2017
+          • <i class="fa fa-user"></i> jean
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-171/2017/05/22/2-Duplamente-encadeada-Pratica.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-171/2017/05/27/Listas-Duplamente-encadeada.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h1 id="instruções">Instruções</h1>
+<p>Baixar os arquivos em <a href="https://goo.gl/jxIq7t">https://goo.gl/jxIq7t</a></p>
+
+<ul>
+  <li>list.h</li>
+  <li>dlist.c</li>
+  <li>testaLista.c</li>
+</ul>
+
+<p>Implementar as funções em <em>dlist.c</em> que ainda não estejam implementadas. Em seguida, compilar e executar <em>testaLista.c</em>.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp">	<span class="n">Item</span><span class="o">*</span> <span class="n">ponteiroParaPosicao</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">);</span>
+	<span class="n">Item</span><span class="o">*</span> <span class="n">removerProximo</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">,</span> <span class="n">Item</span><span class="o">*</span> <span class="n">anterior</span><span class="p">);</span>	
+	<span class="n">Item</span><span class="o">*</span> <span class="n">removerDaPosicao</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">);</span>
+	<span class="kt">void</span> <span class="n">reverterLista</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">lista</span><span class="p">);</span>
+	<span class="kt">void</span> <span class="n">freeLista</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">);</span>
+	<span class="kt">bool</span> <span class="n">verificarPalindromo</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">)</span></code></pre></figure>
+
+<h1 id="exercícios-resolvidos">Exercícios resolvidos</h1>
+
+<p>##ex.1</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/* [ 1 ]
+ Dada uma lista duplamente encadeada, percorrê-la e retornar o item na posição pos-1. 
+ 
+ Caso pos &lt; (l-&gt;tamanho)/2, então o percurso deve ser do início parra o fim
+ Caso contrário, o percurso deve ser feito do fim para o início.
+ 
+ Exemplo:
+	pos = 3;
+	ponteiroParaPosicao(L, pos);
+	&gt;&gt; 0, 1, 2, 3, [4], 5, 6, 7; // Ponteiro inicial aponta para o início 
+	0, 1, &gt;&gt; 2, 3, [4], 5, 6, 7; // Percorre da esquerda para direita até a posição anterior 
+	 
+	pos = 5;
+	ponteiroParaPosicao(L, pos);
+	0, 1, 2, 3, [4], 5, 6, 7 &lt;&lt;; // Ponteiro inicial aponta para o fim 
+	0, 1, 2, 3, [4] &lt;&lt;, 5, 6, 7; // Percorre da direita para a esquerda até  posição anterior 
+ 
+*/</span>
+<span class="n">Item</span><span class="o">*</span> <span class="nf">ponteiroParaPosicao</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">Item</span><span class="o">*</span> <span class="n">curr</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">&lt;</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">tamanho</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">curr</span> <span class="o">=</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+			<span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">prox</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">curr</span> <span class="o">=</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">fim</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">tamanho</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">pos</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span>
+			<span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">ant</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="k">return</span> <span class="n">curr</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>##ex.2</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/* [ 2 ]
+ Implementar o operador de remoção do próximo, o qual recebe um ponteiro para o item
+ anterior ao item a ser removido.
+
+ Exemplo:
+	0, 1, 2, 3, 4, &gt;&gt; 5, 6, 7; // Neste exemplo i é um ponteiro para o item 5 
+	0, 1, 2, 3, 4, 5, 7;       // Esta é a lista após a remoção do item i-&gt;proximo 
+*/</span>
+<span class="kt">void</span> <span class="n">removerProximo</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">,</span> <span class="n">Item</span><span class="o">*</span> <span class="n">i</span><span class="p">);</span>
+<span class="p">{</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">anterior</span><span class="o">-&gt;</span><span class="n">prox</span><span class="o">-&gt;</span><span class="n">prox</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	
+	<span class="n">Item</span><span class="o">*</span> <span class="n">removed</span> <span class="o">=</span> <span class="n">anterior</span><span class="o">-&gt;</span><span class="n">prox</span><span class="p">;</span>
+	<span class="n">removed</span><span class="o">-&gt;</span><span class="n">prox</span><span class="o">-&gt;</span><span class="n">ant</span> <span class="o">=</span> <span class="n">anterior</span><span class="p">;</span>
+	<span class="n">anterior</span><span class="o">-&gt;</span><span class="n">prox</span> <span class="o">=</span> <span class="n">removed</span><span class="o">-&gt;</span><span class="n">prox</span><span class="p">;</span>
+	
+	<span class="n">l</span><span class="o">-&gt;</span><span class="n">tamanho</span><span class="o">--</span><span class="p">;</span>
+	
+	<span class="k">return</span> <span class="n">removed</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>##ex.3</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/* [ 3 ]
+ Dada uma lista duplamente encadeada, remover o item da posição indicada.
+ 
+ Exemplo:
+ 	pos = 3;
+	&gt;&gt; 0, 1, 2, [3], 4, 5, 6, 7; // Remover o item na posição 3
+	0, 1, &gt;&gt; 2, [3], 4, 5, 6, 7; // Percorre da esquerda para direita até o anterior.
+	0, 1, 2, 4, 5, 6, 7;         // Remove o próximo.
+	
+*/</span>
+<span class="n">Item</span><span class="o">*</span> <span class="nf">removerDaPosicao</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">pos</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">tamanho</span><span class="p">);</span>	
+	
+	<span class="n">Item</span><span class="o">*</span> <span class="n">removed</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>	
+			
+	<span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">removed</span> <span class="o">=</span> <span class="n">removerInicio</span><span class="p">(</span><span class="n">l</span><span class="p">);</span>		
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">pos</span> <span class="o">==</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">tamanho</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">removed</span> <span class="o">=</span> <span class="n">removerFim</span><span class="p">(</span><span class="n">l</span><span class="p">);</span>	
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">Item</span><span class="o">*</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">ponteiroParaPosicao</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">pos</span><span class="p">);</span>
+		<span class="n">removed</span> <span class="o">=</span> <span class="n">removerProximo</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">curr</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="k">return</span> <span class="n">removed</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>##ex.4</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/* [ 4 ]
+ Dada uma lista duplamente encadeada, reverter a ordem de seus itens, sem a
+ utilização de uma nova lista.
+ 
+ Exemplo:
+	0, 1, 2, 3, 4, 5, 6, 7;
+	7, 6, 5, 4, 3, 2, 1, 0; 
+ 
+*/</span>
+<span class="kt">void</span> <span class="nf">reverterLista</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">lista</span><span class="o">-&gt;</span><span class="n">fim</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	
+	<span class="n">Item</span><span class="o">*</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">lista</span><span class="o">-&gt;</span><span class="n">fim</span><span class="p">;</span>
+	
+	<span class="c1">// Se existe anterior, então a lista tem ao menos dois elementos.
+</span>	<span class="k">while</span><span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="n">lista</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">Item</span><span class="o">*</span> <span class="n">anterior</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">ant</span><span class="p">;</span>
+		<span class="n">removerItem</span><span class="p">(</span><span class="n">lista</span><span class="p">,</span> <span class="n">anterior</span><span class="p">);</span>
+		<span class="n">inserirFim</span><span class="p">(</span><span class="n">lista</span><span class="p">,</span> <span class="n">anterior</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<h1 id="exercícios-novos">Exercícios novos</h1>
+
+<p>##ex.5</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/* [ 5 ]
+ Dada uma lista duplamente encadeada, reverter a ordem dos itens que estiverem
+ entre os ponteiros recebidos como parâmetro.
+ 
+ Exemplo:
+	0, 1, &gt;&gt; 2, 3, 4, &gt;&gt; 5, 6, 7;
+	0, 1,   5, 4, 3, 2,  6, 7; 
+*/</span>
+<span class="kt">void</span> <span class="n">reverterSegmentoDeLista</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">,</span> <span class="n">Item</span><span class="o">*</span> <span class="n">inicio</span><span class="p">,</span> <span class="n">Item</span><span class="o">*</span> <span class="n">fim</span><span class="p">);</span>
+<span class="p">{</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">fim</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	
+	<span class="n">Item</span><span class="o">*</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">fim</span><span class="p">;</span>
+	
+	<span class="c1">// Se existe anterior, então a lista tem ao menos dois elementos.
+</span>	<span class="k">while</span><span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="n">inicio</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">Item</span><span class="o">*</span> <span class="n">anterior</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">ant</span><span class="p">;</span>
+		<span class="n">removerItem</span><span class="p">(</span><span class="n">lista</span><span class="p">,</span> <span class="n">anterior</span><span class="p">);</span>
+		<span class="n">inserirFim</span><span class="p">(</span><span class="n">lista</span><span class="p">,</span> <span class="n">anterior</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>##ex.6</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/*
+ Dara uma lista duplamente encadeada, verificar se ela representa um palíndromo
+ 
+ Definição:
+ 
+ 	Palíndromo é uma palavra, uma frase, ou lista qualquer que quando
+ 	percorrida da esquerda para direita, ou da direita para a esquerda 
+ 	produza a mesma sequência.
+ Exemplo:
+ 	"Roma tem amor",
+ 	"Socorram-me, subi no ônibus em Marrocos",
+ 	"A mãe te ama". 
+ 
+*/</span>
+<span class="kt">bool</span> <span class="n">verificaPalindromo</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">l</span><span class="p">);</span>
+
+<span class="n">Exemplo</span><span class="o">:</span>	
+	<span class="n">L</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span>
+	<span class="nb">true</span><span class="p">;</span>
+	<span class="n">L</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span>
+	<span class="nb">true</span><span class="p">;</span>
+	<span class="n">L</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span>
+	<span class="nb">false</span><span class="p">;</span>
+	</code></pre></figure>
+
+<p>##ex.7</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/*
+ Dara uma lista duplamente encadeada e uma posição, inserir nesta posição outra
+ lista encadeada.
+ 
+ Exemplo:
+ 	A = 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+	B = 9, 9, 9, 9
+	pos = 3
+	
+ 	inserirListaNaPosicao(Lista* A, Lista* B, int pos);
+ 	
+ 	A = 1, 1, 9, 9, 9, 9, 1, 1, 1, 1, 1, 1, 1, 1
+ 
+*/</span>
+<span class="kt">void</span> <span class="n">inserirListaNaPosicao</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="n">Lista</span><span class="o">*</span> <span class="n">B</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">);</span></code></pre></figure>
+
+<p>#ex.8</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/*
+ Dadas duas listas duplamente encadeadas e uma posição, implementar o crossin-over.
+ 
+ Exemplo:
+ 	A = 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+	B = 9, 9, 9, 9, 9, 9, 9, 9, 9, 9
+	pos = 3
+	
+ 	crossover(Lista* A, Lista* B, int pos);
+ 	
+ 	A = 1, 1, 1, 9, 9, 9, 9, 9, 9, 9
+ 	B = 9, 9, 9, 1, 1, 1, 1, 1, 1, 1
+ 
+*/</span>
+<span class="kt">bool</span> <span class="n">crossover</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="n">Lista</span><span class="o">*</span> <span class="n">B</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">);</span></code></pre></figure>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

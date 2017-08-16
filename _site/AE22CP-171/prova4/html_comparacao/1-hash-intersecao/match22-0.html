@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>luan-lamarca.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<HR>
+<H3><CENTER>luan-lamarca.c</CENTER></H3><HR>
+<PRE>
+//
+//  main.c
+//  uniaofinal
+//
+//  Created by Luan Lamarca on 05/07/17.
+//  Copyright © 2017 Luan Lamarca. All rights reserved.
+//
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;assert.h&gt;
+    
+#define CAPACIDADE 1021
+    
+//listas//
+//=======================================================================//
+//construtores//
+typedef struct _Item Item;
+typedef struct _Lista Lista;
+struct _Item
+{
+    long valor;
+    Item* prox;
+    Item* ant;
+};
+struct _Lista
+{
+    Item* inicio;
+    Item* fim;
+    int tamanho;
+};
+    
+typedef struct
+{
+    Lista* tabela_hash[CAPACIDADE];
+}Set;
+    
+//Operacoes de lista//
+Lista* novaLista()
+{
+    Lista* l = (Lista*) malloc(sizeof(Lista));
+    l-&gt;inicio = NULL;
+    l-&gt;fim	= NULL;
+    l-&gt;tamanho = 0;
+    return l;
+}
+Item* novoItem(int value)
+{
+    Item *item = (Item*) malloc(sizeof(Item));
+<A NAME="0"></A>    item-&gt;valor = value;
+    item-&gt;prox  = NULL;
+    item-&gt;ant  = NULL;
+<FONT color="#0000ff"><A HREF="javascript:ZweiFrames('match22-1.html#0',3,'match22-top.html#0',1)"><IMG SRC="forward.gif" ALT="other" BORDER="0" ALIGN="right"></A><B>    return item;
+}
+    
+void inserirInicio(Lista* l, Item* novo)
+{
+    // Se lista vazia
+    if (l-&gt;inicio == NULL)
+    {
+        l-&gt;inicio = novo;
+        l-&gt;fim = l-&gt;inicio;
+    }
+    else
+    {
+        l-&gt;inicio-&gt;ant = novo;
+        novo-&gt;prox = l-&gt;inicio;
+        l-&gt;inicio = novo;
+    }
+    l-&gt;tamanho++;
+}
+void inserirProximo(Lista* l, Item* atual, Item* novo)
+{
+    assert(atual-&gt;prox != NULL);
+    novo-&gt;prox = atual-&gt;prox;
+    novo-&gt;ant = atual;
+    atual-&gt;prox-&gt;ant = novo;
+    atual-&gt;prox = novo;
+    l-&gt;tamanho++;
+}
+void inserirFim(Lista* l, Item* novo)
+{
+    // Se lista vazia
+    if (l-&gt;fim == NULL)
+    {
+        inserirInicio(l, novo);
+    }
+    else
+    {
+        l-&gt;fim-&gt;prox = novo;
+        novo-&gt;ant = l-&gt;fim;
+        l-&gt;fim = novo;
+        l-&gt;fim-&gt;prox = NULL;
+        l-&gt;tamanho++;
+    }
+}
+void printlista (Set *l, Set *f)</B></FONT>
+{
+    Item *p;
+    Item *h;
+    
+    for(p = l-&gt;tabela_hash[0]; p!= NULL; p=p-&gt;prox)
+    {
+        for(h = l-&gt;tabela_hash[0]; h!=NULL; h=h-&gt;prox)
+        {
+            if(p-&gt;valor == h-&gt;valor)
+            {
+                printf(&quot;=&gt; %ld &quot;, p-&gt;valor);
+            }
+        }
+    }
+}
+    
+    //=======================================================================//
+    
+    //hash//
+int h(long key)
+{
+    return key % CAPACIDADE;
+}
+int buscaLista(Lista* l, long elem)
+{
+    if (!l)
+    {
+        return 1;
+    }
+    
+    Item* tmp = l-&gt;inicio;
+    
+    while (tmp)
+    {
+        if (tmp-&gt;valor == elem){
+            return -1;
+        }
+        tmp=tmp-&gt;prox;
+    }
+    
+    return 1;
+}
+    
+int inserir(Set *s, long elemento)
+{
+    int hash_elem = h(elemento);
+    int repete = 0;
+    
+    if (!s-&gt;tabela_hash[hash_elem])
+    {
+        s-&gt;tabela_hash[hash_elem] = novaLista();
+    }
+    if ((repete = buscaLista(s-&gt;tabela_hash[hash_elem], elemento)) == 1)
+    {
+<A NAME="1"></A>        Item* novo = novoItem(elemento);
+        inserirInicio(s-&gt;tabela_hash[hash_elem], novo);
+    }
+<FONT color="#f63526"><A HREF="javascript:ZweiFrames('match22-1.html#1',3,'match22-top.html#1',1)"><IMG SRC="forward.gif" ALT="other" BORDER="0" ALIGN="right"></A><B>    return -1;
+}
+void transferirLista(Lista* l, Set* dest)
+{
+    if (l-&gt;inicio != NULL)
+    {
+        Item* curr = l-&gt;inicio;
+        while(curr != l-&gt;fim)
+        {
+            inserir(dest, curr-&gt;valor);
+            curr = curr-&gt;prox;
+        }
+        inserir(dest, curr-&gt;valor);
+    }
+}</B></FONT>
+    
+Set* uniao(Set* A, Set* B)
+{
+    int i;
+    Set* result = (Set*)malloc(sizeof(Set));
+    
+    for (i=0; i&lt;CAPACIDADE; i++){
+        if (A-&gt;tabela_hash[i])
+        {
+            transferirLista(A-&gt;tabela_hash[i], result);
+        }
+    }
+    
+    for (i=0; i&lt;CAPACIDADE; i++)
+    {
+        if (B-&gt;tabela_hash[i])
+        {
+            transferirLista(B-&gt;tabela_hash[i], result);
+        }
+    }
+        
+    return result;
+}
+/*void imprime_lista (Set *l, Set *f)
+{
+    Item *p;
+    Item *h;
+    while(p-&gt;prox != NULL)
+    {
+        printf(&quot;=&gt; %d &quot;, p-&gt;conteudo);
+        p = p-&gt;prox;
+        
+    }
+    printf(&quot;=&gt; %d\n&quot;, p-&gt;conteudo);
+}*/
+int main(void)
+{
+    int n;
+    scanf(&quot;%d&quot;, &amp;n);
+    Set* s = (Set*)malloc(sizeof(Set));
+    Set* s2 = (Set*)malloc(sizeof(Set));
+    
+    int i;
+    long elem;
+    for (i=0; i&lt;n; i++)
+    {
+        scanf (&quot;%ld&quot;,&amp;elem);
+        inserir(s, elem);
+    }
+    
+    scanf(&quot;%d&quot;, &amp;n);
+    
+    for (i=0; i&lt;n; i++)
+    {
+        scanf (&quot;%ld&quot;,&amp;elem);
+        inserir(s2, elem);
+    }
+    
+    Set* resultado = uniao(s, s2);
+    
+    printlista(s, s2);
+    printf(&quot;\n&quot;);
+    return 0;
+}
+
+</PRE>
+</BODY>
+</HTML>

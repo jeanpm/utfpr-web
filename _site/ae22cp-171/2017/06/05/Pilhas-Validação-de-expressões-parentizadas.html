@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Validação de expressões parentizadas</title>
+  <meta name="description" content="  Achamos que, no estágio de desenvolvimento de um estudante para o qual este texto foi elaborado, é mais importante discutir vários exemplos em detalhes do ...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-171/2017/06/05/Pilhas-Valida%C3%A7%C3%A3o-de-express%C3%B5es-parentizadas.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Validação de expressões parentizadas</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Jun 5, 2017
+          • <i class="fa fa-user"></i> Jean P. Martins
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-171/2017/06/05/Pilhas-Avalia%C3%A7%C3%A3o-de-express%C3%B5es.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-171/2017/06/06/Tabelas-Hash-Eficiencia-problema-pair-sum.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <blockquote>
+  <p>Achamos que, no estágio de desenvolvimento de um estudante para o qual este texto foi elaborado, é mais importante discutir vários exemplos em detalhes do que uma ampla variedade de tópicos superficialmente. 
+<a href="http://www.san.uri.br/~ober/arquivos/disciplinas/estruturaII_SI/(ebook)Estruturas%20de%20Dados%20Usando%20C%20(Tenenbaum).pdf">Estruturas de dados usando C (Tenenbaum et al.)</a></p>
+</blockquote>
+
+<h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a></li>
+  <li><a href="#a-pilha" id="markdown-toc-a-pilha">A Pilha</a>    <ul>
+      <li><a href="#exemplo-de-inserção" id="markdown-toc-exemplo-de-inserção">Exemplo de inserção</a></li>
+      <li><a href="#exemplo-de-remoção" id="markdown-toc-exemplo-de-remoção">Exemplo de remoção</a></li>
+    </ul>
+  </li>
+  <li><a href="#exercícios" id="markdown-toc-exercícios">Exercícios</a>    <ul>
+      <li><a href="#ex1-validação-de-parentética" id="markdown-toc-ex1-validação-de-parentética">ex.1: Validação de parentética</a></li>
+      <li><a href="#ex2-validar-delimitadores-de-escopo-em-expressão" id="markdown-toc-ex2-validar-delimitadores-de-escopo-em-expressão">ex.2: Validar delimitadores de escopo em expressão</a></li>
+      <li><a href="#ex3-verificar-palíndromo" id="markdown-toc-ex3-verificar-palíndromo">ex.3: Verificar palíndromo</a></li>
+      <li><a href="#ex4-verificar-concatenação-de-palíndromos" id="markdown-toc-ex4-verificar-concatenação-de-palíndromos">ex.4: Verificar concatenação de palíndromos</a></li>
+      <li><a href="#ex5-underflow" id="markdown-toc-ex5-underflow">ex.5: Underflow</a></li>
+    </ul>
+  </li>
+  <li><a href="#pilha-sobre-listas-ligadas" id="markdown-toc-pilha-sobre-listas-ligadas">Pilha sobre listas ligadas</a></li>
+</ul>
+
+<h1 id="a-pilha">A Pilha</h1>
+
+<p>A estrutura de dados Pilha recebe este nome em analogia ao processo de empilhamento. De acordo com o dicionário web <a href="http://michaelis.uol.com.br/busca?r=0&amp;f=0&amp;t=0&amp;palavra=empilhar">Michaelis</a>, empilhar tem o seguinte significado:</p>
+
+<p><em>em·pi·lhar</em>
+Dispor em pilha ou ficar amontoado em pilha; amontoar(-se):</p>
+
+<ul>
+  <li>Empilhou os pratos que havia acabado de enxugar.</li>
+  <li>“[…] erguia o que estava pelo chão e empilhava as cadeiras sobre as mesinhas de mármore” (AA2).</li>
+  <li>“Entrou no seu escritório e foi sentar-se à secretária. Defronte dele, com uma gravidade oficial, empilhavam-se grandes livros de escrituração mercantil” (AA2).</li>
+</ul>
+
+<p>De acordo com esta definição, empilhar significa inserir um objeto em cima de outro. Desempilhar, portanto, se refere a remoção do objeto no topo da pilha.</p>
+
+<p>Dada a analogia, define-se que uma estrutura de dados pilha é caracterizada pelo fato de que novos elementos somente podem ser inseridos em seu topo. A remoção de elementos da pilha, similarmente, somente pode acontecer para elementos no topo. O acesso ao elemento no topo da pilha, sem a remoção do mesmo, é muitas vezes necessário, desta forma um operador se faz necessário. Essas operações são tradicionalmente definidas como:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/*
+ Aloca memória para uma nova pilha
+*/</span>
+<span class="n">Pilha</span><span class="o">*</span> <span class="n">novaPilha</span><span class="p">();</span>
+
+<span class="cm">/*
+ Insere um novo item no topo da pilha 
+*/</span>
+<span class="kt">void</span>  <span class="n">push</span><span class="p">(</span><span class="n">Pilha</span><span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">Item</span><span class="o">*</span> <span class="n">i</span><span class="p">);</span> 
+
+<span class="cm">/*
+ Remove o item do topo da pilha 
+*/</span>
+<span class="n">Item</span><span class="o">*</span> <span class="n">pop</span> <span class="p">(</span><span class="n">Pilha</span><span class="o">*</span> <span class="n">p</span><span class="p">);</span> 
+
+<span class="cm">/*
+ Retorna o elemento do topo da pilha, sem removê-lo da mesma.
+*/</span>
+<span class="n">Item</span><span class="o">*</span> <span class="n">top</span><span class="p">(</span><span class="n">Pilha</span><span class="o">*</span> <span class="n">p</span><span class="p">);</span></code></pre></figure>
+
+<h2 id="exemplo-de-inserção">Exemplo de inserção</h2>
+
+<p>A pilha p está inicialmente vazia, logo top(p) retornaria NULL. À medida que novos itens são inseridos na pilha, o topo é atualizado e passa a apontar para o item recem inserido.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Inicio</th>
+      <th style="text-align: right">push(p,9);</th>
+      <th style="text-align: right">push(p,1);</th>
+      <th style="text-align: right">push(p,3);</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right"> </td>
+      <td style="text-align: right"> </td>
+      <td style="text-align: right"> </td>
+      <td style="text-align: right">»	3</td>
+    </tr>
+    <tr>
+      <td style="text-align: right"> </td>
+      <td style="text-align: right"> </td>
+      <td style="text-align: right">»  1</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">»NULL</td>
+      <td style="text-align: right">» 9</td>
+      <td style="text-align: right">9</td>
+      <td style="text-align: right">9</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="exemplo-de-remoção">Exemplo de remoção</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Inicio</th>
+      <th style="text-align: right">pop(p);</th>
+      <th style="text-align: right">pop(p);</th>
+      <th style="text-align: right">pop(p);</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">» 3</td>
+      <td style="text-align: right"> </td>
+      <td style="text-align: right"> </td>
+      <td style="text-align: right"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">» 1</td>
+      <td style="text-align: right"> </td>
+      <td style="text-align: right"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">9</td>
+      <td style="text-align: right">9</td>
+      <td style="text-align: right">» 9</td>
+      <td style="text-align: right">» NULL</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Considerando-se a funcionalidade desses operadores, percebe-se que o último item a ser inserido numa pilha será, necessariamente, o primeiro a ser removido. Essa característica é geralmente nomeada como <em>last-in, first-out</em> (último a entrar, primeiro a sair), abreviada como LIFO.</p>
+
+<p>Deste modo, em um dado momento, somente o topo da pilha é observável, ou seja, um item que esteja abaixo do topo somente se tornará visível a partir do momento que todos os seus superiores sejam desempilhados. Essa ideia é facilmente compreendida por analogia a um monte de cartas.</p>
+
+<center>
+<img src="https://raw.githubusercontent.com/gajus/swing/master/.README/card-stack.gif" width="150" /></center>
+
+<h1 id="exercícios">Exercícios</h1>
+
+<h2 id="ex1-validação-de-parentética">ex.1: Validação de parentética</h2>
+<blockquote>
+  <blockquote>
+    <p><a href="http://www.san.uri.br/~ober/arquivos/disciplinas/estruturaII_SI/(ebook)Estruturas%20de%20Dados%20Usando%20C%20(Tenenbaum).pdf">página 91, Estruturas de dados usando C, Tenenbaun</a></p>
+  </blockquote>
+</blockquote>
+
+<p>Agora que defimos uma pilha e indicamos as operações que podem ser executadas sobre ela, vejamos como podemos usar a pilha na solução de problemas. Examine uma expressão matemática que inclui vários conjuntos de parênteses agrupados. Por exemplo:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>7 - ((X *((X+ Y)/ (J-3)) + Y)/(4-2.5))
+</code></pre>
+</div>
+
+<p>Queremos garantir que os parênteses estejam corretamente agrupados, ou seja, desejamos verificar se:</p>
+
+<ol>
+  <li>Existe um número igual de parênteses esquerdos e direitos.</li>
+  <li>Todo parêntese da direita está precedido por um parêntese da esquerda.</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cm">/*
+ Funções auxiliares para identificar o caractere sendo lido.
+ 
+ [!] É necessário implementá-las para que o exemplo funcione.
+*/</span>
+<span class="kt">bool</span> <span class="n">abreEscopo</span><span class="p">(</span><span class="kt">char</span> <span class="n">c</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="n">fechaEscopo</span><span class="p">(</span><span class="kt">char</span> <span class="n">c</span><span class="p">);</span>
+<span class="kt">bool</span> <span class="n">escopoCorreto</span><span class="p">(</span><span class="kt">char</span> <span class="n">a</span><span class="p">,</span> <span class="kt">char</span> <span class="n">b</span><span class="p">);</span>
+
+<span class="cm">/*
+ Recebe uma expressão em forma de string e seu tamanho e verifica sua validade
+ quanto aos parênteses abertos e fechados.
+ 
+ Retorna a posição em que o erro foi detectado, ou 'esize +1' caso a expressão
+ seja válida. 
+*/</span>
+<span class="kt">int</span> <span class="nf">verificaExpressao</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">expressao</span><span class="p">,</span> <span class="kt">int</span> <span class="n">esize</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">Pilha</span><span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">novaPilha</span><span class="p">();</span>
+	
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">esize</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">char</span> <span class="n">atual</span> <span class="o">=</span> <span class="n">expressao</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="k">if</span> <span class="p">(</span> <span class="n">abreEscopo</span><span class="p">(</span><span class="n">atual</span><span class="p">)</span> <span class="p">)</span> 
+		<span class="p">{</span>
+			<span class="n">Item</span><span class="o">*</span> <span class="n">abertura</span> <span class="o">=</span> <span class="n">novoItem</span><span class="p">(</span><span class="n">atual</span><span class="p">);</span>
+			<span class="n">push</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">abertura</span><span class="p">);</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">fechaEscopo</span><span class="p">(</span><span class="n">atual</span><span class="p">)</span> <span class="p">)</span>
+		<span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+				<span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+				
+			<span class="n">Item</span><span class="o">*</span> <span class="n">topo</span> <span class="o">=</span> <span class="n">pop</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+			<span class="kt">char</span> <span class="n">ctopo</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="n">topo</span><span class="o">-&gt;</span><span class="n">valor</span><span class="p">;</span>
+			
+			<span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">escopoCorreto</span><span class="p">(</span><span class="n">ctopo</span><span class="p">,</span> <span class="n">atual</span><span class="p">)</span> <span class="p">)</span>
+				<span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">esize</span><span class="p">;</span>
+
+	<span class="n">freeLista</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+	<span class="n">free</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+	
+	<span class="k">return</span> <span class="n">esize</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="ex2-validar-delimitadores-de-escopo-em-expressão">ex.2: Validar delimitadores de escopo em expressão</h2>
+<p>Adapte o código do validador para que funcione com expressões mais complexas, contendo os demais delimitadores
+<script type="math/tex">(, ), [, ] , \{, \}</script></p>
+
+<h2 id="ex3-verificar-palíndromo">ex.3: Verificar palíndromo</h2>
+<p>(Tanenbaum, página 97)<a href="http://www.san.uri.br/~ober/arquivos/disciplinas/estruturaII_SI/(ebook)Estruturas%20de%20Dados%20Usando%20C%20(Tenenbaum).pdf">1</a></p>
+
+<p>Escreva um algoritmo para determinar se uma string de caracteres de entrada é da forma:</p>
+
+<script type="math/tex; mode=display">x C y</script>
+
+<p>onde <script type="math/tex">x,y</script> são strings e <script type="math/tex">y</script> é o inverso de <script type="math/tex">x</script>. O caractere <script type="math/tex">C</script> delimita o fim de <script type="math/tex">x</script>. Somente um caractere da string pode ser lido de cada vez.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#include &lt;stack&gt;
+#include &lt;assert.h&gt;
+#include &lt;stdio.h&gt;
+</span>
+<span class="kt">bool</span> <span class="nf">isPalindrome</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">stack</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span> <span class="n">s</span><span class="p">;</span>
+	
+	<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>	
+	
+	<span class="k">while</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'C'</span> <span class="o">&amp;&amp;</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'\0'</span><span class="p">)</span>
+		<span class="n">s</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">]);</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'\0'</span><span class="p">)</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+	
+	<span class="k">while</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'\0'</span><span class="p">)</span>
+	<span class="p">{</span>	
+		<span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">||</span> <span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">top</span><span class="p">()</span> <span class="o">!=</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">]))</span>
+			<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+		<span class="n">s</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+	<span class="p">}</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">s</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+		
+	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">argc</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+	
+	<span class="kt">char</span><span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">isPalindrome</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">?</span> <span class="s">"true"</span> <span class="o">:</span> <span class="s">"false"</span><span class="p">);</span>	
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="ex4-verificar-concatenação-de-palíndromos">ex.4: Verificar concatenação de palíndromos</h2>
+<p>[Tanenbaum, página 97]</p>
+
+<p>Escreva um algoritmo para determinar se uma string de caracteres de entrada é da forma:</p>
+
+<script type="math/tex; mode=display">a D b D c D \dots D z</script>
+
+<p>onde cada string <script type="math/tex">a, b, c,\dots,z</script>, é da forma da string definida no exercício anterior, isto é, <script type="math/tex">a = xCy</script></p>
+
+<h2 id="ex5-underflow">ex.5: Underflow</h2>
+<p>Que conjunto de critérios é necessário e suficiente para que uma sequência de operações <code class="highlighter-rouge">push</code> e <code class="highlighter-rouge">pop</code> sobre uma única pilha (inicialmente vazia) deixe a pilha vazia e não provoque <em>underflow</em>?</p>
+
+<h1 id="pilha-sobre-listas-ligadas">Pilha sobre listas ligadas</h1>
+
+<p>Considere a implementação dos operadores de manipulação de uma estrutura Pilha em termos de listas simples e duplamente encadeadas.
+typedef Lista Pilha;</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#include "list.h"
+</span>
+<span class="n">Pilha</span><span class="o">*</span> <span class="nf">novaPilha</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">novaLista</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">Item</span><span class="o">*</span> <span class="nf">pop</span><span class="p">(</span><span class="n">Pilha</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">removerInicio</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">Item</span><span class="o">*</span> <span class="nf">top</span><span class="p">(</span><span class="n">Pilha</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">inicio</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">push</span><span class="p">(</span><span class="n">Pilha</span><span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">Item</span><span class="o">*</span> <span class="n">i</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">inserirInicio</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+<span class="p">}</span></code></pre></figure>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

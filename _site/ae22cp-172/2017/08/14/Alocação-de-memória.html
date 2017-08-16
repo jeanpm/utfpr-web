@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Organização de memória, stack, heap I</title>
+  <meta name="description" content="Contato  Jean Paulo Martins  Sala 105  e-mail jeanmartins@utfpr.edu.br">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-172/2017/08/14/Aloca%C3%A7%C3%A3o-de-mem%C3%B3ria.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Organização de memória, stack, heap I</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Aug 14, 2017
+          • <i class="fa fa-user"></i> jean
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/lc21cp-172/2017/08/10/Logica-informal.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-172/2017/08/14/Aloca%C3%A7%C3%A3o-de-mem%C3%B3ria-2.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h2 id="contato">Contato</h2>
+<ul>
+  <li>Jean Paulo Martins</li>
+  <li>Sala 105</li>
+  <li>e-mail jeanmartins@utfpr.edu.br</li>
+</ul>
+
+<h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#contato" id="markdown-toc-contato">Contato</a></li>
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a>    <ul>
+      <li><a href="#referências" id="markdown-toc-referências">Referências</a></li>
+      <li><a href="#revisão" id="markdown-toc-revisão">Revisão</a></li>
+    </ul>
+  </li>
+  <li><a href="#organização-de-memória" id="markdown-toc-organização-de-memória">Organização de memória</a>    <ul>
+      <li><a href="#memória-local" id="markdown-toc-memória-local">Memória local</a></li>
+      <li><a href="#call-stack" id="markdown-toc-call-stack">Call stack</a></li>
+      <li><a href="#demonstração-usando-gdb" id="markdown-toc-demonstração-usando-gdb">Demonstração usando gdb</a></li>
+      <li><a href="#eficiênciadeficiência-parâmetros-locais" id="markdown-toc-eficiênciadeficiência-parâmetros-locais">Eficiência/Deficiência parâmetros locais</a>        <ul>
+          <li><a href="#exemplo-de-alteração-de-variáveis-locais" id="markdown-toc-exemplo-de-alteração-de-variáveis-locais">Exemplo de alteração de variáveis locais</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#ponteiros" id="markdown-toc-ponteiros">Ponteiros</a>    <ul>
+      <li><a href="#o-que-é-um-ponteiro" id="markdown-toc-o-que-é-um-ponteiro">O que é um ponteiro?</a></li>
+      <li><a href="#dereferenciando-um-ponteiros" id="markdown-toc-dereferenciando-um-ponteiros">Dereferenciando um ponteiros</a></li>
+      <li><a href="#o-ponteiro-null" id="markdown-toc-o-ponteiro-null">O ponteiro NULL</a>        <ul>
+          <li><a href="#curiosidade-o-que-é-stack-overflow" id="markdown-toc-curiosidade-o-que-é-stack-overflow">Curiosidade: o que é <em>stack overflow</em>?</a></li>
+        </ul>
+      </li>
+      <li><a href="#plano-de-aulas" id="markdown-toc-plano-de-aulas">Plano de aulas</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="referências">Referências</h2>
+<ul>
+  <li>
+    <p>Material sobre linguagem C (<a href="https://www.ime.usp.br/~slago/slago-C.pdf">IME-USP</a>)</p>
+
+    <ul>
+      <li><em>https://www.ime.usp.br/~slago/slago-C.pdf</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>Material sobre memória e ponteiros (<a href="http://cslibrary.stanford.edu/102/PointersAndMemory.pdf">cap2::stanford</a>)</p>
+
+    <ul>
+      <li><em>http://cslibrary.stanford.edu/102/PointersAndMemory.pdf</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>Notas sobre estruturas de dados e programação (<a href="http://cs-www.cs.yale.edu/homes/aspnes/classes/223/notes.pdf">cap4:yale</a>)</p>
+
+    <ul>
+      <li><em>http://cs-www.cs.yale.edu/homes/aspnes/classes/223/notes.pdf</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>Livro (<a href="http://pdf.th7.cn/down/files/1312/write_great_code_volume_1.pdf">cap11.9:Write greate code</a>)</p>
+
+    <ul>
+      <li><em>http://pdf.th7.cn/down/files/1312/write_great_code_volume_1.pdf</em></li>
+    </ul>
+  </li>
+  <li>
+    <p><a href="https://pt.stackoverflow.com/questions/3797/o-que-s%C3%A3o-e-onde-est%C3%A3o-o-stack-e-heap">stackoverflow:O que são e onde estão o stack e heap?</a></p>
+
+    <ul>
+      <li><em>https://pt.stackoverflow.com/questions/3797/o-que-s%C3%A3o-e-onde-est%C3%A3o-o-stack-e-heap</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>LEIA LIVROS SOBRE PROGRAMAÇÃO!</p>
+  </li>
+</ul>
+
+<h2 id="revisão">Revisão</h2>
+<ul>
+  <li>
+    <p>Structs, vetores, entrada de dados</p>
+  </li>
+  <li>
+    <p>funções que recebem vetores como parâmetros,</p>
+  </li>
+  <li>
+    <p>Tamanho do vetor predefinido</p>
+  </li>
+  <li>
+    <p>O que fazer se o tamanho do vetor vier da entrada</p>
+
+    <ul>
+      <li>
+        <p>Seu valor somente será conhecido em <em>tempo de execução</em>!</p>
+      </li>
+      <li>
+        <p>Será preciso <em>alocação dinâmica</em> de memória.</p>
+      </li>
+      <li>
+        <p>Em alguns compiladores é possível fazer <em>alocação estática</em></p>
+        <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tamanho</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">vetor</span><span class="p">[</span><span class="n">tamanho</span><span class="p">];</span>
+</code></pre>
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Assunto da aula: Entender o porque dessa limitação.</p>
+
+    <ul>
+      <li>call stack</li>
+      <li>heap</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="organização-de-memória">Organização de memória</h1>
+
+<h2 id="memória-local">Memória local</h2>
+
+<p>Memória local (variáveis locais) é um tipo de memória usada por todos, mas poucos pensam sobre ela.</p>
+
+<p>A principal característica de memória local é que ela é alocada e desalocada automaticamente assim que entramos e saímos de um determinado escopo. Por essa mesma razão, essas variáveis são as vezes referidas como <em>automáticas</em></p>
+
+<p>Uma variável local tem tempo de vida igual ao tempo de vida da função na qual ela foi definida.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">sqrt</span><span class="p">(</span><span class="kt">int</span> <span class="n">num</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">result</span><span class="p">;</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">*</span> <span class="n">result</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>No exemplo acima, a declaração <code class="highlighter-rouge">int result</code> refere a um espaço de memória de tamanho igual a <code class="highlighter-rouge">sizeof(int)</code>. Esse espaço de memória pode ser utilizado durante a vida da função para atribuição, acesso do valor que armazenado.</p>
+
+<p>A linha <code class="highlighter-rouge">return result</code> retorna uma cópia do valor em <code class="highlighter-rouge">result</code>.</p>
+
+<p>Após o fim da função (após o <code class="highlighter-rouge">return</code>) qualquer acesso à região indicada por <code class="highlighter-rouge">result</code> é um acesso inválido, visto que aquela região de memória deixa de ser um espaço controlado pelo programador.</p>
+
+<ul>
+  <li>Resumo: uma variável local tem tempo de vida igual ao tempo de vida da função que a criou.</li>
+  <li>Está sempre associada ao escopo de uma função: main, ou outra qualquer.</li>
+</ul>
+
+<h2 id="call-stack">Call stack</h2>
+
+<p>Imagem extraída da wikipedia <a href="https://en.wikipedia.org/wiki/Call_stack">call stack</a>
+<img src="http://localhost:4000/assets/call-stack.png" alt="callstack" /></p>
+
+<h2 id="demonstração-usando-gdb">Demonstração usando gdb</h2>
+
+<p>As funções abaixo, quando chamadas a partir da <code class="highlighter-rouge">main</code> irão disparar a criação de <code class="highlighter-rouge">stack frames</code> similares. Portanto, o valor da primeira variável (após a chamada de <code class="highlighter-rouge">soma</code>), irá conter valores remanescentes de chamadas anteriores.</p>
+
+<ul>
+  <li>
+    <p>Isso demonstra que a criação dos <code class="highlighter-rouge">stack frames</code> reutiliza a mesma memória várias vezes,</p>
+  </li>
+  <li>
+    <p>Também demonstra que a memória alocada por uma função, é liberada após seu fim.</p>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">soma</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">resultado</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">resultado</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">sub</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">subtracao</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">subtracao</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">print</span><span class="p">(</span><span class="kt">char</span> <span class="n">a</span><span class="p">,</span> <span class="kt">char</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="sc">'a'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">c</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="n">soma</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">sub</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">print</span><span class="p">(</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="eficiênciadeficiência-parâmetros-locais">Eficiência/Deficiência parâmetros locais</h2>
+
+<p>Sempre que um argumento é passado a uma função, ele é recebido como uma cópia</p>
+
+<ul>
+  <li>
+    <p>Argumentos de tipos de dados simples, como <code class="highlighter-rouge">int</code>, são eficientemente passados desta forma.</p>
+  </li>
+  <li>
+    <p>Argumentos mais complexos, no entanto, causam um <em>overhead</em> de cópia:</p>
+
+    <ul>
+      <li>
+        <p>int read(Pessoa p);</p>
+      </li>
+      <li>
+        <p>Numa função deste tipo, todos os valores em p seriam copiados para a pilha de execução</p>
+      </li>
+      <li>
+        <p>Como <code class="highlighter-rouge">p</code> é uma cópia dos dados lidos na função <code class="highlighter-rouge">main</code>, alterar esse vetor no contexto da função <code class="highlighter-rouge">read</code> não altera o conteúdo do vetor original.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>O mesmo não ocorre para vetores:</p>
+
+    <ul>
+      <li>
+        <p>Vetores são sempre ponteiros: <code class="highlighter-rouge">int p[]</code>, <code class="highlighter-rouge">int* p</code></p>
+      </li>
+      <li>
+        <p>O que é copiado, nestes casos, é ponteiro <code class="highlighter-rouge">sizeof(int*)</code></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="exemplo-de-alteração-de-variáveis-locais">Exemplo de alteração de variáveis locais</h3>
+
+<ul>
+  <li>Utilizar este exemplo após descrever a organização de memória.</li>
+</ul>
+
+<p>Tentar implementar a função <code class="highlighter-rouge">read_file</code> para efetuar o <code class="highlighter-rouge">scanf</code> e atribuir valores ao vetor de pessoas.</p>
+
+<ul>
+  <li>Este exemplo funciona, pois o vetor é um ponteiro</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">Pessoa</span> <span class="n">p</span><span class="p">[])</span> <span class="p">{</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NUM_PESSOAS</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">scanf</span><span class="p">(</span><span class="s">"%s%d%ld"</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">nome</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">idade</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">cpf</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p>Este exemplo não funciona, pois <code class="highlighter-rouge">struct</code>s são passadas por valores</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">Pessoa</span> <span class="n">p</span><span class="p">[])</span> <span class="p">{</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NUM_PESSOAS</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">read_pessoa</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h1 id="ponteiros">Ponteiros</h1>
+
+<p>Por que usar ponteiros?</p>
+
+<ul>
+  <li>Evitar repasse de estruturas por valor, cópia pode ser cara.</li>
+</ul>
+
+<h2 id="o-que-é-um-ponteiro">O que é um ponteiro?</h2>
+
+<p>Uma variável simples, ex.: <code class="highlighter-rouge">int</code> e <code class="highlighter-rouge">float</code> é um bloco na memória que armazena uma informação</p>
+
+<ul>
+  <li>
+    <p>int num : 42 : .endereço</p>
+  </li>
+  <li>
+    <p>espaço de armazenamento: sizeof(int)</p>
+  </li>
+</ul>
+
+<p>Um ponteiro, por outro lado, ex.: <code class="highlighter-rouge">int*</code> e <code class="highlighter-rouge">float</code> é um bloco na memória que armazena um endereço</p>
+
+<ul>
+  <li>
+    <p>int* ptrNum : .endereço : .ptrEndereço</p>
+  </li>
+  <li>
+    <p>ptrNum contém o endereço de um espaço de memória para um inteiro.</p>
+  </li>
+  <li>
+    <p>Portanto, <code class="highlighter-rouge">sizeof(int*)</code> = <code class="highlighter-rouge">sizeof(float*)</code> = <code class="highlighter-rouge">sizeof(struct Pessoa*)</code></p>
+  </li>
+</ul>
+
+<table>
+  <tbody>
+    <tr>
+      <td>int num</td>
+      <td>42</td>
+      <td>.endereço</td>
+    </tr>
+    <tr>
+      <td>int* ptrNum</td>
+      <td>.endereço</td>
+      <td>.ptrEndereço</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>
+    <p>Mostra código que imprime o sizeof de vários tipos e ponteiros</p>
+
+    <ul>
+      <li>Ilustrar que ponteiros tem sempre o mesmo tamanho</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"sizeof int = %ldbytes</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"sizeof long = %ldbytes</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">long</span><span class="p">));</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"sizeof float = %ldbytes</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"sizeof char = %ldbytes</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">));</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"sizeof double = %ldbytes</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">));</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"sizeof int* = %ldbytes</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">));</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"sizeof long* = %ldbytes</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">long</span><span class="o">*</span><span class="p">));</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"sizeof float* = %ldbytes</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="o">*</span><span class="p">));</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"sizeof char* = %ldbytes</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">));</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"sizeof double* = %ldbytes</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="o">*</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="cm">/*
+sizeof int = 4bytes
+sizeof long = 8bytes
+sizeof float = 4bytes
+sizeof char = 1bytes
+sizeof double = 8bytes
+
+sizeof int* = 8bytes
+sizeof long* = 8bytes
+sizeof float* = 8bytes
+sizeof char* = 8bytes
+sizeof double* = 8bytes
+*/</span>
+</code></pre>
+</div>
+
+<h2 id="dereferenciando-um-ponteiros">Dereferenciando um ponteiros</h2>
+
+<p>Um ponteiro é uma referência a um valor armazenado em outra posição de memória.</p>
+
+<ul>
+  <li>
+    <p>Como seguir o ponteiro e acessar o valor armazenado?</p>
+  </li>
+  <li>
+    <p>Essa operação se chama dereferenciação:</p>
+
+    <ul>
+      <li>
+        <p><code class="highlighter-rouge">int* p = &amp;c;</code></p>
+      </li>
+      <li>
+        <p><code class="highlighter-rouge">*p = 10;</code> Operação válida, atribui 10 em <code class="highlighter-rouge">c</code></p>
+      </li>
+      <li>
+        <p><code class="highlighter-rouge">p = 10;</code> faz <code class="highlighter-rouge">p</code> armazenar o endereço de memória <code class="highlighter-rouge">10</code></p>
+      </li>
+      <li>
+        <p><code class="highlighter-rouge">p[0] == c</code> mesmo se <code class="highlighter-rouge">p</code> não for um vetor</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#include&lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="kt">int</span><span class="o">*</span> <span class="n">ptr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">;</span>
+    <span class="n">vetor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">198</span><span class="p">;</span>
+<span class="c1">//    ptr = 1999;
+</span>    <span class="o">*</span><span class="n">ptr</span> <span class="o">=</span> <span class="mi">18765</span><span class="p">;</span>
+    <span class="n">ptr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9876</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="o-ponteiro-null">O ponteiro NULL</h2>
+
+<p>A constante NULL é um ponteiro especial que codifica a ideia de que um ponteiro está apontando para o nada.</p>
+
+<ul>
+  <li>
+    <p>Em C, NULL é igual a zero, portanto pode ser utilizado como Boolean false.</p>
+  </li>
+  <li>
+    <p>Como zero é um endereço não acessível, dereferenciar NULL gera um erro</p>
+  </li>
+</ul>
+
+<h3 id="curiosidade-o-que-é-stack-overflow">Curiosidade: o que é <em>stack overflow</em>?</h3>
+
+<h2 id="plano-de-aulas">Plano de aulas</h2>
+<ul>
+  <li>Resumo do conteúdo <a href="http://localhost:4000/assets/AE22CP-172-plano.pdf">PDF</a>
+    <ul>
+      <li>Relacionar às estruturas de dados em <a href="http://www.cplusplus.com/reference/stl/">C++ STL</a></li>
+      <li>Utilizar os mesmos nomes de estruturas que em STL
+        <ul>
+          <li>Facilitará o aprendizado introdutório das estruturas C++</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>APS e provas (datas)
+    <ul>
+      <li><a href="https://www.hackerrank.com/ae22cp-17-2">Hackerrannk: AE22CP-17/2</a></li>
+    </ul>
+  </li>
+</ul>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

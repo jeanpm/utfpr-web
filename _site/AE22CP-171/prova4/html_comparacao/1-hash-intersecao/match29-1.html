@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>dieyson-ruthes.cpp</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>dieyson-ruthes.cpp</CENTER></H3><HR>
+<PRE>
+#include &lt;cmath&gt;
+#include &lt;cstdio&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;list&gt;
+using namespace std;
+
+#define CAPACIDADE 1021
+
+struct aluno
+{
+	long elemento;
+};
+int h(long chave)
+{
+	return chave % CAPACIDADE;
+}
+
+long rh(long hash_n)
+{
+	return (hash_n + 1) % CAPACIDADE;
+}
+<A NAME="0"></A>bool inserir(list&lt;aluno&gt;* s[], long elemento)
+{
+	long hash_n= h(elemento);
+<FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match29-0.html#0',2,'match29-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>    int cont=0;
+	int n_ocupadas = 0;
+	while (s[hash_n] &gt; 0  &amp;&amp; n_ocupadas &lt; CAPACIDADE)
+	{
+		hash_n = rh(hash_n);
+		n_ocupadas++;
+	}
+
+	if (n_ocupadas &lt;= CAPACIDADE)
+    {
+        aluno a;
+        a.elemento= elemento;</B></FONT>
+        for(list&lt;aluno&gt;::iterator it= s[hash_n]-&gt;begin();it!= s[hash_n]-&gt;end();it++)
+        {
+            if(it-&gt;elemento==a.elemento)
+            {
+                cont++;
+            }
+        }
+        if(cont==0)
+        {
+            s[hash_n]-&gt;push_front(a);
+            return true;
+        }
+	}
+	return false;
+}
+void intersecao(list&lt;aluno&gt;* La[],list&lt;aluno&gt;* Lb[],list&lt;aluno&gt;* Resulta[])
+{
+    for(int i=0;i&lt;CAPACIDADE;i++)
+    {
+
+        for(list&lt;aluno&gt;::iterator it=La[i]-&gt;begin();it != La[i]-&gt;end();it++)
+        {
+
+            for(list&lt;aluno&gt;::iterator itB=Lb[i]-&gt;begin(); itB!= Lb[i]-&gt;end();itB++){
+                    if(it-&gt;elemento==itB-&gt;elemento){
+                        aluno a;
+                        a.elemento=it-&gt;elemento;
+                        inserir(Resulta,a.elemento);
+                    }
+            }
+        }
+    }
+}
+int main()
+{
+    char nome[100];
+    long matricula;
+    int i,antivirg;
+    int a,capacidade;
+    long n;
+    list&lt;aluno&gt;* tabela_hash1[CAPACIDADE];
+    list&lt;aluno&gt;* tabela_hash2[CAPACIDADE];
+    list&lt;aluno&gt;* Resultado[CAPACIDADE];
+    for(i=0;i&lt;CAPACIDADE;i++)
+    {
+        tabela_hash1[i] = new list&lt;aluno&gt;;
+        tabela_hash2[i] = new list&lt;aluno&gt;;
+        Resultado[i] = new list&lt;aluno&gt;;
+    }
+    cin&gt;&gt;capacidade;
+    for(i=0;i&lt;capacidade;i++)
+    {
+        cin&gt;&gt;n;
+        a= inserir(tabela_hash1,n);
+    }
+    cin&gt;&gt;capacidade;
+    for(i=0;i&lt;capacidade;i++)
+    {
+        cin&gt;&gt;n;
+        a= inserir(tabela_hash2,n);
+    }
+    intersecao(tabela_hash1,tabela_hash2,Resultado);
+    for(i=0;i&lt;CAPACIDADE;i++)
+    {
+        for(list&lt;aluno&gt;::iterator it=Resultado[i]-&gt;begin();it != Resultado[i]-&gt;end();it++)
+        {
+            cout&lt;&lt;it-&gt;elemento&lt;&lt;&quot; &quot;;
+
+        }
+    }
+    cout &lt;&lt; endl;
+    return 0;
+}
+
+
+</PRE>
+</BODY>
+</HTML>

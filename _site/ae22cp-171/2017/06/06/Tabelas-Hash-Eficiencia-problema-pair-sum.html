@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Tabelas Hash e o problema da soma, x+y=k</title>
+  <meta name="description" content="Conteúdo  Conteúdo">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-171/2017/06/06/Tabelas-Hash-Eficiencia-problema-pair-sum.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Tabelas Hash e o problema da soma, x+y=k</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Jun 6, 2017
+          • <i class="fa fa-user"></i> Jean P. Martins
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-171/2017/06/05/Pilhas-Valida%C3%A7%C3%A3o-de-express%C3%B5es-parentizadas.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-171/2017/06/06/Tabelas-Hash-Introdu%C3%A7%C3%A3o.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a></li>
+  <li><a href="#descrição" id="markdown-toc-descrição">Descrição</a></li>
+  <li><a href="#solução-sem-o-uso-de-tabelas-hash" id="markdown-toc-solução-sem-o-uso-de-tabelas-hash">Solução sem o uso de tabelas hash</a></li>
+  <li><a href="#solução-com-o-uso-de-tabelas-hash" id="markdown-toc-solução-com-o-uso-de-tabelas-hash">Solução com o uso de tabelas hash</a></li>
+  <li><a href="#comparação-de-desempenho" id="markdown-toc-comparação-de-desempenho">Comparação de desempenho</a></li>
+</ul>
+
+<blockquote>
+  <p><a href="http://dx.doi.org/10.1590/0101-7438.2015.035.02.0423">Some illustrative examples on the use of Hash tables</a></p>
+</blockquote>
+
+<h1 id="descrição">Descrição</h1>
+
+<p>Dado um vetor <code class="highlighter-rouge">A</code>, de <code class="highlighter-rouge">n</code> inteiros, e um inteiro <code class="highlighter-rouge">k</code> qualquer.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">const</span> <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">A</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+</code></pre>
+</div>
+
+<p>Verifique se existem dois valores em <code class="highlighter-rouge">A</code> cuja soma seja <code class="highlighter-rouge">k</code>, ou seja, verifique se</p>
+
+<p><script type="math/tex">\exists\{x,y\}\in A : x+y = k</script>.</p>
+
+<h1 id="solução-sem-o-uso-de-tabelas-hash">Solução sem o uso de tabelas hash</h1>
+
+<p>Para cada item <code class="highlighter-rouge">A[i]</code>, com <code class="highlighter-rouge">i=0,...,n-1</code>, verifique se o valor que falta até <code class="highlighter-rouge">k</code> também está no vetor.</p>
+
+<p>Obs.: Estamos procurando dois valores <code class="highlighter-rouge">x, y</code> cuja soma seja <code class="highlighter-rouge">k</code>. Considerando <code class="highlighter-rouge">x=A[i]</code>, precisamos encontrar <code class="highlighter-rouge">y=k-A[i]</code> no vetor, chamamos esse valor de complemento da soma. Em resumo <code class="highlighter-rouge">k-A[i]</code> é o complemento da soma para <code class="highlighter-rouge">A[i]</code>.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">verificaSoma</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// Para cada elemento A[i]
+</span>	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="c1">// Verifique a existência de outro elemento A[j]=k-A[i]
+</span>		<span class="c1">// Tal que A[i] + A[j] = k.
+</span>		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+			<span class="c1">// Retorne true, caso encontrado
+</span>			<span class="k">if</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">k</span><span class="p">)</span>
+				<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+	<span class="c1">// Se não encontrado retorne false.
+</span>	<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h1 id="solução-com-o-uso-de-tabelas-hash">Solução com o uso de tabelas hash</h1>
+
+<p>Para cada elemento <code class="highlighter-rouge">A[i]</code>, verifica-se se o seu complemento (<code class="highlighter-rouge">k-A[i]</code>) já foi encontrado anteriormente. Caso negativo, adiciona-se o elemento <code class="highlighter-rouge">A[i]</code> na tabela hash, e continua-se.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">verificaSomaHashTable</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">bool</span><span class="o">&gt;</span> <span class="n">m</span><span class="p">;</span>
+	
+	<span class="c1">// Para cada elemento A[i]
+</span>	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="c1">// Verifica se o complemento k - A[i] está na tabela.
+</span>		<span class="kt">int</span> <span class="n">complemento</span> <span class="o">=</span> <span class="n">abs</span><span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+		<span class="k">if</span> <span class="p">(</span> <span class="n">m</span><span class="p">[</span><span class="n">complemento</span><span class="p">]</span> <span class="o">==</span> <span class="nb">false</span> <span class="p">)</span> 
+			<span class="n">m</span><span class="p">[</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+		<span class="k">else</span>
+		<span class="c1">// Se verdadeiro, significa que o complemento foi
+</span>		<span class="c1">// encontrado anteriormente, em uma das posições 
+</span>		<span class="c1">//           A[0],A[1],...A[i-1].
+</span>		<span class="c1">// Portanto, existe x, y, tais que x+y = k.
+</span>			<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h1 id="comparação-de-desempenho">Comparação de desempenho</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"><strong>Tamanho</strong></th>
+      <th style="text-align: right"><strong>Sem hash (s)</strong></th>
+      <th style="text-align: right"><strong>Com hash (s)</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">10</td>
+      <td style="text-align: right">0.000000</td>
+      <td style="text-align: right">0.000013</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">100</td>
+      <td style="text-align: right">0.000001</td>
+      <td style="text-align: right">0.000119</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1000</td>
+      <td style="text-align: right">0.000142</td>
+      <td style="text-align: right">0.000463</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">10000</td>
+      <td style="text-align: right">0.063888</td>
+      <td style="text-align: right">0.005301</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">100000</td>
+      <td style="text-align: right">10.850567</td>
+      <td style="text-align: right">0.164559</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1000000</td>
+      <td style="text-align: right">366.451135</td>
+      <td style="text-align: right">0.173054</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;chrono&gt;
+</span>
+<span class="c1">// Usa-se chrono de c++ 11, portanto é necessário compilar com -std=c++11
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"%10s%20s%20s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="s">"Tamanho"</span><span class="p">,</span><span class="s">"Sem hash"</span><span class="p">,</span><span class="s">"Com hash"</span><span class="p">);</span>	
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">tamanho</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="n">tamanho</span> <span class="o">&lt;</span> <span class="mf">10e6</span><span class="p">;</span> <span class="n">tamanho</span><span class="o">*=</span><span class="mi">10</span><span class="p">)</span>
+	<span class="p">{</span>	
+		<span class="kt">int</span><span class="o">*</span> <span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">tamanho</span><span class="p">);</span>	
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">tamanho</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="n">INT_MAX</span><span class="p">;</span>
+		<span class="p">}</span>
+	
+		<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="n">tamanho</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="n">tamanho</span><span class="p">;</span>
+	
+		<span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+		<span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+	
+		<span class="k">auto</span> <span class="n">start</span>  <span class="o">=</span> <span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+		<span class="n">verificaSoma</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">tamanho</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+		<span class="k">auto</span> <span class="n">finish</span> <span class="o">=</span> <span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+		<span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">woHash</span> <span class="o">=</span> <span class="n">finish</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>
+	
+		<span class="n">start</span> <span class="o">=</span> <span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+		<span class="n">verificaSomaHashTable</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">tamanho</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+		<span class="n">finish</span> <span class="o">=</span> <span class="n">chrono</span><span class="o">::</span><span class="n">high_resolution_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>	
+		<span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">wHash</span> <span class="o">=</span> <span class="n">finish</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>
+		
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%10d%20lf%20lf</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> 
+			<span class="n">tamanho</span><span class="p">,</span> <span class="n">woHash</span><span class="p">.</span><span class="n">count</span><span class="p">(),</span> <span class="n">wHash</span><span class="p">.</span><span class="n">count</span><span class="p">());</span>
+		
+		<span class="n">free</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

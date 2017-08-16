@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Representar inteiros grandes utilizando listas</title>
+  <meta name="description" content="Conteúdo  Conteúdo">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-171/2017/05/30/Listas-Soma-de-inteiros-grandes.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Representar inteiros grandes utilizando listas</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> May 30, 2017
+          • <i class="fa fa-user"></i> jean
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-171/2017/05/27/TODO.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-171/2017/06/05/Pilhas-Avalia%C3%A7%C3%A3o-de-express%C3%B5es.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a></li>
+  <li><a href="#representação-de-inteiros-grandes-por-listas" id="markdown-toc-representação-de-inteiros-grandes-por-listas">Representação de inteiros grandes por listas</a>    <ul>
+      <li><a href="#objetivo" id="markdown-toc-objetivo">Objetivo</a></li>
+      <li><a href="#descrição" id="markdown-toc-descrição">Descrição</a></li>
+      <li><a href="#adição-de-inteiros-em-listas" id="markdown-toc-adição-de-inteiros-em-listas">Adição de inteiros em listas</a></li>
+      <li><a href="#listas-dinâmicas-versus-estáticas" id="markdown-toc-listas-dinâmicas-versus-estáticas">Listas dinâmicas versus estáticas</a></li>
+    </ul>
+  </li>
+  <li><a href="#implementação---cpp" id="markdown-toc-implementação---cpp">Implementação - cpp</a></li>
+</ul>
+
+<h1 id="representação-de-inteiros-grandes-por-listas">Representação de inteiros grandes por listas</h1>
+
+<p>Em geral, linguagens de programação possuem um tipo de dados inteiro (<strong>int</strong>) que suporta operações básicas como: adição, subtração, multiplicação e divisão. Na prática, no entanto, essas operações são limitadas a valores inteiros menores que um certo limite (<code class="highlighter-rouge">INT_MAX</code>). Deste modo, para aplicações específicas, em que valores maiores que <code class="highlighter-rouge">INT_MAX</code> precisem ser manipulados, o tipo int se torna inadequado.</p>
+
+<p>Uma forma alternativa de se representar inteiros maiores que <code class="highlighter-rouge">INT_MAX</code>, seria utilizar uma estrutura de dados lista, na qual cada item da lista armazene um único dígito (<code class="highlighter-rouge">0-9</code>) do inteiro em questão.</p>
+
+<h2 id="objetivo">Objetivo</h2>
+<p>Utilizar listas duplamente encadeadas dinâmicas para implementar a adição de inteiros grandes positivos! <strong>(Peso: 3,0)</strong></p>
+
+<h2 id="descrição">Descrição</h2>
+
+<p>Considere que os inteiros grandes (positivos) estão incialmente em uma string cada. Exemplo:</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp">	<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">x</span> <span class="o">=</span><span class="s">"92233720368547758079223372036854775807"</span><span class="p">;</span>
+	<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">y</span> <span class="o">=</span><span class="s">"2147483"</span><span class="p">;</span></code></pre></figure>
+
+<p>Cada string deve ser, então, transformada em uma lista de inteiros por uma função <code class="highlighter-rouge">tolist</code>, a ser implementada.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"> 
+	<span class="n">Lista</span><span class="o">*</span> <span class="n">tolist</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">string</span><span class="p">);</span> <span class="o">//</span> <span class="n">Implementar</span></code></pre></figure>
+
+<p>Observe que, para converter um caractere numérico qualquer c=‘1’ para respectivo inteiro a=1, deve-se utilizar o seguinte código.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp">	<span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="err">‘</span><span class="mi">0</span><span class="err">’</span><span class="p">);</span> </code></pre></figure>
+
+<p>Como exemplo, após a função <code class="highlighter-rouge">tolist</code>, a string <code class="highlighter-rouge">y</code> se tornaria uma lista de inteiros.</p>
+
+<script type="math/tex; mode=display">2 \leftrightarrow 1 \leftrightarrow 4 \leftrightarrow 7 \leftrightarrow 4 \leftrightarrow 8 \leftrightarrow 3</script>
+
+<h2 id="adição-de-inteiros-em-listas">Adição de inteiros em listas</h2>
+<p>Dadas duas listas dinâmicas duplamente encadeadas A e B, representando números inteiros grandes, adicioná-las e imprimir a lista resultante.</p>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp">	<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">x</span> <span class="o">=</span><span class="s">"9999"</span><span class="p">;</span>
+	<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">y</span> <span class="o">=</span><span class="s">"22"</span><span class="p">;</span>
+	
+	<span class="n">Lista</span><span class="o">*</span> <span class="n">A</span> <span class="o">=</span> <span class="n">tolist</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="c1">// 9 &lt;-&gt; 9 &lt;-&gt; 9 &lt;-&gt; 9
+</span>	<span class="n">Lista</span><span class="o">*</span> <span class="n">B</span> <span class="o">=</span> <span class="n">tolist</span><span class="p">(</span><span class="n">y</span><span class="p">);</span> <span class="c1">//             2 &lt;-&gt; 2
+</span>	
+	<span class="n">Lista</span><span class="o">*</span> <span class="n">C</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">);</span> <span class="c1">// 1 &lt;-&gt; 0 &lt;-&gt; 0 &lt;-&gt; 2 &lt;-&gt; 1
+</span>	
+	<span class="n">printList</span><span class="p">(</span> <span class="n">C</span> <span class="p">);</span>       <span class="o">//</span> <span class="s">"10021"</span></code></pre></figure>
+
+<h2 id="listas-dinâmicas-versus-estáticas">Listas dinâmicas versus estáticas</h2>
+<p>Indique uma motivação para o uso de listas dinâmicas, e não estáticas, na resolução do problema acima? <strong>(Peso: 1,0)</strong></p>
+
+<h1 id="implementação---cpp">Implementação - cpp</h1>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#include &lt;assert.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "list.h"
+</span><span class="n">Lista</span><span class="o">*</span> <span class="nf">tolist</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">xlen</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+
+	<span class="n">Lista</span><span class="o">*</span> <span class="n">xlista</span> <span class="o">=</span> <span class="n">novaLista</span><span class="p">();</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">xlen</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="kt">int</span> <span class="n">digito</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">;</span>
+		<span class="n">inserirFim</span><span class="p">(</span><span class="n">xlista</span><span class="p">,</span> <span class="n">novoItem</span><span class="p">(</span><span class="n">digito</span><span class="p">));</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">xlista</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Função auxiliar
+   Adiciona a + b + carry.
+   Inicialmente carry é zero.
+   Como a some é de dígitos, somente a parte (x % 10) é retornada.
+   A parte que sobra vai como carry para outra iteração.
+   Exemplo:
+   	a = 9;
+	b = 9;
+	carry = 0;
+
+	sum   = (9 + 9 + 0) % 10; // sum == (18 % 10); sum == 8;
+	carry = (9 + 9 + 0) / 10; // sum == (18 / 10); sum == 1;
+*/</span>
+<span class="kt">int</span> <span class="nf">addDigit</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">,</span> <span class="kt">int</span><span class="o">*</span> <span class="n">carry</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="p">(</span><span class="o">*</span><span class="n">carry</span><span class="p">))</span> <span class="o">%</span> <span class="mi">10</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">carry</span>  <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="p">(</span><span class="o">*</span><span class="n">carry</span><span class="p">))</span> <span class="o">/</span> <span class="mi">10</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">sum</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="cm">/*
+
+Condições:
+	A lista A pode ser maior que a lista B, ou vice-versa;
+Funcionamento:
+	soma-se o item atual de A, o item atual de B e o carry, enquanto houver elementos em ambas.
+Exceção:
+	1. Se A &gt; B, os elementos que restarem de A serão somados apenas com o carry.
+	2. Se ao fim de A, o carry ainda for &gt; 0, ele é inserido na lista resultante.
+*/</span>
+<span class="n">Lista</span><span class="o">*</span> <span class="nf">add</span><span class="p">(</span><span class="n">Lista</span><span class="o">*</span> <span class="n">A</span><span class="p">,</span> <span class="n">Lista</span><span class="o">*</span> <span class="n">B</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// Para identificar a maior lista.
+</span>	<span class="n">Lista</span><span class="o">*</span> <span class="n">maior</span> <span class="o">=</span> <span class="p">(</span><span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">&gt;=</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">?</span> <span class="n">A</span> <span class="o">:</span> <span class="n">B</span><span class="p">);</span>
+	<span class="n">Lista</span><span class="o">*</span> <span class="n">menor</span> <span class="o">=</span> <span class="p">(</span><span class="n">A</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">&lt;</span> <span class="n">B</span><span class="o">-&gt;</span><span class="n">tamanho</span> <span class="o">?</span> <span class="n">A</span> <span class="o">:</span> <span class="n">B</span><span class="p">);</span>
+
+	<span class="n">Lista</span><span class="o">*</span> <span class="n">result</span> <span class="o">=</span> <span class="n">novaLista</span><span class="p">();</span>
+
+	<span class="kt">int</span> <span class="n">carry</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">Item</span><span class="o">*</span> <span class="n">acurr</span> <span class="o">=</span> <span class="n">maior</span><span class="o">-&gt;</span><span class="n">fim</span><span class="p">;</span>
+	<span class="n">Item</span><span class="o">*</span> <span class="n">bcurr</span> <span class="o">=</span> <span class="n">menor</span><span class="o">-&gt;</span><span class="n">fim</span><span class="p">;</span>
+
+	<span class="cm">/*
+	 1.Caso: (enquanto bcurr != NULL)
+	 Soma-se os itens de ambas as listas ao carry, de trás para frente
+	 	    ___
+	 	999 999
+	 	    111
+
+	 2.Caso: (enquanto bcurr == NULL)
+	 Soma-se os itens restantes da lista maior ao carry, é similar a considerar que os itens 
+	 inexistentes em B são zero.
+	 	___   
+	 	999 999
+	 	000 111
+	*/</span>
+	<span class="kt">int</span> <span class="n">avalue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">bvalue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">acurr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>	
+		<span class="n">avalue</span> <span class="o">=</span> <span class="n">acurr</span><span class="o">-&gt;</span><span class="n">valor</span><span class="p">;</span>
+		<span class="n">bvalue</span> <span class="o">=</span> <span class="p">(</span><span class="n">bcurr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">?</span> <span class="n">bcurr</span><span class="o">-&gt;</span><span class="n">valor</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+		
+		<span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">addDigit</span><span class="p">(</span><span class="n">avalue</span><span class="p">,</span> <span class="n">bvalue</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">carry</span><span class="p">);</span>
+		<span class="n">inserirInicio</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">novoItem</span><span class="p">(</span><span class="n">sum</span><span class="p">));</span>
+		
+		<span class="n">acurr</span> <span class="o">=</span> <span class="n">acurr</span><span class="o">-&gt;</span><span class="n">ant</span><span class="p">;</span>
+		<span class="n">bcurr</span> <span class="o">=</span> <span class="p">(</span><span class="n">bcurr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">?</span> <span class="n">bcurr</span><span class="o">-&gt;</span><span class="n">ant</span> <span class="o">:</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="k">if</span> <span class="p">(</span><span class="n">carry</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">inserirInicio</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">novoItem</span><span class="p">(</span><span class="n">carry</span><span class="p">));</span>
+
+	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">argc</span> <span class="o">==</span> <span class="mi">3</span><span class="p">);</span>
+
+	<span class="c1">//const char* x ="99989";
+</span>     	<span class="c1">//const char* y ="1";
+</span>     	
+     	<span class="cm">/*
+     	Para testar a corretude da soma de listas, testar com strings que caibam
+     	num long.
+     	*/</span>
+	<span class="kt">long</span> <span class="n">al</span> <span class="o">=</span> <span class="n">atol</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+	<span class="kt">long</span> <span class="n">bl</span> <span class="o">=</span> <span class="n">atol</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+
+	<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">x</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+     	<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">y</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+
+	<span class="n">Lista</span><span class="o">*</span> <span class="n">A</span> <span class="o">=</span> <span class="n">tolist</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+	<span class="n">Lista</span><span class="o">*</span> <span class="n">B</span> <span class="o">=</span> <span class="n">tolist</span><span class="p">(</span><span class="n">y</span><span class="p">);</span>
+	<span class="n">printLista</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>
+	<span class="n">printLista</span><span class="p">(</span><span class="n">B</span><span class="p">);</span>
+
+	<span class="n">Lista</span><span class="o">*</span> <span class="n">r</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">);</span>
+	
+	<span class="c1">// As duas ultimas linhas impressas devem ser iguais, a menos que a 
+</span>	<span class="c1">// string recebida em argv[1]+argv[2] não caibam num long.
+</span>	<span class="n">printf</span><span class="p">(</span><span class="s">"%ld</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">al</span> <span class="o">+</span> <span class="n">bl</span><span class="p">);</span>
+	<span class="n">printLista</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+
+<span class="p">}</span></code></pre></figure>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

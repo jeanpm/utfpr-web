@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>2-carol-mayer.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>2-carol-mayer.c</CENTER></H3><HR>
+<PRE>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+//PILHA (LIFO/Last-In-First-Out) ALOCADA DINAMICAMENTE
+
+typedef struct celula{
+	int conteudo;
+	struct celula*prox;
+}celula;
+typedef struct pilhaD{
+	celula*inicio;
+	int cont;
+}pilhaD;
+
+void inicializa(pilhaD *p)
+{
+	p-&gt;inicio = NULL;
+	p-&gt;cont = 0;
+}
+
+celula *cria(int conteudo)
+{
+	celula *p = malloc(sizeof(celula));
+	p-&gt;conteudo = conteudo;
+	p-&gt;prox = NULL;
+	return p;
+}
+
+int pilha_vazia(pilhaD *p)
+{
+	if(p == NULL || p-&gt;inicio == NULL)
+	{
+		//printf(&quot;Pilha vazia\n&quot;);
+		return 1;
+	}
+	return 0;
+}
+
+int empilha(pilhaD *p, int conteudo)
+{
+	if(p == NULL)
+	{
+		return 0;
+	}
+	celula *novo = cria(conteudo);
+	if(novo == NULL)
+	{
+		return 0;
+	}
+
+	novo-&gt; conteudo = conteudo;
+	novo-&gt;prox = p-&gt;inicio;
+	p-&gt;inicio = novo;
+	p-&gt;cont++;
+	return 1;
+}
+
+
+char desempilha(pilhaD *p)
+{
+	if(p == NULL || p-&gt;inicio == NULL)
+	{
+		printf(&quot;Nao ha elementos na pilha\n&quot;);
+		return 0;
+	}
+
+	int ret = p-&gt;inicio-&gt;conteudo;
+
+	celula *rmv = p-&gt;inicio;
+	p-&gt;inicio = p-&gt;inicio-&gt;prox;
+	free(rmv);
+	p-&gt;cont--;
+	return(ret);
+}
+
+celula *busca_topo (pilhaD *p)
+{
+	celula *novo = p-&gt;inicio;
+	printf(&quot;\n Topo: %d\n\n&quot;,novo-&gt;conteudo);
+	return novo;
+}
+
+void imprime_pilha (pilhaD *p)
+{
+	celula *novo;
+	for(novo = p-&gt;inicio;novo != NULL;novo = novo-&gt;prox)
+	{
+      		printf(&quot;%c\n&quot;, novo-&gt;conteudo);
+	}
+}
+
+
+void apaga_pilha (pilhaD *p)
+{
+	int i=0;
+
+	celula *ant = p-&gt;inicio;
+	celula *atual = p-&gt;inicio;
+
+	while (atual != NULL)
+	{
+		ant = atual;
+		atual = atual-&gt;prox;
+		free(ant);
+<A NAME="0"></A>	}
+	p-&gt;inicio = NULL;
+	p-&gt;cont = 0;
+<FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match12-0.html#0',2,'match12-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>}
+
+int main(void)
+{
+    char palavra[100];
+	pilhaD p;
+	int i=0;
+
+
+	//celula *A = cria(0);
+
+	inicializa(&amp;p);
+	//printf(&quot;\ndigite a palavra:&quot;);
+	scanf(&quot;%s&quot;,&amp;palavra);
+
+	while(palavra[i]!='C')
+    {
+        empilha(&amp;p,palavra[i]);
+        i++;
+    }
+    empilha(&amp;p,palavra[i]);
+ //  imprime_pilha (&amp;p);
+
+
+  // printf(&quot;\n%s&quot;,palavra);
+    while(pilha_vazia(&amp;p)!=1)
+
+    {</B></FONT>
+        //if(pilha_vazia(&amp;p)!=0)
+        //{
+          if(desempilha(&amp;p)==palavra[i])
+            {
+                i++;
+
+
+            }
+            else
+            {
+                printf(&quot;NÃO&quot;);
+                return -1;
+
+
+            }
+       // }
+       // else
+       // {
+         //   printf(&quot;NAO&quot;);
+         //   return -1;
+      //  }
+
+    }
+
+
+if(pilha_vazia(&amp;p)==1)
+{
+    printf(&quot;SIM&quot;);
+
+}
+else
+{
+    printf(&quot;NÃO&quot;);
+}
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

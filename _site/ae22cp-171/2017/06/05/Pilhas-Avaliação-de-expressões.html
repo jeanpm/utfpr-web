@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Representações infixa, prefixa e posfixa</title>
+  <meta name="description" content="  Achamos que, no estágio de desenvolvimento de um estudante para o qual este texto foi elaborado, é mais importante discutir vários exemplos em detalhes do ...">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-171/2017/06/05/Pilhas-Avalia%C3%A7%C3%A3o-de-express%C3%B5es.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Representações infixa, prefixa e posfixa</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Jun 5, 2017
+          • <i class="fa fa-user"></i> Jean P. Martins
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-171/2017/05/30/Listas-Soma-de-inteiros-grandes.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-171/2017/06/05/Pilhas-Valida%C3%A7%C3%A3o-de-express%C3%B5es-parentizadas.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <blockquote>
+  <p>Achamos que, no estágio de desenvolvimento de um estudante para o qual este texto foi elaborado, é mais importante discutir vários exemplos em detalhes do que uma ampla variedade de tópicos superficialmente. 
+[Estruturas de dados usando C (Tenenbaum et al.)][1]</p>
+</blockquote>
+
+<h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a></li>
+  <li><a href="#introdução" id="markdown-toc-introdução">Introdução</a>    <ul>
+      <li><a href="#input-format" id="markdown-toc-input-format">Input Format</a></li>
+      <li><a href="#output-format" id="markdown-toc-output-format">Output Format</a></li>
+      <li><a href="#motivação" id="markdown-toc-motivação">Motivação</a></li>
+      <li><a href="#notação-préfixa" id="markdown-toc-notação-préfixa">Notação préfixa</a></li>
+      <li><a href="#notação-pósfixa" id="markdown-toc-notação-pósfixa">Notação pósfixa</a></li>
+      <li><a href="#utilidade" id="markdown-toc-utilidade">Utilidade</a></li>
+      <li><a href="#conversão-infixapósfixa" id="markdown-toc-conversão-infixapósfixa">Conversão infixa/pósfixa</a></li>
+    </ul>
+  </li>
+  <li><a href="#avaliação-de-expressão-pósfixa" id="markdown-toc-avaliação-de-expressão-pósfixa">Avaliação de expressão pósfixa</a></li>
+</ul>
+
+<h1 id="introdução">Introdução</h1>
+
+<p>Considere a soma de A mais B, numa expressão <code class="highlighter-rouge">A+B</code>. Neste exemplo, <code class="highlighter-rouge">+</code> é um operador sendo aplicado aos operandos <code class="highlighter-rouge">A,B</code>. Este tipo de representação para a expressão de soma dos dois operandos é chamada <strong>infixa</strong>, pois o operador se posiciona entre os operandos.</p>
+
+<p>Considerando-se o posicionamento do operador, no entando, existem duas representações alternativas: <strong>prefixa</strong> e <strong>posfixa</strong>.</p>
+
+<ul>
+  <li>+AB (prefixa)</li>
+  <li>AB+ (posfixa)</li>
+</ul>
+
+<h2 id="input-format">Input Format</h2>
+<p>Uma string contendo operandos (dígitos 0-9) e operandos (+,-,/,^,*) na forma posfixa. O operador <code class="highlighter-rouge">exponenciação</code> é indicado pelo caracter ‘^’, e pode ser implementado pela função:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;math.h&gt;
+
+// Exponenciação, é representada por AB^ (posfixa) =&gt; A^B (infixa) 
+double r = pow(A, B);
+</code></pre>
+</div>
+
+<p>A string pode conter espaços, os quais devem ser ignorados. As seguintes funções podem ser utilizadas para verificar o tipo de um caracter char c.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#include &lt;ctype.h&gt;
+
+int isblank(char); // Verdadeiro se o caractere é um espaço ou um tab
+int isdigit(char); // Verdadeiro se o caractere é um dígito: 0,1,...,9
+</code></pre>
+</div>
+
+<h2 id="output-format">Output Format</h2>
+<p>Um double representando o resultado deve ser impresso:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>printf("%f", resultado);
+</code></pre>
+</div>
+
+<h2 id="motivação">Motivação</h2>
+<p>Como poderá ser notado, notações prefixa e posfixa removem a ambiguidade de uma expressão, desta forma, parenteses não são mais necessários.</p>
+
+<h2 id="notação-préfixa">Notação préfixa</h2>
+<p>Para compreendermos a utilidade das notações prefixa e posfixa, consideremos as demais operações sobre listas de inteiros grandes:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>	Lista* mult(Lista* A, Lista* B);
+	Lista* div(Lista* A, Lista* B);	
+</code></pre>
+</div>
+
+<p>Dada uma expressão de exemplo, definida como:</p>
+
+<script type="math/tex; mode=display">(A + B/C) * D</script>
+
+<p>Ela seria implementada pelas funções da seguinte forma:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>	mult(add(A, div(B,C)),D);
+</code></pre>
+</div>
+
+<p>O que utilizando a notação prefixa em termos de <script type="math/tex">+,*,/</script>, avalia-se a expressão acima, considerando-se as operações que serão efetuadas em primeiro lugar, ou seja, neste caso:</p>
+
+<ol>
+  <li>divisão <script type="math/tex">\rightarrow /BC</script>,</li>
+  <li>adição <script type="math/tex">\rightarrow +A/BC</script>,</li>
+  <li>multiplicação <script type="math/tex">\rightarrow *+A/BCD</script>.</li>
+</ol>
+
+<script type="math/tex; mode=display">*+A/BCD</script>
+
+<p>Para comprovarmos se essa expressão se equivale à forma infixa, performe as operações assim que dois operandos estiverem disponíveis, iniciando a avaliação da esquerda para a direita.</p>
+
+<p>Ao compararmos as duas representações para a expressão, o que é visivelmente notável?</p>
+
+<script type="math/tex; mode=display">(A + B/C) * D</script>
+
+<script type="math/tex; mode=display">*+A/BCD</script>
+
+<p><strong>RESP: Parenteses se tornam desnecessários!</strong></p>
+
+<h2 id="notação-pósfixa">Notação pósfixa</h2>
+
+<p>Tanto na notação préfixa quanto na pósfixa, é importante lembrar que os operadores com precedência devem ser avaliados/convertidos primeiro, a não ser que uma possível parentização altere a ordem de precedência.</p>
+
+<p>No exemplo anterior <script type="math/tex">(A+B/C) * D</script>, a multiplicação é efetuado somente ao final, devido à parentização. A ausência de parênteses, nesse exemplo, nos permitiria outras interpretações:</p>
+
+<script type="math/tex; mode=display">A + ((B/C) * D)</script>
+
+<script type="math/tex; mode=display">A + (B / (C*D))</script>
+
+<p>A forma pósfixa é a contrapartida da prefixa, em que os operadores são posicionados após os operandos. Retornando ao exemplo original <script type="math/tex">(A+B/C)*D</script>, temos que a divisão <script type="math/tex">B/C</script> deve ser convertida em primeiro lugar:</p>
+
+<script type="math/tex; mode=display">(A + BC/) * D</script>
+
+<p>Em seguida a adição entre parênteses</p>
+
+<script type="math/tex; mode=display">(ABC/+) * D</script>
+
+<p>Por fim, a multiplicação</p>
+
+<script type="math/tex; mode=display">ABC/+D*</script>
+
+<h2 id="utilidade">Utilidade</h2>
+
+<p>Dada a expressão em forma infixa, elabore um algoritmo que dê o resultado da expressão em apenas uma leitura da string:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  (A + B/C) * D
+</code></pre>
+</div>
+
+<p>Dada a expressão em forma pósfixa, elabore um  algoritmo que dê o resultado da expressão em apenas uma leitura da string:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  ABC/+D*
+</code></pre>
+</div>
+
+<h2 id="conversão-infixapósfixa">Conversão infixa/pósfixa</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Forma infixa</strong></td>
+      <td><strong>Forma pósfixa</strong></td>
+    </tr>
+    <tr>
+      <td>A+ B</td>
+      <td>AB+</td>
+    </tr>
+    <tr>
+      <td>A+B-C</td>
+      <td>AB+C-</td>
+    </tr>
+    <tr>
+      <td>(A+B) * C</td>
+      <td>AB+C*</td>
+    </tr>
+    <tr>
+      <td>A+(B*C)</td>
+      <td>ABC*+</td>
+    </tr>
+    <tr>
+      <td>(A+B)*(C-D)</td>
+      <td>AB+CD-*</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="avaliação-de-expressão-pósfixa">Avaliação de expressão pósfixa</h1>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#include &lt;assert.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;ctype.h&gt;
+#include &lt;math.h&gt;
+#include &lt;string&gt;
+#include &lt;stack&gt;
+#include &lt;iostream&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+
+<span class="cm">/*
+ Dado um caractere representando um operador qualquer, retorna-se o 
+ resultado da operação c(a,b)
+*/</span>
+<span class="kt">double</span> <span class="nf">operacao</span><span class="p">(</span><span class="kt">char</span> <span class="n">c</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a</span><span class="p">,</span> <span class="kt">double</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">switch</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span>
+	<span class="p">{</span>
+	<span class="k">case</span> <span class="sc">'+'</span> <span class="p">:</span> <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">'-'</span> <span class="p">:</span> <span class="k">return</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">'*'</span> <span class="p">:</span> <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">'/'</span> <span class="p">:</span> <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">'^'</span> <span class="p">:</span> <span class="k">return</span> <span class="n">pow</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span> <span class="c1">// Exponenciação
+</span>	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**
+ Avalia uma expressão pósfixa. Nenhuma verificação sintática é feita 
+ na expressão, portanto, expressões inválidas podem levar a
+ comportamento inesperado da função.
+*/</span>
+<span class="kt">double</span> <span class="nf">evalpos</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// Estrutura de dados  pilha da STL de c++
+</span>	<span class="c1">// Armazena valores `double`
+</span>	<span class="n">std</span><span class="o">::</span><span class="n">stack</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">p</span><span class="p">;</span>
+	
+	<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	
+	<span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="sc">' '</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'\0'</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">c</span> <span class="o">=</span> <span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">];</span>
+		
+		<span class="k">if</span> <span class="p">(</span><span class="n">isblank</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+		<span class="p">{</span><span class="c1">// Se o caractere é um espaço ou tab
+</span>			<span class="k">continue</span><span class="p">;</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">isdigit</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> 
+		<span class="p">{</span><span class="c1">// Se o caractere atual é um operando, um dígito (0-9)
+</span>			<span class="c1">// Insere-se o mesmo na pilha
+</span>			<span class="n">p</span><span class="p">.</span><span class="n">push</span><span class="p">((</span><span class="kt">double</span><span class="p">)</span> <span class="n">c</span> <span class="o">-</span> <span class="sc">'0'</span><span class="p">);</span>
+		<span class="p">}</span> <span class="k">else</span> 
+		<span class="p">{</span><span class="c1">// Se e[i] não é um operando, ele deveria ser um operador. 
+</span>			<span class="c1">// Neste caso, desempilha-se dois operandos da pilha.
+</span>			<span class="c1">// Obs: o segundo será o primeiro operando
+</span>			<span class="kt">double</span> <span class="n">b</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">top</span><span class="p">();</span> <span class="n">p</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+			<span class="kt">double</span> <span class="n">a</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">top</span><span class="p">();</span> <span class="n">p</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>	
+			
+			<span class="c1">// Efetua-se a operação determinada por e[i]
+</span>			<span class="n">a</span> <span class="o">=</span> <span class="n">operacao</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+			
+			<span class="c1">// Insere o resultado novamente na pilha.
+</span>			<span class="n">p</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	
+	<span class="c1">// O resultado estará no topo da pilha, retorne-o.
+</span>	<span class="kt">double</span> <span class="n">result</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">top</span><span class="p">();</span> <span class="n">p</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">string</span> <span class="n">expressao</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">expressao</span><span class="p">;</span>
+    
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">evalpos</span><span class="p">(</span><span class="n">expressao</span><span class="p">.</span><span class="n">c_str</span><span class="p">()));</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

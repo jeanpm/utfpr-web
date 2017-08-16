@@ -1,0 +1,246 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>2-carol-mayer.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>2-carol-mayer.c</CENTER></H3><HR>
+<PRE>
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+#include&lt;math.h&gt;
+
+#define TAM 1000
+<A NAME="0"></A>
+//TABELA HASH COM TRATAMENTO DE COLISÕES POR ENCADEAMENTO SEPARADO
+
+<FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match2-0.html#0',2,'match2-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>typedef struct celula{
+	int conteudo;
+	struct celula*prox;
+	struct celula*ant;
+}celula;
+
+typedef struct listaDENC{
+	celula*inicio;
+	int cont;
+}listaDENC;
+
+listaDENC *inicializa()
+{
+	listaDENC* l = (listaDENC*) malloc(sizeof(listaDENC));
+
+	l-&gt;inicio = NULL;
+	l-&gt;cont = 0;
+
+	return l;
+}
+
+celula *cria(int conteudo)
+{
+	celula *p = malloc(sizeof(celula));
+	p-&gt;conteudo = conteudo;
+	p-&gt;prox = NULL;
+	p-&gt;ant = NULL;
+	return p;
+}
+
+int HASH(int conteudo)
+{
+	return(conteudo % TAM);
+}
+
+int insere_inicio(listaDENC *l, int conteudo)
+{
+	if(l == NULL)
+	{
+		return 0;
+	}
+	celula *novo = cria(conteudo);
+	if(novo == NULL)
+	{
+		return 0;
+	}
+
+	novo-&gt;prox = l-&gt;inicio;
+	novo-&gt;ant = NULL;
+	l-&gt;inicio = novo;
+	if(novo-&gt;prox != NULL)
+	{
+		novo-&gt;prox-&gt;ant = novo;
+	}
+
+	l-&gt;cont++;
+	return 1;
+}
+int insere_fim(listaDENC *l, int conteudo)
+{
+	if(l-&gt;inicio==NULL)
+	{
+		return(insere_inicio(l,conteudo));
+	}
+
+	celula *novo = cria(conteudo);
+
+	if(novo==NULL)
+	{
+		return (0);
+	}
+
+	celula *ultimo = l-&gt;inicio;
+
+	while(ultimo-&gt;prox !=NULL)
+	{
+		ultimo = ultimo-&gt;prox;
+
+	}
+
+	ultimo-&gt;prox=novo;
+	l-&gt;cont++;
+	return 1;
+}
+
+void imprimelista (listaDENC *l)
+{
+	celula *p;
+
+	for(p = l-&gt;inicio;p != NULL;p = p-&gt;prox)
+	{
+      		printf(&quot;%d &quot;, p-&gt;conteudo);
+	}
+}
+
+void imprime_lista (listaDENC *l)
+{
+	celula *p =l-&gt;inicio;
+
+	while(p-&gt;prox != NULL)
+	{
+		printf(&quot;%d &quot;, p-&gt;conteudo);
+		p = p-&gt;prox;
+
+	}
+	printf(&quot;%d &quot;, p-&gt;conteudo);
+}</B></FONT>
+<A NAME="2"></A>
+
+
+<FONT color="#77bfc7"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match2-0.html#2',2,'match2-top.html#2',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>int main(void)
+{
+	int i=0,j=0,A=0,B=0,C=0;
+	int conteudo;
+<A NAME="3"></A>	int marcador=0;</B></FONT>
+	listaDENC** hashc = (listaDENC**) malloc(TAM*sizeof(listaDENC*));
+	listaDENC** hasha = (listaDENC**)malloc(TAM*sizeof(listaDENC*));
+<FONT color="#6cc417"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match2-0.html#3',2,'match2-top.html#3',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>    listaDENC** hashb = (listaDENC**)malloc(TAM*sizeof(listaDENC*));
+
+    	scanf(&quot;%d&quot;,&amp;A);
+	for (i = 0; i &lt; TAM; i++)
+	{
+		hasha[i] = inicializa();
+	}
+   	for(i = 0;i &lt; A; i++)
+    	{
+		scanf(&quot;%d&quot;,&amp;conteudo);
+		for(j = 0;j &lt; TAM; j++)
+        	{
+			if(hasha[j]-&gt;inicio != NULL)
+			{
+				if(hasha[j]-&gt;inicio-&gt;conteudo == conteudo)
+				{
+					marcador = 1;
+				}
+			}
+       		 }
+
+        	if(marcador == 0)
+        	{
+        		insere_fim(hasha[HASH(conteudo)],conteudo);
+       	 	}
+		else
+		{
+			marcador = 0;
+		}
+		
+  	 }
+	i=0;
+<A NAME="4"></A>	j=0;
+	marcador=0;</B></FONT>
+   	scanf(&quot;%d&quot;,&amp;B);
+<FONT color="#151b8d"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match2-0.html#4',2,'match2-top.html#4',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>    for (i = 0; i &lt; TAM; i++)
+    	{
+        	hashb[i] = inicializa();
+    	}
+   	 for(i = 0;i &lt; B; i++)
+    	{
+		scanf(&quot;%d&quot;,&amp;conteudo);
+		for(j = 0;j &lt; TAM; j++)
+        	{
+			if(hashb[j]-&gt;inicio != NULL)
+			{
+				if(hashb[j]-&gt;inicio-&gt;conteudo == conteudo)
+				{
+					marcador = 1;
+				}
+			}
+       		 }
+
+        	if(marcador == 0)
+        	{
+        		insere_fim(hashb[HASH(conteudo)],conteudo);
+       	 	}
+		else
+		{
+			marcador = 0;
+		}
+	
+  	 }
+
+
+ 	C = A+B;</B></FONT>
+ 	for (i = 0; i &lt; TAM; i++)
+    	{
+<A NAME="1"></A>       		 hashc[i] = inicializa();
+    	}
+
+<FONT color="#f63526"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match2-0.html#1',2,'match2-top.html#1',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>for (i = 0; i &lt; TAM; i++)
+	{
+		for(j = 0;j &lt; TAM; j++)
+		{
+			if(hasha[i]-&gt;inicio != NULL &amp;&amp; hashb[j]-&gt;inicio != NULL)
+			{
+				if(hasha[i]-&gt;inicio-&gt;conteudo == hashb[j]-&gt;inicio-&gt;conteudo)
+				{
+					insere_fim(hashc[HASH(hasha[i]-&gt;inicio-&gt;conteudo)],hasha[i]-&gt;inicio-&gt;conteudo);
+				}
+
+
+			}
+		}
+	}</B></FONT>
+
+
+    for(i = 0;i &lt; TAM; i++)
+    {
+        if(hashc[i]-&gt;inicio != NULL)
+	{
+            imprime_lista(hashc[i]);
+	}
+  }
+
+	return(0);
+}
+</PRE>
+</BODY>
+</HTML>

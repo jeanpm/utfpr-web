@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Structs, unions, vetores, strings I</title>
+  <meta name="description" content="Contato  Jean Paulo Martins  Sala 105  e-mail jeanmartins@utfpr.edu.br">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-172/2017/08/07/Tipos-abstratos-structs-unions-vetores.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Structs, unions, vetores, strings I</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Aug 7, 2017
+          • <i class="fa fa-user"></i> jean
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-172/2017/08/07/Apresenta%C3%A7%C3%A3o.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-172/2017/08/07/Structs-unions-vetores.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h2 id="contato">Contato</h2>
+<ul>
+  <li>Jean Paulo Martins</li>
+  <li>Sala 105</li>
+  <li>e-mail jeanmartins@utfpr.edu.br</li>
+</ul>
+
+<h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#contato" id="markdown-toc-contato">Contato</a></li>
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a></li>
+  <li><a href="#ambiente-de-programação" id="markdown-toc-ambiente-de-programação">Ambiente de programação</a></li>
+  <li><a href="#entrada-de-dados" id="markdown-toc-entrada-de-dados">Entrada de dados</a>    <ul>
+      <li><a href="#utilizando-argumentos-de-entrada" id="markdown-toc-utilizando-argumentos-de-entrada">Utilizando argumentos de entrada</a></li>
+      <li><a href="#exercícios" id="markdown-toc-exercícios">Exercícios</a>        <ul>
+          <li><a href="#1-utilizando-argc-e-argv-mostrar-como-exemplo" id="markdown-toc-1-utilizando-argc-e-argv-mostrar-como-exemplo">1. Utilizando argc e argv: (Mostrar como exemplo)</a></li>
+          <li><a href="#2-acessando-os-elementos-em-argv-echo" id="markdown-toc-2-acessando-os-elementos-em-argv-echo">2. Acessando os elementos em argv: echo</a></li>
+          <li><a href="#3-transformando-strings-atoi-atol-atof" id="markdown-toc-3-transformando-strings-atoi-atol-atof">3. Transformando strings: atoi, atol, atof:</a></li>
+          <li><a href="#4-utilizando-a-entrada" id="markdown-toc-4-utilizando-a-entrada">4. Utilizando a entrada</a></li>
+        </ul>
+      </li>
+      <li><a href="#utilizando-a-entrada-padrão" id="markdown-toc-utilizando-a-entrada-padrão">Utilizando a entrada padrão</a></li>
+      <li><a href="#exercícios-1" id="markdown-toc-exercícios-1">Exercícios</a>        <ul>
+          <li><a href="#1-utilizando-scanf" id="markdown-toc-1-utilizando-scanf">1. Utilizando <code class="highlighter-rouge">scanf</code></a></li>
+          <li><a href="#2-utilizando-scanf-e-redirecionamento-da-entrada" id="markdown-toc-2-utilizando-scanf-e-redirecionamento-da-entrada">2. Utilizando scanf e redirecionamento da entrada</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#structs" id="markdown-toc-structs">Structs</a>    <ul>
+      <li><a href="#exercícios-2" id="markdown-toc-exercícios-2">Exercícios</a>        <ul>
+          <li><a href="#1-implementar-um-vetor-de-5-structs-pessoa" id="markdown-toc-1-implementar-um-vetor-de-5-structs-pessoa">1. Implementar um vetor de 5 structs Pessoa</a></li>
+          <li><a href="#2-implementar-uma-função-que-implemente-a-multiplicacao-de-duas-estruturas-fracao" id="markdown-toc-2-implementar-uma-função-que-implemente-a-multiplicacao-de-duas-estruturas-fracao">2. Implementar uma função que implemente a multiplicacao de duas estruturas <code class="highlighter-rouge">Fracao</code></a></li>
+        </ul>
+      </li>
+      <li><a href="#plano-de-aulas" id="markdown-toc-plano-de-aulas">Plano de aulas</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="ambiente-de-programação">Ambiente de programação</h1>
+<ul>
+  <li>Linux vs Windows: o que utilizar?</li>
+  <li>Instalar ferramentas de programação GNU (cygwin no windows)</li>
+  <li>Configurar para uso via linha de comando</li>
+</ul>
+
+<h1 id="entrada-de-dados">Entrada de dados</h1>
+<h2 id="utilizando-argumentos-de-entrada">Utilizando argumentos de entrada</h2>
+<ul>
+  <li>O que são os parâmetros <code class="highlighter-rouge">argc</code> e <code class="highlighter-rouge">argv</code></li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="exercícios">Exercícios</h2>
+<h3 id="1-utilizando-argc-e-argv-mostrar-como-exemplo">1. Utilizando argc e argv: (Mostrar como exemplo)</h3>
+<ul>
+  <li>Implementar um código que imprima o conteúdo das variáveis <code class="highlighter-rouge">argc</code> e <code class="highlighter-rouge">argv[0]</code>.</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"argc = %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">argc</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"argv[0] = %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="2-acessando-os-elementos-em-argv-echo">2. Acessando os elementos em argv: echo</h3>
+<ul>
+  <li>Implementar um código que imprima todos os elementos do vetor <code class="highlighter-rouge">argv</code></li>
+</ul>
+
+<h3 id="3-transformando-strings-atoi-atol-atof">3. Transformando strings: atoi, atol, atof:</h3>
+<ul>
+  <li>Implemente um código que receba como parâmetros um <code class="highlighter-rouge">int</code>, um <code class="highlighter-rouge">long</code> e um <code class="highlighter-rouge">float</code> nessa ordem.</li>
+</ul>
+
+<h3 id="4-utilizando-a-entrada">4. Utilizando a entrada</h3>
+<ul>
+  <li>Implemente um código que receba um inteiro <script type="math/tex">i > 0</script> e imprima todos valores de <script type="math/tex">0\dots i</script>.</li>
+</ul>
+
+<h2 id="utilizando-a-entrada-padrão">Utilizando a entrada padrão</h2>
+<ul>
+  <li>scanf: int, float, char, char-, double, long</li>
+</ul>
+
+<h2 id="exercícios-1">Exercícios</h2>
+<h3 id="1-utilizando-scanf">1. Utilizando <code class="highlighter-rouge">scanf</code></h3>
+<ul>
+  <li>Leia e imprima, iterativamente, cinco inteiros</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">valor</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">valor</span><span class="p">);</span> <span class="c1">// Explicar o &amp;valor
+</span>		<span class="n">printf</span><span class="p">(</span><span class="s">"%d "</span><span class="p">,</span> <span class="n">valor</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="2-utilizando-scanf-e-redirecionamento-da-entrada">2. Utilizando scanf e redirecionamento da entrada</h3>
+<ul>
+  <li>Leia um inteiro com scanf o qual indicará o tamanho de sequência de strings</li>
+  <li>Iterativamente, leia e imprima a string lida.</li>
+  <li>O que acontece se a sequência for muito grande? <strong>Tedioso</strong>.</li>
+  <li>Utilizar redirecionamento de entrada e arquivos</li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#define STR_MAX 100
+</span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">nelementos</span><span class="p">;</span>
+	<span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nelementos</span><span class="p">);</span>
+
+	<span class="kt">char</span> <span class="n">valor</span><span class="p">[</span><span class="n">STR_MAX</span><span class="p">];</span> <span class="c1">// Definir as constantes
+</span>	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nelementos</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">scanf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">valor</span><span class="p">);</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%s "</span><span class="p">,</span> <span class="n">valor</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="o">/</span><span class="n">main</span> <span class="o">&lt;</span> <span class="n">entrada</span><span class="p">.</span><span class="n">txt</span>
+<span class="p">.</span><span class="o">/</span><span class="n">main</span> <span class="o">&lt;</span> <span class="n">entrada</span><span class="p">.</span><span class="n">txt</span> <span class="o">&gt;</span> <span class="n">saida</span><span class="p">.</span><span class="n">txt</span>
+</code></pre>
+</div>
+
+<h1 id="structs">Structs</h1>
+<p>Uma <code class="highlighter-rouge">struct</code> é uma construção da linguagem C/C++ que nos permite agrupar informações, i.e. nos permite criar um tipo de dados complexo.</p>
+
+<p>Por exemplo, assuma que precisemos manipular frações. Uma fração pode ser representada por dois valores inteiros, no entanto, não existe um tipo de dados específico para isso, podemos criar.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Fracao</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">numerador</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">denominador</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>Uma <code class="highlighter-rouge">struct</code> também pode conter outras <code class="highlighter-rouge">structs</code></p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">parOrdenado</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">Fracao</span> <span class="n">p1</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">Fracao</span> <span class="n">p2</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>Uma <code class="highlighter-rouge">struct</code> pode ser heterogênea e conter diversos tipos de dados ao mesmo tempo:</p>
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#define MAX_STR 100
+</span><span class="k">struct</span> <span class="n">Pessoa</span> <span class="p">{</span>
+	<span class="kt">char</span> <span class="n">nome</span><span class="p">[</span><span class="n">MAX_STR</span><span class="p">];</span>
+	<span class="kt">long</span> <span class="n">cpf</span><span class="p">;</span>
+	<span class="kt">int</span>  <span class="n">idade</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<h2 id="exercícios-2">Exercícios</h2>
+<h3 id="1-implementar-um-vetor-de-5-structs-pessoa">1. Implementar um vetor de 5 structs Pessoa</h3>
+<p>Ler as informações iterativamente por scanf e armazenar em cada struct.</p>
+
+<p>Implementar uma função que receba o vetor de structs e retorne a média de idade.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">float</span> <span class="n">media</span><span class="p">(</span><span class="k">struct</span> <span class="n">Pessoa</span><span class="p">[]);</span>
+</code></pre>
+</div>
+
+<p>Imprimir a média de idade dos elementos do vetor.</p>
+
+<h3 id="2-implementar-uma-função-que-implemente-a-multiplicacao-de-duas-estruturas-fracao">2. Implementar uma função que implemente a multiplicacao de duas estruturas <code class="highlighter-rouge">Fracao</code></h3>
+
+<p>Chamar a função da main e imprimir o resultado.</p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">Fracao</span> <span class="nf">multiplicacao</span><span class="p">(</span><span class="k">struct</span> <span class="n">Fracao</span> <span class="n">a</span><span class="p">,</span> <span class="k">struct</span> <span class="n">Fracao</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">Fracao</span> <span class="n">c</span><span class="p">;</span>
+	<span class="n">c</span><span class="p">.</span><span class="n">numerador</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">numerador</span> <span class="o">*</span> <span class="n">b</span><span class="p">.</span><span class="n">numerador</span><span class="p">;</span>
+	<span class="n">c</span><span class="p">.</span><span class="n">denominador</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">denominador</span> <span class="o">*</span> <span class="n">b</span><span class="p">.</span><span class="n">denominador</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">c</span><span class="p">;</span> <span class="c1">// !!!Retornando uma variável local!!!
+</span><span class="p">}</span>
+</code></pre>
+</div>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">multiplicacao</span><span class="p">(</span><span class="k">struct</span> <span class="n">Fracao</span> <span class="n">a</span><span class="p">,</span> <span class="k">struct</span> <span class="n">Fracao</span> <span class="n">b</span><span class="p">,</span> <span class="k">struct</span> <span class="n">Fracao</span><span class="o">*</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">c</span><span class="o">-&gt;</span><span class="n">numerador</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">numerador</span> <span class="o">*</span> <span class="n">b</span><span class="p">.</span><span class="n">numerador</span><span class="p">;</span>
+	<span class="n">c</span><span class="o">-&gt;</span><span class="n">denominador</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">denominador</span> <span class="o">*</span> <span class="n">b</span><span class="p">.</span><span class="n">denominador</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="plano-de-aulas">Plano de aulas</h2>
+<ul>
+  <li>Resumo do conteúdo <a href="http://localhost:4000/assets/AE22CP-172-plano.pdf">PDF</a>
+    <ul>
+      <li>Relacionar às estruturas de dados em <a href="http://www.cplusplus.com/reference/stl/">C++ STL</a></li>
+      <li>Utilizar os mesmos nomes de estruturas que em STL
+        <ul>
+          <li>Facilitará o aprendizado introdutório das estruturas C++</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>APS e provas (datas)
+    <ul>
+      <li><a href="https://www.hackerrank.com/ae22cp-17-2">Hackerrannk: AE22CP-17/2</a></li>
+    </ul>
+  </li>
+</ul>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Lógica Proposicional informal</title>
+  <meta name="description" content="Contato  Jean Paulo Martins  Sala 105  e-mail jeanmartins@utfpr.edu.br">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/lc21cp-172/2017/08/10/Logica-informal.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Lógica Proposicional informal</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Aug 10, 2017
+          • <i class="fa fa-user"></i> jean
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/lc21cp-172/2017/08/09/Logica-para-computa%C3%A7%C3%A3o.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-172/2017/08/14/Aloca%C3%A7%C3%A3o-de-mem%C3%B3ria.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h2 id="contato">Contato</h2>
+<ul>
+  <li>Jean Paulo Martins</li>
+  <li>Sala 105</li>
+  <li>e-mail jeanmartins@utfpr.edu.br</li>
+</ul>
+
+<h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#contato" id="markdown-toc-contato">Contato</a></li>
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a></li>
+  <li><a href="#revisão-em-vídeo" id="markdown-toc-revisão-em-vídeo">Revisão em vídeo</a></li>
+  <li><a href="#lógica-proposicional-informal" id="markdown-toc-lógica-proposicional-informal">Lógica proposicional informal</a>    <ul>
+      <li><a href="#proposições" id="markdown-toc-proposições">Proposições</a></li>
+      <li><a href="#não-proposições" id="markdown-toc-não-proposições">Não-proposições</a></li>
+      <li><a href="#como-identificar-sentenças-declarativas" id="markdown-toc-como-identificar-sentenças-declarativas">Como identificar sentenças declarativas</a></li>
+      <li><a href="#estruturas-lógicas-de-uma-frase" id="markdown-toc-estruturas-lógicas-de-uma-frase">Estruturas lógicas de uma frase</a></li>
+      <li><a href="#argumentos-complexos" id="markdown-toc-argumentos-complexos">Argumentos complexos</a></li>
+      <li><a href="#exercícios-identifique-premissas-e-conclusões" id="markdown-toc-exercícios-identifique-premissas-e-conclusões">Exercícios: identifique premissas e conclusões</a></li>
+    </ul>
+  </li>
+  <li><a href="#avaliação-de-um-argumento" id="markdown-toc-avaliação-de-um-argumento">Avaliação de um argumento</a>    <ul>
+      <li><a href="#verdade-das-premissas" id="markdown-toc-verdade-das-premissas">Verdade das premissas</a></li>
+      <li><a href="#validade-e-probabilidade-indutiva" id="markdown-toc-validade-e-probabilidade-indutiva">Validade e probabilidade indutiva</a></li>
+      <li><a href="#relevância-das-premissas" id="markdown-toc-relevância-das-premissas">Relevância das premissas</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="revisão-em-vídeo">Revisão em vídeo</h1>
+
+<ul>
+  <li>Vídeo Nerdologia sobre lógica, incompletude, Godel, Turing, Russel</li>
+</ul>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/UI1xR_AECrU" frameborder="0" allowfullscreen=""></iframe>
+
+<h1 id="lógica-proposicional-informal">Lógica proposicional informal</h1>
+
+<ul>
+  <li>
+    <p>A lógica é o estudo de argumentos. (Nolt, John)</p>
+  </li>
+  <li>
+    <p>Um argumento é uma sequência de enunciados na qual um dos enunciados é a conclusão e os demais são premissas.</p>
+
+    <ul>
+      <li>“Todos os homens são mortais. Sócrates é homem. Portanto, Sócrates é mortal.”</li>
+    </ul>
+  </li>
+  <li>
+    <p>As premissas e as conclusões são sempre <em>proposições</em> (<em>enunciados</em>)</p>
+  </li>
+  <li>
+    <p>Identifique as premissas e a conclusão:</p>
+
+    <ul>
+      <li>
+        <p>“Ele é leão, pois nasceu na primeira semana de agosto.”</p>
+      </li>
+      <li>
+        <p>“Ele está respirando, portanto está vivo”</p>
+      </li>
+      <li>
+        <p>“Não irei dormir. O filme ainda não acabou”</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="proposições">Proposições</h2>
+
+<ul>
+  <li>
+    <p>A lógica proposicional recebe esse nome pois lida com <em>proposições</em> (sentenças declarativas).</p>
+  </li>
+  <li>
+    <p>Uma proposição é uma sentença que comunica um julgamento ou uma crença, uma suposição/afirmação</p>
+
+    <ul>
+      <li>
+        <p>O trem está atrasado</p>
+      </li>
+      <li>
+        <p>Há táxis na estação</p>
+      </li>
+      <li>
+        <p>Está chovendo</p>
+      </li>
+      <li>
+        <p>Choveu hoje</p>
+      </li>
+      <li>
+        <p>Hoje é quinta-feira</p>
+      </li>
+      <li>
+        <p>A soma dos números 3 e 5 é igual a 8.</p>
+      </li>
+      <li>Todo número natural par &gt; 2 é a soma de dois números primos
+        <ul>
+          <li>(Conjectura de Goldbach, não se sabe se verdadeira ou falsa, mas obviamente é verdadeira ou falsa).</li>
+        </ul>
+      </li>
+      <li>Todos os marcianos gostam de salame.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="não-proposições">Não-proposições</h2>
+
+<ul>
+  <li>
+    <p>Nem todas as sentenças comunicam julgamentos, ou afirmam algo (não declarativas)</p>
+
+    <ul>
+      <li>
+        <p>Qual o seu nome?</p>
+      </li>
+      <li>
+        <p>Feche a porta!</p>
+      </li>
+      <li>
+        <p>Que a força esteja com você!</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="como-identificar-sentenças-declarativas">Como identificar sentenças declarativas</h2>
+
+<ul>
+  <li>
+    <p>Uma sentença declarativa pode sempre ser rescrita da forma:</p>
+
+    <ul>
+      <li>
+        <p>“É verdade que…”</p>
+      </li>
+      <li>
+        <p>Em outras palavras, uma sentença declarativa é sempre “verdadeira” ou “falsa”</p>
+      </li>
+      <li>
+        <p>Quando não se pode atribuir valor “verdadeiro” ou “falso” a uma sentença ela não é declarativa.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="estruturas-lógicas-de-uma-frase">Estruturas lógicas de uma frase</h2>
+
+<ul>
+  <li>
+    <p>No estudo da lógica formal, não estamos interessados no significado das frases, mas apenas em suas estruturas lógicas:</p>
+
+    <ul>
+      <li>
+        <p>“Se o trem tivesse chegado, e não houvesse táxis na estação, então João se atrasaria para seu compromisso.”</p>
+      </li>
+      <li>
+        <p>“Se estivesse chovendo e Joana não estivesse com seu guarda-chuva, então ela se molharia”</p>
+      </li>
+      <li>
+        <p>As estruturas lógica desses dois argumentos são identicas:</p>
+
+        <ul>
+          <li>Se p e não q, então r (<script type="math/tex">p \land \neg q \rightarrow r</script>)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Como reescrever uma sentença declarativa na linguagem da lógica proposicional?</p>
+
+    <ol>
+      <li>
+        <p>Definir as afirmações atômicas, ou seja, aquelas que não podem ser decompostas</p>
+      </li>
+      <li>
+        <p>Definir as relações entre elas.</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>Considere que seja verdadeira a afirmação</p>
+
+    <ul>
+      <li>
+        <p>Todo número par &gt; 2 é a soma de dois números primos.</p>
+      </li>
+      <li>
+        <p>Se a é par, então existe b e c primos, tal que b + c = a</p>
+      </li>
+      <li>
+        <p>Primeiro passo, separar em frases atômicas:</p>
+
+        <ul>
+          <li>
+            <p><script type="math/tex">p:</script> “a é número par”</p>
+          </li>
+          <li>
+            <p><script type="math/tex">q:</script> “existe b e c primos tal que a = b + c”</p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>Segundo passo, declarar as relações entre <script type="math/tex">p</script> e <script type="math/tex">q</script> (<script type="math/tex">p \rightarrow q</script>)</p>
+      </li>
+    </ul>
+
+    <p>“O composto ouro-argônio não é produzido na natureza pois é de difícil reação com qualquer outra coisa e o outro também forma poucos compostos”.</p>
+  </li>
+</ul>
+
+<h2 id="argumentos-complexos">Argumentos complexos</h2>
+
+<p>“Todos os números racionais podem ser experessos como <script type="math/tex">\frac{a}{b}, a,b\in\mathbb{Z}</script>. Contudo <script type="math/tex">\pi</script> não pode ser expresso como <script type="math/tex">\frac{a}{b}</script>. Portanto, <script type="math/tex">\pi</script> não é um número racional. Evidentemente, <script type="math/tex">\pi</script> é um número, logo existe ao menos um número não racional.”</p>
+
+<ul>
+  <li>
+    <p>Um argumento é dito complexo se ele é composto por conclusões intermediárias que posteriormente são utilizadas como premissas.</p>
+  </li>
+  <li>
+    <p>Uma <em>conclusão intermediária</em> também é chamada <em>premissa não-básica</em>.</p>
+  </li>
+</ul>
+
+<h2 id="exercícios-identifique-premissas-e-conclusões">Exercícios: identifique premissas e conclusões</h2>
+
+<p>página 2, 8, 11, (John Nolt, Lógica)</p>
+
+<h1 id="avaliação-de-um-argumento">Avaliação de um argumento</h1>
+
+<ul>
+  <li>
+    <p>Embora um argumento possa ter diversos objetivos, o seu principal propósito é demonstrar que uma conclusão é provável ou verdadeira.</p>
+  </li>
+  <li>
+    <p>Assim, há alguns argumentos que são melhores do que outros no cumprimento do mesmo papel.</p>
+  </li>
+  <li>
+    <p>Trataremos de quatro itens para avaliar um argumento:</p>
+
+    <ol>
+      <li>
+        <p>Se todas as premissas são verdadeiras,</p>
+      </li>
+      <li>
+        <p>Se, dada a verdade das premissas, a conclusão é ao menos provável,</p>
+      </li>
+      <li>
+        <p>Se as premissas são relevantes para a conclusão</p>
+      </li>
+      <li>
+        <p>Se o argumento é indutivo, não havendo evidência substancial suposta.</p>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h2 id="verdade-das-premissas">Verdade das premissas</h2>
+
+<p>Se uma das premissas de um argumento for falsa, então não se pode estabelecer a veracidade de sua conclusão.</p>
+
+<p>“Visto que todos os norte-americanos são, atualmente, individualistas, a história registrará, no final do século XX, que os Estados Unidos fracassaram como defensor da democracia”</p>
+
+<ul>
+  <li>p: “todos os norte-americanos são, atualmente, individualistas”</li>
+  <li>
+    <p>q: “os Estados Unidos fracassaram como defensor da democracia”</p>
+  </li>
+  <li>
+    <p>A premissa é falsa, portanto não se pode concluir <script type="math/tex">q</script>.</p>
+  </li>
+  <li>Isso, no entanto, não significa que <script type="math/tex">q</script> seja falsa. Significa apenas que o argumento não nos permite conclui-la.</li>
+</ul>
+
+<p>“Billy quebrou a vidraça, eu o vi fazer isso”</p>
+
+<ul>
+  <li>p: “Eu vi Billy quebrar a vidraça”</li>
+  <li>
+    <p>q: “Billy quebrou a vidraça”.</p>
+  </li>
+  <li>A premissa pode ser falsa, portanto a conclusão deve esperar novas evidências para <script type="math/tex">p</script>.</li>
+</ul>
+
+<p>Estes exemplos mostram a necessidade de critérios suplementares para se avaliar argumentos, critérios para avaliar o grau em que as premissas sustentam a conclusão.</p>
+
+<h2 id="validade-e-probabilidade-indutiva">Validade e probabilidade indutiva</h2>
+
+<p>Os argumentos podem ser classificados em duas categorias:</p>
+
+<ul>
+  <li>
+    <p>Dedutivo: a conclusão deve ser verdadeira se suas premissas são verdadeiras,</p>
+
+    <ul>
+      <li>“Nenhum mortal pode parar o tempo. Você é mortal. Você não pode parar o tempo”</li>
+    </ul>
+  </li>
+  <li>
+    <p>Indutivo: a conclusão é provável dadas as premissas</p>
+
+    <ul>
+      <li>“Frequentemente, quando chove fica nublado. Está chovendo. Está nublado.”</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="relevância-das-premissas">Relevância das premissas</h2>
+
+<p>Uma conclusão pode ser provável ainda que as premissas sejam irrelevantes para a conclusão.</p>
+
+<ul>
+  <li>“Eu detesto a ideia de um criador infinitamente poderoso. Deus não existe”.</li>
+</ul>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

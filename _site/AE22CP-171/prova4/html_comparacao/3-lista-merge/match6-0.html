@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>victor-barros.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<HR>
+<H3><CENTER>victor-barros.c</CENTER></H3><HR>
+<PRE>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+//inicializacao//
+
+typedef struct Item {
+	int elem;
+	struct Item *prox;
+} Item;
+
+typedef struct {
+	int quant;
+	Item *inicio;
+}ld;
+
+ld* novaLista()
+{
+	ld* l = (ld*) malloc(sizeof(ld));
+	l-&gt;inicio = NULL;
+	l-&gt;quant = 0;
+	return l;
+}
+
+Item* novoItem(int value)
+{
+	Item *item = (Item*) malloc(sizeof(Item));
+	item-&gt;elem = value;
+	item-&gt;prox  = NULL;
+	return item;
+}
+
+// insercao//
+
+void inserirprimeiro(ld *l, Item *c) {
+	l-&gt;quant++;
+	c-&gt;prox = l-&gt;inicio;
+	l-&gt;inicio = c;
+}
+
+void inserirposicao(ld *l, Item *c, int pos) {
+	int cont = 0;
+	Item *aux;
+	aux = l-&gt;inicio;
+
+	while (cont &lt; (pos - 1)) {
+		aux = aux-&gt;prox;
+		cont++;
+	}
+
+	c-&gt;prox = aux-&gt;prox;
+	aux-&gt;prox = c;
+	l-&gt;quant++;
+}
+//mergesort//
+
+//n usa contador//
+ld* divide2(ld *l) {
+	Item *rapido, *lento;
+	rapido = l-&gt;inicio;
+	lento = rapido;
+
+	while (rapido-&gt;prox != NULL) {
+		rapido = rapido-&gt;prox;
+		if (rapido-&gt;prox != NULL) {
+			rapido = rapido-&gt;prox;
+			lento = lento-&gt;prox;
+		}
+	}
+
+	ld *l2 = novaLista();
+
+	l2-&gt;inicio = lento-&gt;prox;
+	lento-&gt;prox = NULL;
+	return l2;
+}
+
+ld* merge(ld *l1, ld *l2) {
+	Item *aux1, *aux2, *tmp;
+	ld *nova = novaLista();
+	int pos = 0;
+<A NAME="0"></A>	aux1 = l1-&gt;inicio;
+	aux2 = l2-&gt;inicio;
+
+<FONT color="#0000ff"><A HREF="javascript:ZweiFrames('match6-1.html#0',3,'match6-top.html#0',1)"><IMG SRC="forward.gif" ALT="other" BORDER="0" ALIGN="right"></A><B>	while (aux1 != NULL &amp;&amp; aux2 != NULL) {
+		if (aux2-&gt;elem &lt; aux1-&gt;elem) {
+			tmp = aux2-&gt;prox;
+			inserirposicao(nova, aux2, pos);
+			aux2 = tmp;
+		}
+		else {
+			tmp = aux1-&gt;prox;
+			inserirposicao(nova, aux1, pos);
+			aux1 = tmp;
+		}
+		pos++;
+	}</B></FONT>
+
+	while (aux1 != NULL) {
+		tmp = aux1-&gt;prox;
+		inserirposicao(nova, aux1, pos);
+		aux1 = tmp;
+	}
+
+	while (aux2 != NULL) {
+		tmp = aux2-&gt;prox;
+		inserirposicao(nova, aux2, pos);
+		aux2 = tmp;
+	}
+	free(l1);
+	free(l2);
+	return nova;
+}
+
+void mergesort(ld *l1) {
+	ld *l2 = novaLista();
+
+	if (l1-&gt;quant &gt; 1) {
+		l2 = divide2(l1);
+		mergesort(l1);
+		mergesort(l2);
+		l1 = merge(l1, l2);
+	}
+}
+
+ld* MergeLista(ld *l1, ld *l2) {
+	ld *nova = novaLista();
+	Item *aux1 = l1-&gt;inicio, *aux2=l2-&gt;inicio, *tmp;
+	int pos;
+	
+	//garantir que as listas estao ordenadas//
+	mergesort(l1);
+	mergesort(l2);
+	
+	//mesma coisa q o merge mas cria elemento//
+	while (aux1 != NULL &amp;&amp; aux2 != NULL) {
+		if (aux2-&gt;elem &lt; aux1-&gt;elem) {
+			tmp = aux2-&gt;prox;
+			inserirposicao(nova, novoItem(aux2-&gt;elem), pos);
+			aux2 = tmp;
+		}
+		else {
+			tmp = aux1-&gt;prox;
+			inserirposicao(nova, novoItem(aux1-&gt;elem), pos);
+			aux1 = tmp;
+		}
+		pos++;
+	}
+
+	while (aux1 != NULL) {
+		tmp = aux1-&gt;prox;
+		inserirposicao(nova, novoItem(aux1-&gt;elem), pos);
+		aux1 = tmp;
+	}
+
+	while (aux2 != NULL) {
+		tmp = aux2-&gt;prox;
+		inserirposicao(nova, novoItem(aux1-&gt;elem), pos);
+		aux2 = tmp;
+	}
+	
+	//ordena a lista//
+	mergesort(nova);
+	
+	return nova;
+}
+
+void printLista(ld* l){
+	if (l-&gt;inicio != NULL){
+		Item* curr = l-&gt;inicio;
+		
+		while (curr){
+			printf(&quot;%d &quot;, curr-&gt;elem);
+			curr = curr-&gt;prox;
+		}
+		printf(&quot;\n&quot;);
+	}
+}
+
+int main() {
+	int nl1, nl2, i, x;
+	
+	ld *l1 = novaLista();
+	ld *l2 = novaLista();
+	
+	scanf(&quot;%d&quot;, &amp;nl1);
+	
+	for (i=0; i&lt;nl1; i++){
+		scanf(&quot;%d&quot;, &amp;x);
+		if (i == 0){
+			inserirprimeiro(l1, novoItem(x));
+		}
+		else{
+			inserirposicao(l1, novoItem(x), i);
+		}
+	}
+	
+	scanf(&quot;%d&quot;, &amp;nl2);
+	
+	for (i=0; i&lt;nl2; i++){
+		scanf(&quot;%d&quot;, &amp;x);
+		if (i == 0){
+			inserirprimeiro(l2, novoItem(x));
+		}
+		else{
+			inserirposicao(l2, novoItem(x), i);
+		}
+	}
+	
+	ld *resultado = MergeLista(l1, l2);
+	
+	printLista(resultado);
+	
+    return 0;
+}
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>1-luan-lamarca.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>1-luan-lamarca.c</CENTER></H3><HR>
+<PRE>
+//
+//  main.c
+//  merge
+//
+//  Created by Luan Lamarca on 05/07/17.
+//  Copyright © 2017 Luan Lamarca. All rights reserved.
+//
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+typedef struct no
+{
+    int info,id;
+    struct no *next;
+    struct no *prev;
+}no;
+
+typedef struct lista
+{
+    int Nnos;
+    no *head;
+    no *tail;
+}lista;
+
+lista *inicializa()
+{
+    lista *l=(lista*)malloc(sizeof(lista));
+    
+    l-&gt;Nnos=0;
+    l-&gt;head=NULL;
+    l-&gt;tail=NULL;
+    
+    return l;
+}
+
+void insere(lista *l, int e)
+{
+    no *novo=(no*)malloc(sizeof(no));
+    novo-&gt;info=e;
+    novo-&gt;id=l-&gt;Nnos+1;
+    novo-&gt;prev=NULL;
+    novo-&gt;next=NULL;
+    
+    if(l-&gt;head==NULL){
+        l-&gt;Nnos++;
+        l-&gt;head=novo;
+        l-&gt;tail=novo;
+    }
+    else{
+        l-&gt;Nnos++;
+        novo-&gt;prev=l-&gt;tail;
+        l-&gt;tail-&gt;next=novo;
+        l-&gt;tail=novo;
+    }
+}
+
+void imprime(lista *l){
+    no *nodo=l-&gt;head;
+    int i;
+    printf(&quot;\n\n&quot;);
+    for(i=0;i&lt;l-&gt;Nnos;i++){
+        printf(&quot;\t[%d]&quot;,nodo-&gt;info);
+        nodo=nodo-&gt;next;
+    }
+    printf(&quot;\n\n&quot;);
+    nodo=l-&gt;head;
+    for(i=0;i&lt;l-&gt;Nnos;i++){
+        printf(&quot;\t[%d]&quot;,nodo-&gt;id);
+        nodo=nodo-&gt;next;
+    }
+    printf(&quot;\n\n&quot;);
+}
+
+void copylist(lista *origem, lista *destino){
+    int i;
+    no *o=origem-&gt;head;//nó para percorrer a lista
+    no *d;//nó auxiliar para atribuir os indices
+    
+    for(i=0;i&lt;origem-&gt;Nnos;i++){//percorre toda a lista
+        insere(destino,o-&gt;info);//insere na lista o valor contido na origem
+        o=o-&gt;next;//avança para o proximo nó
+    }
+    
+    d=destino-&gt;head;
+    o=origem-&gt;head;
+    
+    for(i=0;i&lt;origem-&gt;Nnos;i++){//percorre toda a lista
+        d-&gt;id=o-&gt;id;//atribui o indice da origem para o destino
+        o=o-&gt;next;// avança para o proximo nó de origem
+        d=d-&gt;next;//avança para o proximo nó de destino
+    }
+    
+    
+}
+
+lista *teste(){//lista para testes
+    lista *list=inicializa();
+    
+    
+    insere(list,12);
+    insere(list,158);
+    insere(list,484);
+    insere(list,458);
+    insere(list,1);
+    insere(list,0);
+    insere(list,3);
+    
+    return list;
+}
+
+void divide(lista *l, lista *L, lista *R){//divide a lista em duas
+    int i,p=l-&gt;head-&gt;id,r=l-&gt;tail-&gt;id,q;//p e r recebem os indices
+    no *Q=l-&gt;head;//nó para percorrer a lista
+    
+    q=((r-p)/2)+1;//encontra o indice do meio
+    for(i=0;i&lt;=q-1;i++){//percorre a lista até o meio
+        Q=Q-&gt;next;
+    }
+    //atribui os valores respectivos para a lista da esquerda
+    L-&gt;head=l-&gt;head;
+    L-&gt;Nnos=q;
+    L-&gt;tail=Q-&gt;prev;
+    
+    //atribui os valores respectivos para a lista da direita
+    R-&gt;head=Q;
+    R-&gt;Nnos=(r-p)-(q-1);
+    R-&gt;tail=l-&gt;tail;
+    
+}
+
+void Merge(lista *l,lista *LEFT, lista *RIGHT){
+    no *left;//nó para comparações da lista da esquerda
+    no *right;//nó para comparações da lista da direita
+    no *list=l-&gt;head;//nó para percorrer a lista
+    lista *L=inicializa();//lista para ser copiada a lista da esquerda
+    lista *R=inicializa();//lista para ser copiada a lista da direita
+    int i;
+    
+    copylist(LEFT,L);//copia o conteudo de LEFT para L
+    copylist(RIGHT,R);//copia o conteudo de RIGHT para R
+    
+    left=L-&gt;head;
+    right=R-&gt;head;
+    
+<A NAME="0"></A>    insere(L,9999);//insere valor &quot;infinito&quot;
+    insere(R,9999);
+    
+<FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match6-0.html#0',2,'match6-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>    for(i=0;i&lt;l-&gt;Nnos;i++){//percorre toda a lista
+        if(left-&gt;info &lt; right-&gt;info){//compara se o valor da esquerda é maior que o valor da direita
+            list-&gt;info=left-&gt;info;//copia pra lista o valor da esquerda
+            left=left-&gt;next;//avança para o proximo nó da esquerda;
+        }
+        else{
+            list-&gt;info=right-&gt;info;//copia o valor da direta para a lista
+            right=right-&gt;next;//avança para o proximo nó da direita
+        }
+        list=list-&gt;next;//avança para o proximo nó da lista
+    }</B></FONT>
+    
+}
+
+void MergeSort(lista *l, int p, int r)
+{
+    lista *L=inicializa();//cria a lista da divisão da esquerda
+    lista *R=inicializa();//cria a lista da divisão da direita
+    if(r-p&gt;0){
+        
+        divide(l,L,R);//divide a lista em duas
+        
+        MergeSort(L,L-&gt;head-&gt;id,L-&gt;tail-&gt;id);//faz recursão para a lista da esquerda
+        MergeSort(R,R-&gt;head-&gt;id,R-&gt;tail-&gt;id);//faz recursão para a lista da direita
+        Merge(l,L,R);//funde as listas
+    }
+    
+}
+
+int main(){
+    lista *list=inicializa();
+    
+    printf(&quot;\n&quot;);
+    return 0;
+}
+
+
+</PRE>
+</BODY>
+</HTML>

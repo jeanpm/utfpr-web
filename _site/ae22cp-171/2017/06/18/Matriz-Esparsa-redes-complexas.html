@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Redes complexas e matrizes esparsas</title>
+  <meta name="description" content="Conteúdo  Conteúdo">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-171/2017/06/18/Matriz-Esparsa-redes-complexas.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Redes complexas e matrizes esparsas</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Jun 18, 2017
+          • <i class="fa fa-user"></i> Jean P. Martins
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-171/2017/06/06/Tabelas-hash-encadeamento-separado-exercicio.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/ae22cp-172/2017/08/07/Apresenta%C3%A7%C3%A3o.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h1 id="conteúdo">Conteúdo</h1>
+<ul id="markdown-toc">
+  <li><a href="#conteúdo" id="markdown-toc-conteúdo">Conteúdo</a></li>
+  <li><a href="#sobre-a-prova" id="markdown-toc-sobre-a-prova">Sobre a prova</a></li>
+  <li><a href="#motivação-para-matrizes-esparsas" id="markdown-toc-motivação-para-matrizes-esparsas">Motivação para Matrizes esparsas</a></li>
+  <li><a href="#facebook-6-passos-de-separação" id="markdown-toc-facebook-6-passos-de-separação">Facebook: 6 passos de separação</a></li>
+  <li><a href="#introdução-da-ideia-pagerank" id="markdown-toc-introdução-da-ideia-pagerank">Introdução da ideia: pageRank</a></li>
+  <li><a href="#como-armazenar-uma-rede" id="markdown-toc-como-armazenar-uma-rede">Como armazenar uma rede?</a></li>
+</ul>
+
+<h1 id="sobre-a-prova">Sobre a prova</h1>
+
+<ul>
+  <li>
+    <p>Falar sobre a quantidade de aulas que faltam até a prova</p>
+  </li>
+  <li>Pilhas utilizando códigos de listas subjacente
+    <ul>
+      <li>push</li>
+      <li>pop</li>
+      <li>top</li>
+    </ul>
+  </li>
+  <li>Hash tables
+    <ul>
+      <li>inserir sem repetição: retornar 1 sucesso, -1 falha</li>
+      <li>procurar por chave: retornar o item com a chave, ou -1</li>
+    </ul>
+  </li>
+  <li>Questões teóricas conceituais
+    <ul>
+      <li>Qual estrutura de dados usar? Por que?</li>
+      <li>Eficiência: memória e tempo</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="motivação-para-matrizes-esparsas">Motivação para Matrizes esparsas</h1>
+
+<p><em>keywords</em>: network science, complex networks</p>
+
+<p>2m00s</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/V4f_1_r80RY" frameborder="0" allowfullscreen=""></iframe>
+
+<p>1m15s</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/4fHufyIWmX0" frameborder="0" allowfullscreen=""></iframe>
+
+<p>1m40s</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/sI8TK2mETrk" frameborder="0" allowfullscreen=""></iframe>
+
+<p>4m50s</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/xZ3OmlbtaMU" frameborder="0" allowfullscreen=""></iframe>
+
+<h1 id="facebook-6-passos-de-separação">Facebook: 6 passos de separação</h1>
+
+<p><a href="https://research.fb.com/three-and-a-half-degrees-of-separation/">Facebook: 6 passos de separação</a></p>
+
+<p><a href="https://en.wikipedia.org/wiki/Six_degrees_of_separation">Six_degrees_of_separation</a></p>
+
+<blockquote>
+  <p>“I read somewhere that everybody on this planet is separated by only six other people. Six degrees of separation. Between us and everybody else on this planet. The president of the United States. A gondolier in Venice. Fill in the names. . . . How every person is a new door, opening up into other worlds. Six degrees of separation between me and everyone else on this planet. But to find the right six people . . .” – John Guare, Six Degrees of Separation (1990)</p>
+</blockquote>
+
+<blockquote>
+  <p>In honor of Friends Day, we’ve crunched the Facebook friend graph and determined that the number is 3.57. Each person in the world (<strong>at least among the 1.59 billion people active on Facebook</strong>) is connected to every other person by an average of three and a half other people.</p>
+</blockquote>
+
+<h1 id="introdução-da-ideia-pagerank">Introdução da ideia: pageRank</h1>
+
+<ul>
+  <li>Como ordenar os resultados da busca de acordo com a relevância
+    <ul>
+      <li>Como definir relevância?</li>
+    </ul>
+  </li>
+  <li>Descrever a ideia com uma rede simples
+    <ul>
+      <li>Utilizar a matriz completa</li>
+    </ul>
+  </li>
+  <li>Discutir sobre problemas de escalabilidade
+    <ul>
+      <li>Memória utilizada vs Número de elemntos na matriz</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code>	<span class="kt">long</span> <span class="n">terabyte</span> <span class="o">=</span> <span class="mi">1099511627776</span><span class="p">;</span>
+	<span class="kt">long</span> <span class="n">npages</span> <span class="o">=</span> <span class="n">terabyte</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Número de floats em 1Tbyte (n)     = %ld</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">npages</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"Tamanho da matriz (n x n) =%.0lf x %.0lf</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">npages</span><span class="p">),</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">npages</span><span class="p">));</span>
+	
+	
+	<span class="kt">float</span><span class="o">*</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span><span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">terabyte</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">t</span><span class="p">)</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Erro de alocação</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+</code></pre>
+</div>
+
+<h1 id="como-armazenar-uma-rede">Como armazenar uma rede?</h1>
+<ul>
+  <li>Como armazenar informações sobre uma rede?
+    <ul>
+      <li>Matriz completa?</li>
+      <li>lista de de elementos</li>
+      <li>Vetor de listas</li>
+      <li>Tabelas Hash</li>
+    </ul>
+  </li>
+  <li>Vantagens e desvantagens
+    <ul>
+      <li>Matriz completa: acesso direto, inviável grandes redes, estática?</li>
+      <li>Listas de elementos: menos memória, acesso lento</li>
+      <li>Vetor de listas: menos memória, velocidade média de acesso, estática?</li>
+      <li>Hash table: menos memória, acesso direto em tempo razoável, não se beneficia de padrões de acesso</li>
+    </ul>
+  </li>
+</ul>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

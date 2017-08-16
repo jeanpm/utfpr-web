@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>1-rhuan-victor.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>1-rhuan-victor.c</CENTER></H3><HR>
+<PRE>
+<A NAME="0"></A>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+<FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match8-0.html#0',2,'match8-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>char pilha[100];
+int topo = -1;
+
+void empilha(char c)
+{
+    pilha[++topo] = c;
+}
+char desempilha(){
+    return(pilha[topo--]);
+<A NAME="1"></A>}
+
+
+int main(void){</B></FONT><FONT color="#f63526"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match8-0.html#1',2,'match8-top.html#1',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>
+    char str[100];
+    int i, aux = 0, le;
+
+    scanf(&quot;%s&quot;, str);
+    le = strlen(str);
+    for (i = 0; i &lt; le; i++)
+    {
+
+        empilha(str[i]);
+
+    }
+    for (i = 0; i &lt; le; i++)
+    {
+
+        if (str[i] == desempilha())
+            aux++;
+    }
+    if (aux== le)
+        printf(&quot;SIM&quot;);
+    else
+        printf(&quot;NÃO&quot;);
+}</B></FONT>
+</PRE>
+</BODY>
+</HTML>

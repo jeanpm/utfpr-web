@@ -1,0 +1,346 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>1-welliton-leal.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>1-welliton-leal.c</CENTER></H3><HR>
+<PRE>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+
+#define TAM 100
+
+//LISTA DUPLAMENTE ENCADEADA ALOCADA DINAMICAMENTE
+
+typedef struct celula{
+	int conteudo;                  
+	struct celula*prox;
+	struct celula*ant;
+}celula;
+
+typedef struct listaDENC{				
+	celula*inicio;
+	int cont;
+}listaDENC;
+
+listaDENC *inicializa()
+{
+	listaDENC* l = (listaDENC*) malloc(sizeof(listaDENC));
+
+	l-&gt;inicio = NULL;
+	l-&gt;cont = 0;
+	
+	return l;
+}
+
+celula *cria(int conteudo)			
+{
+	celula *p = malloc(sizeof(celula));
+	p-&gt;conteudo = conteudo;
+	p-&gt;prox = NULL;
+	p-&gt;ant = NULL;
+	return p;
+}
+
+int lista_vazia(listaDENC *l)
+{
+	if(l == NULL)
+	{
+		return 1;
+	}
+	if(l-&gt;inicio == NULL)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+int insere_inicio(listaDENC *l, int conteudo)
+{
+	if(l == NULL)
+	{
+		return 0;
+	}
+	celula *novo = cria(conteudo);
+	if(novo == NULL)
+	{
+		return 0;
+	}
+
+	novo-&gt;prox = l-&gt;inicio;
+	novo-&gt;ant = NULL;
+	l-&gt;inicio = novo;
+	if(novo-&gt;prox != NULL)
+	{
+		novo-&gt;prox-&gt;ant = novo;
+	}
+
+	l-&gt;cont++;
+	return 1;
+}
+
+int insere_fim(listaDENC *l, int conteudo)	
+{
+	if(l-&gt;inicio==NULL)
+	{
+		return(insere_inicio(l,conteudo));
+	}
+	
+	celula *novo = cria(conteudo);
+
+	if(novo==NULL)
+	{
+		return (0); //falso
+	}
+	
+	celula *ultimo = l-&gt;inicio;
+
+	while(ultimo-&gt;prox !=NULL)
+	{
+		ultimo = ultimo-&gt;prox;
+		
+	}
+
+	ultimo-&gt;prox=novo;
+	l-&gt;cont++;
+	return 1; 
+}
+
+int remove_inicio(listaDENC *l)
+{
+	if(l == NULL || l-&gt;inicio == NULL)
+	{
+		return 0;
+	}
+	
+	celula *novo = l-&gt;inicio;
+	l-&gt;inicio = novo-&gt;prox;
+	if(novo-&gt;prox != NULL)
+	{
+		novo-&gt;prox-&gt;ant = NULL;
+	}
+
+	free(novo);
+	l-&gt;cont--;
+	return 1;
+}
+
+int remove_fim (listaDENC *l)
+{
+	if(l == NULL || l-&gt;inicio == NULL)
+	{
+		return 0;
+	}
+
+	celula *ultimo = l-&gt;inicio;
+
+	while(ultimo-&gt;prox != NULL)
+	{
+		ultimo = ultimo-&gt;prox;
+	}
+
+	if(ultimo-&gt;ant == NULL)
+	{
+		printf(&quot;\n1\n&quot;);
+		l-&gt;inicio = ultimo-&gt;prox;
+	}
+	else
+	{	
+		printf(&quot;\n3\n&quot;);
+		ultimo-&gt;ant-&gt;prox = NULL;
+	}
+	printf(&quot;\n4\n&quot;);
+
+	free(ultimo);
+	l-&gt;cont--;
+	return 1;
+
+}
+
+void imprimelista (listaDENC *l)  		
+{
+	celula *p;
+	for(p = l-&gt;inicio;p != NULL;p = p-&gt;prox)
+	{ 
+      		printf(&quot;=&gt; %d\n&quot;, p-&gt;conteudo);
+	}
+}
+void imprime_lista (listaDENC *l)  		
+{
+	celula *p =l-&gt;inicio;
+	
+	while(p-&gt;prox != NULL)
+	{ 
+		printf(&quot;=&gt; %d &quot;, p-&gt;conteudo);
+		p = p-&gt;prox;
+		      		
+	}
+	printf(&quot;=&gt; %d\n&quot;, p-&gt;conteudo);
+}
+
+void divide(lista *l, lista *L, lista *R)
+{											//divide a lista em duas
+    	
+	int i,q;
+	int i,p=l-&gt;inicio-&gt;conteudo;
+	int r = l-&gt;fim-&gt;conteudo;						//p e r recebem os indices
+    	
+	celula *Q = l-&gt;inicio;									//nó para percorrer a lista
+   
+    	q=((r-p)/2)+1;
+								//encontra o indice do meio
+    	for(i=0; i&lt;= q-1; i++)
+	{							//percorre a lista até o meio
+       		 Q = Q-&gt;prox;
+    	}
+    
+	//atribui os valores respectivos para a lista da esquerda
+   	L-&gt;inicio=l-&gt;inicio;
+    	L-&gt;cont = q;
+    	L-&gt;fim= Q-&gt;ant;
+   
+    	//atribui os valores respectivos para a lista da direita
+    	R-&gt;inicio=Q;
+    	R-&gt;cont = (r-p)-(q-1);
+    	R-&gt;fim = l-&gt;fim;
+   
+} 
+
+void Merge(listaDENC *l, listaDENC *LEFT, listaDENC *RIGHT)
+{
+    celula *left;							//nó para comparações da lista da esquerda
+    celula *right;							//nó para comparações da lista da direita
+    celula *list = l-&gt;inicio;						//nó para percorrer a lista
+
+    inicializa(*L);							//lista para ser copiada a lista da esquerda
+    inicializa(*R);							//lista para ser copiada a lista da direita
+    int i=0;
+   
+    copylist(LEFT,L);							//copia o conteudo de LEFT para L
+    copylist(RIGHT,R);							//copia o conteudo de RIGHT para R
+   
+    left = L-&gt;inicio;
+    right = R-&gt;inicio;
+   
+    insere_inicio(L,9999);						//insere valor &quot;infinito&quot;
+<A NAME="0"></A>    insere_inicio(R,9999);
+   
+    for(i=0;i&lt; l-&gt;cont; i++)
+<FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match2-0.html#0',2,'match2-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>    {									//percorre toda a lista
+        if(left-&gt;conteudo &lt; right-&gt;conteudo)
+	{								//compara se o valor da esquerda é maior que o valor da direita
+            list-&gt;conteudo = left-&gt;conteudo;				//copia pra lista o valor da esquerda
+            left = left-&gt;prox;						//avança para o proximo nó da esquerda;
+        }
+        else
+	{
+            list-&gt;conteudo = right-&gt;conteudo;				//copia o valor da direta para a lista
+            right = right-&gt;prox;					//avança para o proximo nó da direita
+        }
+	
+        list = list-&gt;prox;						//avança para o proximo nó da lista</B></FONT>
+    }
+   
+}
+
+void MergeSort(listaDENC *l, int p, int r)
+{
+    
+	listaSENC *L=inicializa();
+    	listaSENC *R=inicializa();
+    	
+	if(r-p &gt; 0)
+	{
+
+		divide(l, L, R);							//divide a lista em duas
+
+		MergeSort(L, L-&gt;inicio-&gt;conteudo, L-&gt;fim-&gt;conteudo);			//faz recursão para a lista da esquerda
+		MergeSort(R, R-&gt;inicio-&gt;conteudo, R-&gt;fim-&gt;conteudo);			//faz recursão para a lista da direita
+		Merge(l,L,R);								//funde as listas
+   	
+	}
+
+}
+
+void concatena (listaSENC *l1, listaSENC *l2, listaSENC *l3)
+{
+	int i=0;
+	int j=0;
+
+	celula *novo1 = l1-&gt;inicio;
+	celula *novo2 = l2-&gt;inicio;
+
+	for(novo1 = l1-&gt;inicio; novo1 != NULL; novo1 = novo1-&gt;prox)
+	{ 
+		insere_inicio(l3, novo1-&gt;conteudo);
+	}
+	for(novo2 = l2-&gt;inicio; novo2 != NULL; novo2 = novo2-&gt;prox)
+	{ 
+		insere_inicio(l3, novo2-&gt;conteudo);
+	}
+	
+}
+
+
+int main(void)
+{
+	
+	listaDENC* l1 = (listaDENC*)malloc(TAM*sizeof(listaDENC));
+	listaDENC* l2 = (listaDENC*)malloc(TAM*sizeof(listaDENC));
+	listaDENC* l3 = (listaDENC*)malloc(TAM*sizeof(listaDENC));
+	l1 = inicializa();
+	l2 = inicializa();
+	l3 = inicializa();
+
+	int i=0;
+	int A,B,C;
+	int conteudo;
+
+
+	scanf(&quot;%d&quot;,&amp;A);  
+	for (i = 0; i &lt; A; i++) 
+	{
+		scanf(&quot;%d&quot;,&amp;conteudo);
+		insere_inicio(l1, conteudo);
+	}
+	i=0;
+	scanf(&quot;%d&quot;,&amp;B);  
+	for (i = 0; i &lt; B; i++) 
+	{
+		scanf(&quot;%d&quot;,&amp;conteudo);
+		insere_inicio(l2, conteudo);
+	}
+	
+	C=A+B;
+
+	MergeSort(l1, l1-&gt;inicio, l1-&gt;fim);
+	MergeSort(l2, l2-&gt;inicio, l2-&gt;fim);
+	
+	concatena(l1, l2, l3);
+	MergeSort(l3, l3-&gt;inicio, l3-&gt;fim)
+
+	imprime_lista (l3);
+
+	apaga_lista (l1);
+	apaga_lista (l1);
+	apaga_lista (l3);
+	return(0);
+
+}
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,11 @@
+add_to_col 1 1
+add_to_col 2 2
+add_to_col 3 3
+add_to_col 4 4
+add_to_col 5 5 
+add_to_col 6 6 
+add_to_col 7 7 
+add_to_col 8 8
+add_to_col 9 9 
+print_col 5
+exit

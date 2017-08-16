@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+ <TITLE>geferson-artuzo.c</TITLE>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <script type="text/javascript">
+  <!--
+   function ZweiFrames(URL1,F1,URL2,F2)
+   {
+    parent.frames[F1].location.href=URL1;
+    parent.frames[F2].location.href=URL2;
+   }
+  //-->
+  </script>
+</HEAD>
+<BODY BGCOLOR="#ffffff" style="margin-left:25">
+<HR>
+<H3><CENTER>geferson-artuzo.c</CENTER></H3><HR>
+<PRE>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+<A NAME="0"></A>#include &lt;math.h&gt;
+#include &lt;stdlib.h&gt;
+
+<FONT color="#0000ff"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match3-0.html#0',2,'match3-top.html#0',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>    typedef struct Item
+    {
+        int valor;
+        struct Item *prox;
+    }Item;
+
+    typedef struct
+    {
+        int quant;
+        Item *inicio;
+    }LD;
+LD *merge(LD *L1, LD *L2);
+void criaLD(LD *L)
+{
+    L-&gt;quant=0;
+    L-&gt;inicio=NULL;
+}
+void inserirPos(LD*L, Item *c,int pos)</B></FONT>
+{
+    int cont=0;
+    Item *aux;
+    aux=L-&gt;inicio;
+    while(cont&lt;(pos-1))
+    {
+        aux=aux-&gt;prox;
+        cont++;
+    }
+    c-&gt;prox=aux-&gt;prox;
+    aux-&gt;prox=c;
+    L-&gt;quant++;
+}
+
+LD *merge(LD *L1, LD *L2)
+{
+    Item *aux1,*aux2,*tmp;
+    LD *nova=malloc(sizeof(nova));
+    criaLD(nova);
+    aux1=L1-&gt;inicio;
+    aux2=L2-&gt;inicio;
+    int pos=1;
+    while(aux1!=NULL &amp;&amp; aux2!=NULL)
+    {
+        if(aux2-&gt;valor &lt; aux1 -&gt;valor)
+        {
+            tmp=aux1-&gt;prox;
+            inserirPos(nova,aux1,pos);
+            aux1=tmp;
+            pos++;
+        }
+        else
+        {
+            tmp=aux2-&gt;prox;
+            inserirPos(nova,aux2,pos);
+            aux1=tmp;
+            pos++;
+        }
+
+    }
+    while(aux1!=NULL)
+    {
+        tmp=aux1-&gt;prox;
+        inserirPos(nova,aux1,pos);
+        aux1=tmp;
+        pos++;
+    }
+    while(aux2!=NULL)
+    {
+        tmp=aux2-&gt;prox;
+        inserirPos(nova,aux2,pos);
+        aux2=tmp;
+        pos++;
+    }
+<A NAME="1"></A>    free(L1);
+    free(L2);
+    return(nova);
+<FONT color="#f63526"><div style="position:absolute;left:0"><A HREF="javascript:ZweiFrames('match3-0.html#1',2,'match3-top.html#1',1)"><IMG SRC="back.gif" ALT="other" BORDER="0" ALIGN="left"></A></div><B>}
+void imprimir(LD *l)
+{
+    Item *ini;
+    ini= l-&gt;inicio;
+    while(ini!=NULL)
+        {
+            printf(&quot;%d\n&quot;,ini-&gt;valor);
+            ini=ini-&gt;prox;
+        }
+
+}
+int main() {</B></FONT>
+    LD *Lista; LD *Lista2;
+    criaLD(Lista);criaLD(Lista2); 
+    Item *a; Item *b;  
+    int cont=0;int cont2=0;int tam;int l;
+    scanf(&quot;%d&quot;,&amp;tam);
+    for(int i=0;i&lt;tam;i++)
+    {
+        scanf(&quot;%d&quot;,&amp;l);
+        a=malloc(sizeof(Item));
+        a-&gt;valor=l;
+        inserirPos(Lista,a,i);
+    }
+    for(int i=0;i&lt;tam;i++)
+    {
+        scanf(&quot;%d&quot;,&amp;l);
+        b=malloc(sizeof(Item));
+        b-&gt;valor=l;
+        inserirPos(Lista2,a,i);
+    }
+    
+    imprimir(merge(Lista,Lista2));
+    return 0;
+}
+
+</PRE>
+</BODY>
+</HTML>

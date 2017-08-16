@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Exercícios II (Memória, ponteiros)</title>
+  <meta name="description" content="Contato  Jean Paulo Martins  Sala 105  e-mail jeanmartins@utfpr.edu.br">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://localhost:4000/ae22cp-172/2017/08/15/Aloca%C3%A7%C3%A3o-de-mem%C3%B3ria-exercicios.html">
+  <link rel="alternate" type="application/rss+xml" title="Jean P. Martins" href="http://localhost:4000/feed.xml" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <body>
+
+    <div class="site-header">
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <i class="fa fa-navicon fa-lg"></i>
+      </a>
+
+      <div class="trigger">
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/">Home</a>
+        
+          <a class="page-link" target="_top"
+             href="http://localhost:4000/about">About</a>
+        
+      </div>
+    </nav>
+
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+     <h1 class="post-title">Exercícios II (Memória, ponteiros)</h1>
+     <p class="post-meta">
+         <i class="fa fa-calendar-o"></i> Aug 15, 2017
+          • <i class="fa fa-user"></i> jean
+         </p>
+  </header>
+
+    <div class="post-paging">
+  
+    <div class="left">
+      <a href="/ae22cp-172/2017/08/15/Aloca%C3%A7%C3%A3o-de-mem%C3%B3ria-3.html">
+        <i class="fa fa-angle-left fa-2x"></i>
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/lc21cp-172/2017/08/16/Logica-formal-1.html">
+        <i class="fa fa-angle-right fa-2x"></i>
+      </a>
+    </div>
+  
+</div>
+
+
+  <article class="post-content">
+    <h2 id="contato">Contato</h2>
+<ul>
+  <li>Jean Paulo Martins</li>
+  <li>Sala 105</li>
+  <li>e-mail jeanmartins@utfpr.edu.br</li>
+</ul>
+
+<h2 id="referências">Referências</h2>
+<ul>
+  <li>
+    <p>Material sobre linguagem C (<a href="https://www.ime.usp.br/~slago/slago-C.pdf">IME-USP</a>)</p>
+
+    <ul>
+      <li><em>https://www.ime.usp.br/~slago/slago-C.pdf</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>Material sobre memória e ponteiros (<a href="http://cslibrary.stanford.edu/102/PointersAndMemory.pdf">cap2::stanford</a>)</p>
+
+    <ul>
+      <li><em>http://cslibrary.stanford.edu/102/PointersAndMemory.pdf</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>Notas sobre estruturas de dados e programação (<a href="http://cs-www.cs.yale.edu/homes/aspnes/classes/223/notes.pdf">cap4:yale</a>)</p>
+
+    <ul>
+      <li><em>http://cs-www.cs.yale.edu/homes/aspnes/classes/223/notes.pdf</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>Livro (<a href="http://pdf.th7.cn/down/files/1312/write_great_code_volume_1.pdf">cap11.9:Write greate code</a>)</p>
+
+    <ul>
+      <li><em>http://pdf.th7.cn/down/files/1312/write_great_code_volume_1.pdf</em></li>
+    </ul>
+  </li>
+  <li>
+    <p><a href="https://pt.stackoverflow.com/questions/3797/o-que-s%C3%A3o-e-onde-est%C3%A3o-o-stack-e-heap">stackoverflow:O que são e onde estão o stack e heap?</a></p>
+
+    <ul>
+      <li><em>https://pt.stackoverflow.com/questions/3797/o-que-s%C3%A3o-e-onde-est%C3%A3o-o-stack-e-heap</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>LEIA LIVROS SOBRE PROGRAMAÇÃO!</p>
+  </li>
+</ul>
+
+<h1 id="exercícios">Exercícios</h1>
+
+<ol>
+  <li>Qual o conteúdo das variáveis?
+    <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+ <span class="kt">int</span><span class="o">*</span> <span class="n">d</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">;</span>	
+ <span class="o">*</span><span class="n">d</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>		
+ <span class="n">printf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>Qual o conteúdo das variáveis?
+    <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">soma</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">,</span> <span class="kt">int</span><span class="o">*</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+ <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>		
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>	
+ <span class="n">soma</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">);</span>
+ <span class="n">printf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>Qual o conteúdo das variáveis?
+    <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+ <span class="kt">int</span><span class="o">*</span> <span class="n">d</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">;</span>	
+ <span class="n">scanf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="n">d</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>Qual o conteúdo das variáveis?
+    <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+ <span class="kt">int</span><span class="o">*</span> <span class="n">d</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">c</span><span class="p">;</span>	
+ <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>		
+ <span class="n">printf</span><span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>Aloque memória no Heap (dinâmica) para um vetor de double de tamanho n
+    <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="kt">double</span> <span class="n">vetor_na_pilha</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+<span class="kt">double</span><span class="o">*</span> <span class="n">vetor_no_heap</span> <span class="o">=</span> <span class="c1">//complete;
+</span></code></pre>
+    </div>
+  </li>
+  <li>Qual das formas abaixo nos permite acessar o primeiro elemento do vetor?
+    <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">a</span><span class="p">)</span> <span class="n">vetor_no_heap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">b</span><span class="p">)</span> <span class="o">*</span><span class="n">vetor_no_heap</span>
+<span class="n">c</span><span class="p">)</span> <span class="n">vetor_no_heap</span>
+<span class="n">d</span><span class="p">)</span> <span class="n">vetor_no_heap</span><span class="o">-&gt;</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre>
+    </div>
+  </li>
+  <li>Qual o tamanho das variáveis a e b abaixo?
+    <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="kt">int</span><span class="o">*</span> <span class="n">b</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span> <span class="p">);</span>
+<span class="kt">char</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">char</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span> <span class="p">);</span>
+<span class="c1">// sizeof(a);
+// sizeof(b);
+// sizeof(c);
+// sizeof(*a);
+// sizeof(*b);
+// sizeof(*c);
+</span></code></pre>
+    </div>
+  </li>
+  <li>Altere o código abaixo para que a memória da estrutura <code class="highlighter-rouge">Pessoa</code> seja alocada no heap.
+    <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define MAX_SIZE_NOME 20
+</span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+ <span class="kt">int</span> <span class="n">idade</span><span class="p">;</span>
+ <span class="kt">long</span> <span class="n">cpf</span><span class="p">;</span>
+ <span class="kt">char</span> <span class="n">nome</span><span class="p">[</span><span class="n">MAX_SIZE_NOME</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">Pessoa</span><span class="p">;</span>
+<span class="kt">void</span> <span class="nf">ler_pessoa</span><span class="p">(</span><span class="n">Pessoa</span><span class="o">*</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+ <span class="n">scanf</span><span class="p">(</span><span class="s">"%s%d%ld"</span><span class="p">,</span> <span class="n">p</span><span class="o">-&gt;</span><span class="n">nome</span><span class="p">,</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">idade</span><span class="p">),</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">cpf</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="n">Pessoa</span> <span class="n">w</span><span class="p">;</span>	
+ <span class="n">ler_pessoa</span><span class="p">(</span><span class="o">&amp;</span><span class="n">w</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>Implemente uma função chamada <code class="highlighter-rouge">swap</code>, a qual recebe a referência para dois inteiros e troca seus conteúdos.
+    <div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// Se *a == 4 e *b == 3
+</span><span class="kt">void</span> <span class="n">swap</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span><span class="o">*</span> <span class="n">b</span><span class="p">);</span>
+<span class="c1">// Agora *a == 3 e *b == 4
+</span></code></pre>
+    </div>
+  </li>
+</ol>
+
+
+  </article>
+
+    
+
+    
+
+  <div class="post-up" align="center">
+  	<a href="#">
+  	<i class="fa fa-angle-up fa-2x"></i>
+  	</a>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  <div class="footer center">
+
+  Built with Jekyll using
+  <a href="https://github.com/kuoa/julia" target="_blank">Julia</a>
+  theme
+  <img src='/assets/logo.png'>
+
+</div>
+
+
+  </body>
+</html>

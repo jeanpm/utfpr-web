@@ -1,0 +1,5 @@
+   3802:(Trump, 5615), 
+   4539:(to, 7259), 
+   4709:(impeachment, 7696), 
+avg length = 1.000000
+4709:impeachment 7696
